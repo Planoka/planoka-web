@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-// Police officielle Planoka (charte graphique)
+/* Police officielle Planoka (charte graphique) */
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
