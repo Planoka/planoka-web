@@ -4,7 +4,12 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { ThemeProvider } from "next-themes";
 import { AuthSync } from "@/components/providers/AuthSync";
+import { QueryProvider } from "@/components/providers/QueryProvider";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { TabBarMobile } from "@/components/layout/TabBarMobile";
 import { getClerkPaths } from "@/lib/clerk-paths";
 import "./globals.css";
 
@@ -34,7 +39,7 @@ export default async function RootLayout({
   const clerkPaths = getClerkPaths(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} h-full antialiased`}>
+    <html lang={locale} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-[var(--color-bg-page)] text-[var(--color-text-primary)]">
         <ClerkProvider
           dynamic
@@ -42,10 +47,22 @@ export default async function RootLayout({
           signInUrl={clerkPaths.signIn}
           signUpUrl={clerkPaths.signUp}
         >
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <AuthSync />
-            {children}
-          </NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <QueryProvider>
+                <AuthSync />
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <TabBarMobile />
+              </QueryProvider>
+            </NextIntlClientProvider>
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>

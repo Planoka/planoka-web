@@ -7,7 +7,8 @@
     "addPlan": "Ajouter un plan",
     "settings": "Paramètres",
     "signIn": "Se connecter",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "signUp": "S'inscrire"
   },
   "feed": {
     "title": "Les meilleurs plans près de chez vous",
