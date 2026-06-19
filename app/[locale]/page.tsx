@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import {
-  Search, MapPin, ArrowRight, Sparkles, Star, Share2,
-  Smartphone, Compass, Zap, Heart, Globe, ChevronDown,
+  Search, MapPin, ArrowRight, Sparkles, Star, Share2, Compass, Zap, Heart, Globe, ChevronDown,
 } from "lucide-react";
 import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
