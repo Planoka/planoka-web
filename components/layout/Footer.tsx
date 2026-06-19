@@ -7,10 +7,30 @@ import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const socialLinks = [
-  { name: "X (Twitter)", href: "https://x.com/planoka", icon: "/icons/x.svg", hoverColor: "hover:text-black dark:hover:text-white" },
-  { name: "YouTube", href: "https://youtube.com/@planoka", icon: "/icons/youtube.svg", hoverColor: "hover:text-red-600" },
-  { name: "TikTok", href: "https://tiktok.com/@planoka", icon: "/icons/tiktok.svg", hoverColor: "hover:text-pink-500" },
-  { name: "Instagram", href: "https://instagram.com/planoka", icon: "/icons/instagram.svg", hoverColor: "hover:text-pink-500" },
+  {
+    name: "X (Twitter)",
+    href: "https://x.com/planoka",
+    icon: "/icons/x.svg",
+    hoverColor: "hover:text-black dark:hover:text-white",
+  },
+  {
+    name: "YouTube",
+    href: "https://youtube.com/@planoka",
+    icon: "/icons/youtube.svg",
+    hoverColor: "hover:text-red-600",
+  },
+  {
+    name: "TikTok",
+    href: "https://tiktok.com/@planoka",
+    icon: "/icons/tiktok.svg",
+    hoverColor: "hover:text-pink-500",
+  },
+  {
+    name: "Instagram",
+    href: "https://instagram.com/planoka",
+    icon: "/icons/instagram.svg",
+    hoverColor: "hover:text-pink-500",
+  },
 ];
 
 const quickLinks = [
@@ -31,20 +51,11 @@ export function Footer() {
           {/* Brand column */}
           <div className="space-y-4">
             <Link href={`/${locale}`} className="flex items-center gap-2.5">
-              <Image
-                src="/icons/logo.png"
-                alt="Planoka"
-                width={36}
-                height={36}
-                className="rounded-lg"
-              />
-              <span className="text-lg font-bold tracking-tight text-[var(--color-text-primary)]">
-                Planoka
-              </span>
+              <Image src="/icons/logo.png" alt="Planoka" width={90} height={90} priority />
             </Link>
             <p className="text-sm leading-relaxed text-[var(--color-text-tertiary)]">
-              La plateforme communautaire qui connecte les Camerounais aux meilleurs bons plans
-              près de chez eux : restaurants, sorties, loisirs, shopping et services.
+              La plateforme communautaire qui connecte les Camerounais aux meilleurs bons plans près
+              de chez eux : restaurants, sorties, loisirs, shopping et services.
             </p>
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
@@ -77,9 +88,7 @@ export function Footer() {
 
           {/* Quick links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">
-              Navigation
-            </h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Navigation</h4>
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.key}>
@@ -104,9 +113,7 @@ export function Footer() {
 
           {/* Contact info */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">
-              Contact
-            </h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-sm text-[var(--color-text-tertiary)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
@@ -135,16 +142,11 @@ export function Footer() {
 
           {/* Newsletter */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">
-              Newsletter
-            </h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Newsletter</h4>
             <p className="text-sm leading-relaxed text-[var(--color-text-tertiary)]">
               Recevez les meilleurs bons plans chaque semaine dans votre boîte mail.
             </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex items-center gap-2"
-            >
+            <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
               <input
                 type="email"
                 placeholder="votre@email.com"

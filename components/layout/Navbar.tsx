@@ -34,14 +34,10 @@ export function Navbar() {
           <Image
             src="/icons/logo.png"
             alt="Planoka"
-            width={32}
-            height={32}
-            className="rounded-lg"
+            width={90}
+            height={90}
             priority
           />
-          <span className="hidden text-lg font-bold tracking-tight text-[var(--color-text-primary)] sm:inline">
-            Planoka
-          </span>
         </Link>
 
         {/* Desktop nav */}

@@ -11,6 +11,7 @@ import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { getPlansWithDetails, getFeaturedPlans } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const features = [
   { icon: Compass, title: "Explorez", desc: "Découvrez des centaines de bons plans vérifiés près de chez vous : restaurants, sorties, loisirs et services." },
@@ -255,10 +256,10 @@ export default function HomePage() {
                   href="#"
                   className="flex items-center gap-2.5 rounded-xl bg-[var(--color-text-primary)] px-5 py-3 text-white transition-all hover:opacity-90"
                 >
-                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="h-6 w-6 dark:text-black" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                   </svg>
-                  <div className="text-left">
+                  <div className="text-left dark:text-black">
                     <p className="text-[10px] opacity-80">Télécharger sur</p>
                     <p className="text-sm font-semibold">App Store</p>
                   </div>
@@ -267,10 +268,10 @@ export default function HomePage() {
                   href="#"
                   className="flex items-center gap-2.5 rounded-xl bg-[var(--color-text-primary)] px-5 py-3 text-white transition-all hover:opacity-90"
                 >
-                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="h-6 w-6 dark:text-black" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.921V2.735a1 1 0 0 1 .609-.921zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
                   </svg>
-                  <div className="text-left">
+                  <div className="text-left dark:text-black">
                     <p className="text-[10px] opacity-80">Disponible sur</p>
                     <p className="text-sm font-semibold">Google Play</p>
                   </div>
@@ -281,12 +282,24 @@ export default function HomePage() {
               <div className="flex gap-4">
                 <div className="h-80 w-44 rounded-3xl border-4 border-[var(--color-border)] bg-[var(--color-bg-card)] p-2 shadow-xl">
                   <div className="flex h-full w-full items-center justify-center rounded-2xl bg-[var(--color-primary-light)]">
-                    <Smartphone className="h-12 w-12 text-[var(--color-primary)]" />
+                    <Image
+                      src="/images/ios.png"
+                      alt="Download app"
+                      width={100}
+                      height={100}
+                      className="w-auto h-auto"
+                    />
                   </div>
                 </div>
                 <div className="mt-8 h-80 w-44 rounded-3xl border-4 border-[var(--color-border)] bg-[var(--color-bg-card)] p-2 shadow-xl">
                   <div className="flex h-full w-full items-center justify-center rounded-2xl bg-[var(--color-primary-light)]">
-                    <Smartphone className="h-12 w-12 text-[var(--color-primary)]" />
+                    <Image
+                      src="/images/android.png"
+                      alt="Download app"
+                      width={100}
+                      height={100}
+                      className="w-auto h-auto"
+                    />
                   </div>
                 </div>
               </div>
@@ -316,7 +329,7 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
+                className="rounded-full border-white/30 px-8 text-[var(--color-primary)] dark:text-black hover:bg-white/10"
               >
                 En savoir plus
               </Button>
