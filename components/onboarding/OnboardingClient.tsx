@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ const STEPS = ["welcome", "categories", "city", "preferences"] as const;
 
 export function OnboardingClient() {
   const t = useTranslations("onboarding");
+  const locale = useLocale();
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -31,7 +33,7 @@ export function OnboardingClient() {
 
   const handleNext = () => {
     if (isLast) {
-      router.push("/");
+      router.push(`/${locale}`);
       return;
     }
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
@@ -42,7 +44,7 @@ export function OnboardingClient() {
   };
 
   const handleSkip = () => {
-    router.push("/");
+    router.push(`/${locale}`);
   };
 
   return (
@@ -57,10 +59,10 @@ export function OnboardingClient() {
           />
         </div>
         <div className="mt-1 flex justify-between px-1 text-[10px] text-[var(--color-text-tertiary)]">
-          <span>Bienvenue</span>
-          <span>Centres d&apos;intérêt</span>
-          <span>Ville</span>
-          <span>Préférences</span>
+          <span>{t("welcome")}</span>
+          <span>{t("step1")}</span>
+          <span>{t("step2")}</span>
+          <span>{t("step3")}</span>
         </div>
       </div>
 
@@ -90,9 +92,9 @@ export function OnboardingClient() {
       <div className="fixed bottom-0 left-0 right-0 border-t border-[var(--color-border)] bg-[var(--color-bg-card)] px-6 py-4">
         <div className="mx-auto flex max-w-md items-center justify-between gap-3">
           {!isFirst ? (
-            <Button variant="ghost" onClick={handleBack} className="gap-1.5">
+              <Button variant="ghost" onClick={handleBack} className="gap-1.5">
               <ArrowLeft className="h-4 w-4" />
-              Retour
+              {t("back")}
             </Button>
           ) : (
             <Button variant="ghost" onClick={handleSkip} className="text-[var(--color-text-tertiary)]">

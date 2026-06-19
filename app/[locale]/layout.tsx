@@ -4,8 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { ThemeProvider } from "next-themes";
 import { AuthSync } from "@/components/providers/AuthSync";
+import { ThemeProviderWrapper } from "@/components/providers/ThemeProviderWrapper";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -47,12 +47,7 @@ export default async function RootLayout({
           signInUrl={clerkPaths.signIn}
           signUpUrl={clerkPaths.signUp}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProviderWrapper>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <QueryProvider>
                 <AuthSync />
@@ -62,7 +57,7 @@ export default async function RootLayout({
                 <TabBarMobile />
               </QueryProvider>
             </NextIntlClientProvider>
-          </ThemeProvider>
+          </ThemeProviderWrapper>
         </ClerkProvider>
       </body>
     </html>

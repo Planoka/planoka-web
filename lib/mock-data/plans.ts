@@ -1,4 +1,6 @@
 import { Plan } from "@/types";
+import { mockCategories } from "./categories";
+import { mockUsers } from "./users";
 
 export const mockPlans: Plan[] = [
   {
@@ -434,9 +436,6 @@ export const mockPlans: Plan[] = [
     updated_at: "2026-05-26T08:00:00Z",
   },
 ];
-
-import { mockCategories } from "./categories";
-import { mockUsers } from "./users";
 
 export function getPlansWithDetails(): Plan[] {
   return mockPlans.map((plan) => {
