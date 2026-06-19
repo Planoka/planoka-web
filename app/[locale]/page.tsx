@@ -1,6 +1,12 @@
 import { AuthControls } from "@/components/common/AuthControls";
 
-export default function Home() {
+type HomePageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function Home({ params }: HomePageProps) {
+  const { locale } = await params;
+
   return (
     <div className="flex flex-col flex-1 min-h-screen bg-[var(--color-bg-page)] font-sans">
       {/* ── Navbar ── */}
@@ -8,7 +14,7 @@ export default function Home() {
         <span className="text-xl font-bold tracking-tight text-white">
           Planoka
         </span>
-        <AuthControls />
+        <AuthControls locale={locale} />
       </header>
 
       {/* ── Hero ── */}

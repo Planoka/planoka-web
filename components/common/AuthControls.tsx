@@ -1,23 +1,45 @@
 "use client";
 
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
+import { getClerkPaths } from "@/lib/clerk-paths";
 
-export function AuthControls() {
+type AuthControlsProps = {
+  locale: string;
+};
+
+export function AuthControls({ locale }: AuthControlsProps) {
+  const t = useTranslations("nav");
+  const paths = getClerkPaths(locale);
+
   return (
     <div className="flex items-center gap-3">
-      <SignedOut>
-        <SignInButton mode="redirect">
+      <Show when="signed-out">
+        <SignInButton
+          mode="redirect"
+          forceRedirectUrl={paths.afterSignIn}
+          signUpForceRedirectUrl={paths.afterSignUp}
+        >
           <button className="rounded-full border border-white/20 px-4 py-1.5 text-sm font-medium text-white/80 transition-colors hover:border-white/50 hover:text-white">
-            Connexion
+            {t("signIn")}
           </button>
         </SignInButton>
-        <SignUpButton mode="redirect">
+        <SignUpButton
+          mode="redirect"
+          forceRedirectUrl={paths.afterSignUp}
+          signInForceRedirectUrl={paths.afterSignIn}
+        >
           <button className="rounded-full bg-[var(--color-primary,#f97316)] px-4 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
             S&apos;inscrire
           </button>
         </SignUpButton>
-      </SignedOut>
-      <SignedIn>
+      </Show>
+      <Show when="signed-in">
         <UserButton
           appearance={{
             elements: {
@@ -25,7 +47,7 @@ export function AuthControls() {
             },
           }}
         />
-      </SignedIn>
+      </Show>
     </div>
   );
 }

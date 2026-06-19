@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { AuthSync } from "@/components/providers/AuthSync";
+import { getClerkPaths } from "@/lib/clerk-paths";
 import "./globals.css";
 
 /* Police officielle Planoka (charte graphique) */
@@ -29,12 +31,19 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
   const messages = await getMessages();
+  const clerkPaths = getClerkPaths(locale);
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[var(--color-bg-page)] text-[var(--color-text-primary)]">
-        <ClerkProvider appearance={{ theme: shadcn }}>
+        <ClerkProvider
+          dynamic
+          appearance={{ theme: shadcn }}
+          signInUrl={clerkPaths.signIn}
+          signUpUrl={clerkPaths.signUp}
+        >
           <NextIntlClientProvider locale={locale} messages={messages}>
+            <AuthSync />
             {children}
           </NextIntlClientProvider>
         </ClerkProvider>

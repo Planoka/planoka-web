@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
+import { getClerkPaths, getLocaleFromPathname } from "./lib/clerk-paths";
 import { locales, defaultLocale } from "./i18n";
 
 const intlMiddleware = createMiddleware({
@@ -16,10 +17,23 @@ const isProtectedRoute = createRouteMatcher([
   "/:locale/onboarding(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
-  return intlMiddleware(req);
-});
+export default clerkMiddleware(
+  async (auth, req) => {
+    if (isProtectedRoute(req)) await auth.protect();
+    return intlMiddleware(req);
+  },
+  (req) => {
+    const locale = getLocaleFromPathname(req.nextUrl.pathname);
+    const paths = getClerkPaths(locale);
+
+    return {
+      signInUrl: paths.signIn,
+      signUpUrl: paths.signUp,
+      afterSignInUrl: paths.afterSignIn,
+      afterSignUpUrl: paths.afterSignUp,
+    };
+  }
+);
 
 export const config = {
   matcher: [

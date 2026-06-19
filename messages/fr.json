@@ -72,6 +72,9 @@
     "sport": "Sport"
   },
   "onboarding": {
+    "title": "Bienvenue sur Planoka !",
+    "subtitle": "Configurez votre profil pour découvrir les meilleurs bons plans près de chez vous.",
+    "continue": "Commencer à explorer",
     "welcome": "Bienvenue sur Planoka !",
     "step1": "Choisissez vos centres d'intérêt",
     "step2": "Votre ville principale",

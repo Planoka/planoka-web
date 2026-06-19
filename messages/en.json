@@ -72,6 +72,9 @@
     "sport": "Sport"
   },
   "onboarding": {
+    "title": "Welcome to Planoka!",
+    "subtitle": "Set up your profile to discover the best local deals near you.",
+    "continue": "Start exploring",
     "welcome": "Welcome to Planoka!",
     "step1": "Choose your interests",
     "step2": "Your main city",
