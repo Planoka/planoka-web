@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "explore": "Explorer",
+    "favorites": "Favoris",
+    "profile": "Profil",
+    "addPlan": "Ajouter un plan",
+    "settings": "Paramètres",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter"
+  },
+  "feed": {
+    "title": "Les meilleurs plans près de chez vous",
+    "subtitle": "Découvrez les bons plans partagés par la communauté camerounaise",
+    "featured": "En vedette",
+    "recommended": "Recommandés pour vous",
+    "latest": "Les plus récents",
+    "empty": "Aucun plan pour le moment",
+    "loadMore": "Charger plus"
+  },
+  "plan": {
+    "boost": "Booster",
+    "boosted": "Boosté",
+    "favorite": "Sauvegarder",
+    "favorited": "Sauvegardé",
+    "share": "Partager",
+    "comment": "Commenter",
+    "report": "Signaler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "boostCount": "{count} boost(s)",
+    "commentCount": "{count} commentaire(s)",
+    "status": {
+      "pending": "En attente",
+      "active": "Actif",
+      "rejected": "Rejeté",
+      "archived": "Archivé"
+    }
+  },
+  "form": {
+    "title": "Titre du bon plan",
+    "titlePlaceholder": "Ex: Chez Mama Ngono",
+    "description": "Description",
+    "descriptionPlaceholder": "Décrivez ce bon plan...",
+    "category": "Catégorie",
+    "city": "Ville / Quartier",
+    "cityPlaceholder": "Ex: Douala, Bonanjo",
+    "image": "Image",
+    "video": "Vidéo",
+    "noMedia": "Sans média",
+    "submit": "Publier",
+    "preview": "Aperçu",
+    "back": "Retour",
+    "validation": {
+      "titleRequired": "Le titre est requis",
+      "titleMin": "Le titre doit contenir au moins 5 caractères",
+      "titleMax": "Le titre ne peut pas dépasser 120 caractères",
+      "descriptionRequired": "La description est requise",
+      "descriptionMin": "La description doit contenir au moins 20 caractères",
+      "categoryRequired": "La catégorie est requise",
+      "cityRequired": "La ville est requise"
+    }
+  },
+  "categories": {
+    "restauration": "Restauration",
+    "loisirs": "Loisirs",
+    "sorties": "Sorties",
+    "shopping": "Shopping",
+    "services": "Services",
+    "sante": "Santé",
+    "education": "Éducation",
+    "sport": "Sport"
+  },
+  "onboarding": {
+    "welcome": "Bienvenue sur Planoka !",
+    "step1": "Choisissez vos centres d'intérêt",
+    "step2": "Votre ville principale",
+    "step3": "Langue et thème",
+    "minCategories": "Sélectionnez au moins 3 catégories",
+    "maxCategories": "Maximum 8 catégories",
+    "skip": "Passer",
+    "next": "Suivant",
+    "finish": "Commencer"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue. Réessayez.",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "close": "Fermer"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Automatique"
+  }
+}

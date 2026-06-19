@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Home",
+    "explore": "Explore",
+    "favorites": "Favorites",
+    "profile": "Profile",
+    "addPlan": "Add a plan",
+    "settings": "Settings",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "feed": {
+    "title": "The best plans near you",
+    "subtitle": "Discover good deals shared by the Cameroonian community",
+    "featured": "Featured",
+    "recommended": "Recommended for you",
+    "latest": "Latest",
+    "empty": "No plans yet",
+    "loadMore": "Load more"
+  },
+  "plan": {
+    "boost": "Boost",
+    "boosted": "Boosted",
+    "favorite": "Save",
+    "favorited": "Saved",
+    "share": "Share",
+    "comment": "Comment",
+    "report": "Report",
+    "edit": "Edit",
+    "delete": "Delete",
+    "boostCount": "{count} boost(s)",
+    "commentCount": "{count} comment(s)",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "rejected": "Rejected",
+      "archived": "Archived"
+    }
+  },
+  "form": {
+    "title": "Plan title",
+    "titlePlaceholder": "Ex: Mama Ngono's Place",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe this plan...",
+    "category": "Category",
+    "city": "City / Neighborhood",
+    "cityPlaceholder": "Ex: Douala, Bonanjo",
+    "image": "Image",
+    "video": "Video",
+    "noMedia": "No media",
+    "submit": "Publish",
+    "preview": "Preview",
+    "back": "Back",
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMin": "Title must be at least 5 characters",
+      "titleMax": "Title cannot exceed 120 characters",
+      "descriptionRequired": "Description is required",
+      "descriptionMin": "Description must be at least 20 characters",
+      "categoryRequired": "Category is required",
+      "cityRequired": "City is required"
+    }
+  },
+  "categories": {
+    "restauration": "Restaurants",
+    "loisirs": "Leisure",
+    "sorties": "Outings",
+    "shopping": "Shopping",
+    "services": "Services",
+    "sante": "Health",
+    "education": "Education",
+    "sport": "Sport"
+  },
+  "onboarding": {
+    "welcome": "Welcome to Planoka!",
+    "step1": "Choose your interests",
+    "step2": "Your main city",
+    "step3": "Language and theme",
+    "minCategories": "Select at least 3 categories",
+    "maxCategories": "Maximum 8 categories",
+    "skip": "Skip",
+    "next": "Next",
+    "finish": "Get started"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again.",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "close": "Close"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}
