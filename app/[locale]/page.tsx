@@ -57,67 +57,107 @@ export default function HomePage() {
         </div>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:justify-between">
+            {/* Text Content */}
+            <div className="flex-1 text-center lg:text-left">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary-light)] px-4 py-1.5 text-xs font-medium text-[var(--color-primary)]"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                La première plateforme de bons plans au Cameroun 🇨🇲
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
+              >
+                Les meilleurs plans
+                <br />
+                <span className="text-[var(--color-primary)]">près de chez vous</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mx-auto mt-4 max-w-xl text-base text-[var(--color-text-secondary)] sm:text-lg lg:mx-0"
+              >
+                {t("subtitle")}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="mx-auto mt-8 flex max-w-md items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2.5 shadow-sm transition-all focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20 lg:mx-0"
+              >
+                <Search className="h-5 w-5 text-[var(--color-text-tertiary)]" />
+                <input
+                  type="text"
+                  placeholder="Rechercher un bon plan, une ville..."
+                  className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+                />
+                <kbd className="hidden rounded-md border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] text-[var(--color-text-tertiary)] sm:inline">
+                  ⌘K
+                </kbd>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
+              >
+                <Button size="lg" className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90">
+                  Explorer les plans
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+                <Button variant="outline" size="lg" className="gap-2 rounded-full px-8 text-base">
+                  En savoir plus
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Mascot Image */}
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary-light)] px-4 py-1.5 text-xs font-medium text-[var(--color-primary)]"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="flex-1 relative"
             >
-              <Sparkles className="h-3.5 w-3.5" />
-              La première plateforme de bons plans au Cameroun
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
-            >
-              Les meilleurs plans
-              <br />
-              <span className="text-[var(--color-primary)]">près de chez vous</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mx-auto mt-4 max-w-xl text-base text-[var(--color-text-secondary)] sm:text-lg"
-            >
-              {t("subtitle")}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mx-auto mt-8 flex max-w-md items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2.5 shadow-sm transition-all focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20"
-            >
-              <Search className="h-5 w-5 text-[var(--color-text-tertiary)]" />
-              <input
-                type="text"
-                placeholder="Rechercher un bon plan, une ville..."
-                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
-              />
-              <kbd className="hidden rounded-md border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] text-[var(--color-text-tertiary)] sm:inline">
-                ⌘K
-              </kbd>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-8 flex flex-wrap items-center justify-center gap-3"
-            >
-              <Button size="lg" className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90">
-                Explorer les plans
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="lg" className="gap-2 rounded-full px-8 text-base">
-                En savoir plus
-              </Button>
+              <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative mx-auto w-64 h-64 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px]"
+              >
+                <Image
+                  src="/images/mascot.png"
+                  alt="Planoka Mascot"
+                  fill
+                  className="object-contain drop-shadow-2xl"
+                  priority
+                />
+              </motion.div>
+              {/* Floating elements around mascot */}
+              <motion.div
+                animate={{ y: [0, -10, 0], rotate: [0, 10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-10 right-10 lg:right-20 rounded-2xl bg-white p-3 shadow-xl"
+              >
+                <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+              </motion.div>
+              <motion.div
+                animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute bottom-10 left-10 lg:left-20 rounded-2xl bg-white p-3 shadow-xl"
+              >
+                <Zap className="h-6 w-6 text-yellow-500 fill-yellow-500" />
+              </motion.div>
             </motion.div>
           </div>
 
