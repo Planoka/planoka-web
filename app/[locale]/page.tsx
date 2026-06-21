@@ -4,7 +4,17 @@ import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import {
-  Search, MapPin, ArrowRight, Sparkles, Star, Share2, Compass, Zap, Heart, Globe, ChevronDown,
+  Search,
+  MapPin,
+  ArrowRight,
+  Sparkles,
+  Star,
+  Share2,
+  Compass,
+  Zap,
+  Heart,
+  Globe,
+  ChevronDown,
 } from "lucide-react";
 import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
@@ -13,12 +23,36 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const features = [
-  { icon: Compass, title: "Explorez", desc: "Découvrez des centaines de bons plans vérifiés près de chez vous : restaurants, sorties, loisirs et services." },
-  { icon: Zap, title: "Boosts", desc: "Boostez les plans que vous aimez et aidez-les à gagner en visibilité auprès de la communauté." },
-  { icon: Heart, title: "Favoris", desc: "Sauvegardez vos plans préférés et constituez votre propre collection d'adresses incontournables." },
-  { icon: Share2, title: "Partage", desc: "Partagez vos découvertes avec vos amis sur WhatsApp, Instagram, X et bien plus encore." },
-  { icon: Star, title: "Recommandations", desc: "Recevez des suggestions personnalisées basées sur vos centres d'intérêt et votre ville." },
-  { icon: Globe, title: "Local", desc: "100% camerounais : des bons plans qui célèbrent la richesse et la diversité de notre pays." },
+  {
+    icon: Compass,
+    title: "Explorez",
+    desc: "Découvrez des centaines de bons plans vérifiés près de chez vous : restaurants, sorties, loisirs et services.",
+  },
+  {
+    icon: Zap,
+    title: "Boosts",
+    desc: "Boostez les plans que vous aimez et aidez-les à gagner en visibilité auprès de la communauté.",
+  },
+  {
+    icon: Heart,
+    title: "Favoris",
+    desc: "Sauvegardez vos plans préférés et constituez votre propre collection d'adresses incontournables.",
+  },
+  {
+    icon: Share2,
+    title: "Partage",
+    desc: "Partagez vos découvertes avec vos amis sur WhatsApp, Instagram, X et bien plus encore.",
+  },
+  {
+    icon: Star,
+    title: "Recommandations",
+    desc: "Recevez des suggestions personnalisées basées sur vos centres d'intérêt et votre ville.",
+  },
+  {
+    icon: Globe,
+    title: "Local",
+    desc: "100% camerounais : des bons plans qui célèbrent la richesse et la diversité de notre pays.",
+  },
 ];
 
 const stats = [
@@ -38,9 +72,14 @@ export default function HomePage() {
   const filteredPlans = useMemo(() => {
     if (!selectedCategory) return allPlans;
     const catMap: Record<string, string> = {
-      restauration: "cat-1", loisirs: "cat-2", sorties: "cat-3",
-      shopping: "cat-4", services: "cat-5", sante: "cat-6",
-      education: "cat-7", sport: "cat-8",
+      restauration: "cat-1",
+      loisirs: "cat-2",
+      sorties: "cat-3",
+      shopping: "cat-4",
+      services: "cat-5",
+      sante: "cat-6",
+      education: "cat-7",
+      sport: "cat-8",
     };
     return allPlans.filter((p) => p.categorie_id === catMap[selectedCategory]);
   }, [selectedCategory, allPlans]);
@@ -48,11 +87,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ═══ HERO SECTION ═══ */}
-      <section className="relative overflow-hidden pb-16 pt-12 sm:pt-20">
+      <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20">
         {/* Background decoration */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
-          <div className="absolute -right-40 -top-20 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
+          <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
+          <div className="absolute -top-20 -right-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
           <div className="absolute bottom-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-[var(--color-primary)]/20 to-transparent" />
         </div>
 
@@ -67,7 +106,7 @@ export default function HomePage() {
                 className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary-light)] px-4 py-1.5 text-xs font-medium text-[var(--color-primary)]"
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                La première plateforme de bons plans au Cameroun 🇨🇲
+                La première plateforme de bons plans au Cameroun
               </motion.div>
 
               <motion.h1
@@ -77,8 +116,7 @@ export default function HomePage() {
                 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
               >
                 Les meilleurs plans
-                <br />
-                <span className="text-[var(--color-primary)]">près de chez vous</span>
+                <span className="text-[var(--color-primary)]"> près de chez vous</span>
               </motion.h1>
 
               <motion.p
@@ -113,7 +151,10 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
               >
-                <Button size="lg" className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90">
+                <Button
+                  size="lg"
+                  className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90"
+                >
                   Explorer les plans
                   <ChevronDown className="h-4 w-4" />
                 </Button>
@@ -128,12 +169,12 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="flex-1 relative"
+              className="relative flex-1"
             >
               <motion.div
                 animate={{ y: [0, -20, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="relative mx-auto w-64 h-64 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px]"
+                className="relative mx-auto h-64 w-64 sm:h-80 sm:w-80 lg:h-[450px] lg:w-[450px]"
               >
                 <Image
                   src="/images/mascot.png"
@@ -147,16 +188,16 @@ export default function HomePage() {
               <motion.div
                 animate={{ y: [0, -10, 0], rotate: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute top-10 right-10 lg:right-20 rounded-2xl bg-white p-3 shadow-xl"
+                className="absolute top-10 right-10 rounded-2xl bg-white p-3 shadow-xl lg:right-20"
               >
-                <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                <Heart className="h-6 w-6 fill-red-500 text-red-500" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute bottom-10 left-10 lg:left-20 rounded-2xl bg-white p-3 shadow-xl"
+                className="absolute bottom-10 left-10 rounded-2xl bg-white p-3 shadow-xl lg:left-20"
               >
-                <Zap className="h-6 w-6 text-yellow-500 fill-yellow-500" />
+                <Zap className="h-6 w-6 fill-yellow-500 text-yellow-500" />
               </motion.div>
             </motion.div>
           </div>
@@ -187,7 +228,23 @@ export default function HomePage() {
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-bold text-[var(--color-text-primary)]">
               <Sparkles className="mr-2 inline h-5 w-5 text-[var(--color-primary)]" />
-              {t("featured")}
+              <span className="relative">
+                <svg
+                  width="219"
+                  height="24"
+                  viewBox="0 0 219 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-primary absolute inset-x-0 inset-y-5 -bottom-1 w-full"
+                >
+                  <path
+                    d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></path>
+                </svg>
+                <span className="relative">{t("featured")}</span>
+              </span>
             </h2>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -208,7 +265,8 @@ export default function HomePage() {
               Pourquoi choisir Planoka ?
             </h2>
             <p className="mt-3 text-[var(--color-text-secondary)]">
-              Tout ce dont vous avez besoin pour découvrir et partager les meilleurs bons plans au Cameroun.
+              Tout ce dont vous avez besoin pour découvrir et partager les meilleurs bons plans au
+              Cameroun.
             </p>
           </div>
 
@@ -284,9 +342,26 @@ export default function HomePage() {
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-between">
             <div className="max-w-lg text-center lg:text-left">
               <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-                Téléchargez l&apos;application
+                <span className="relative">
+                <svg
+                  width="219"
+                  height="24"
+                  viewBox="0 0 219 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-primary absolute inset-x-0 inset-y-9 -bottom-1 w-full"
+                >
+                  <path
+                    d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></path>
+                </svg>
+                <span className="relative">Téléchargez </span>
+              </span>
+              l&apos;application
               </h2>
-              <p className="mt-3 text-[var(--color-text-secondary)]">
+              <p className="mt-7 text-[var(--color-text-secondary)]">
                 Disponible sur iOS et Android. Accédez à tous les bons plans où que vous soyez,
                 recevez des notifications et partagez en un clic.
               </p>
@@ -326,7 +401,7 @@ export default function HomePage() {
                       alt="Download app"
                       width={100}
                       height={100}
-                      className="w-auto h-auto"
+                      className="h-auto w-auto"
                     />
                   </div>
                 </div>
@@ -337,7 +412,7 @@ export default function HomePage() {
                       alt="Download app"
                       width={100}
                       height={100}
-                      className="w-auto h-auto"
+                      className="h-auto w-auto"
                     />
                   </div>
                 </div>
@@ -368,7 +443,7 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-full border-white/30 px-8 text-[var(--color-primary)] dark:text-black hover:bg-white/10"
+                className="rounded-full border-white/30 px-8 text-[var(--color-primary)] hover:bg-white/10 dark:text-black"
               >
                 En savoir plus
               </Button>
