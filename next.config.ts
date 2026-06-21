@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "img.clerk.com"
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com"
       }
     ]
   },
@@ -24,4 +28,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

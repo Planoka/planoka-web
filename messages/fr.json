@@ -7,7 +7,8 @@
     "addPlan": "Ajouter un plan",
     "settings": "Paramètres",
     "signIn": "Se connecter",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "signUp": "S'inscrire"
   },
   "feed": {
     "title": "Les meilleurs plans près de chez vous",
@@ -72,6 +73,9 @@
     "sport": "Sport"
   },
   "onboarding": {
+    "title": "Bienvenue sur Planoka !",
+    "subtitle": "Configurez votre profil pour découvrir les meilleurs bons plans près de chez vous.",
+    "continue": "Commencer à explorer",
     "welcome": "Bienvenue sur Planoka !",
     "step1": "Choisissez vos centres d'intérêt",
     "step2": "Votre ville principale",
@@ -80,6 +84,7 @@
     "maxCategories": "Maximum 8 catégories",
     "skip": "Passer",
     "next": "Suivant",
+    "back": "Retour",
     "finish": "Commencer"
   },
   "common": {
