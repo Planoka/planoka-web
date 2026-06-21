@@ -25,21 +25,21 @@ export function StepCity({ selected, onSelect }: StepCityProps) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-8"
+        className="text-center mb-6 sm:mb-8"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-          className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-[var(--color-primary-light)]"
+          className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-primary-light)] sm:h-20 sm:w-20 sm:rounded-3xl"
         >
-          <MapPin className="h-10 w-10 text-[var(--color-primary)]" />
+          <MapPin className="h-8 w-8 text-[var(--color-primary)] sm:h-10 sm:w-10" />
         </motion.div>
 
-        <h2 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
+        <h2 className="text-xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-2xl">
           {t("city.title")}
         </h2>
-        <p className="mt-2 text-base text-[var(--color-text-secondary)] leading-relaxed">
+        <p className="mt-1.5 text-sm text-[var(--color-text-secondary)] sm:text-base">
           {t("city.subtitle")}
         </p>
       </motion.div>
@@ -51,22 +51,21 @@ export function StepCity({ selected, onSelect }: StepCityProps) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Rechercher une ville..."
-          className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] py-3 pl-10 pr-4 text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all"
+          className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] py-2.5 pl-10 pr-4 text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all sm:py-3"
         />
       </div>
 
-      <div className="mt-4 grid max-w-sm mx-auto grid-cols-1 gap-2">
+      <div className="mt-3 grid max-w-sm mx-auto grid-cols-1 gap-2 max-h-[40vh] overflow-y-auto pr-1 scrollbar-none">
         {filtered.map((city, i) => (
           <motion.button
             key={city}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.04 }}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            transition={{ delay: i * 0.03 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onSelect(city)}
             className={cn(
-              "flex items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all",
+              "flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 text-left transition-all sm:px-4 sm:py-3",
               selected === city
                 ? "border-[var(--color-primary)] bg-[var(--color-primary-light)] shadow-sm"
                 : "border-transparent bg-[var(--color-bg-card)] hover:border-[var(--color-border-strong)]",
@@ -74,16 +73,16 @@ export function StepCity({ selected, onSelect }: StepCityProps) {
           >
             <div
               className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-lg transition-colors",
+                "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors sm:h-10 sm:w-10",
                 selected === city ? "bg-[var(--color-primary)] text-white" : "bg-[var(--color-bg-surface)] text-[var(--color-text-tertiary)]",
               )}
             >
               {selected === city ? (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Check className="h-5 w-5" />
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5" />
                 </motion.div>
               ) : (
-                <MapPin className="h-5 w-5" />
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
               )}
             </div>
             <span className="text-sm font-medium text-[var(--color-text-primary)]">{city}</span>

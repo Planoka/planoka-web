@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { Bell, Mail, Zap, Tag, Check, Sparkles } from "lucide-react";
+import { Bell, Mail, Zap, Tag, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NotificationPrefs = {
@@ -18,35 +18,33 @@ type StepNotificationsProps = {
 };
 
 const NOTIFICATION_OPTIONS = [
-  {
-    key: "push",
-    icon: Bell,
-    titleKey: "notifications.push.title",
-    descKey: "notifications.push.desc",
-    color: "#E8610A",
-  },
-  {
-    key: "email",
-    icon: Mail,
-    titleKey: "notifications.email.title",
-    descKey: "notifications.email.desc",
-    color: "#7C3AED",
-  },
-  {
-    key: "weekly",
-    icon: Zap,
-    titleKey: "notifications.weekly.title",
-    descKey: "notifications.weekly.desc",
-    color: "#059669",
-  },
-  {
-    key: "deals",
-    icon: Tag,
-    titleKey: "notifications.deals.title",
-    descKey: "notifications.deals.desc",
-    color: "#DB2777",
-  },
-] as const;
+  { key: "push" as const, icon: Bell, titleKey: "notifications.push.title", descKey: "notifications.push.desc", color: "#E8610A" },
+  { key: "email" as const, icon: Mail, titleKey: "notifications.email.title", descKey: "notifications.email.desc", color: "#7C3AED" },
+  { key: "weekly" as const, icon: Zap, titleKey: "notifications.weekly.title", descKey: "notifications.weekly.desc", color: "#059669" },
+  { key: "deals" as const, icon: Tag, titleKey: "notifications.deals.title", descKey: "notifications.deals.desc", color: "#DB2777" },
+];
+
+function Toggle({ checked, onToggle }: { checked: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={onToggle}
+      className={cn(
+        "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200",
+        checked ? "bg-[var(--color-primary)]" : "bg-[var(--color-border-strong)]"
+      )}
+    >
+      <span
+        className={cn(
+          "inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200",
+          checked ? "translate-x-6" : "translate-x-1"
+        )}
+      />
+    </button>
+  );
+}
 
 export function StepNotifications({ notifications, onChange }: StepNotificationsProps) {
   const t = useTranslations("onboarding");
@@ -60,123 +58,78 @@ export function StepNotifications({ notifications, onChange }: StepNotifications
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-8"
+        className="text-center mb-6 sm:mb-8"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-          className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-[var(--color-primary-light)]"
+          className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-primary-light)] sm:h-20 sm:w-20 sm:rounded-3xl"
         >
-          <Bell className="h-10 w-10 text-[var(--color-primary)]" />
+          <Bell className="h-8 w-8 text-[var(--color-primary)] sm:h-10 sm:w-10" />
         </motion.div>
 
-        <h2 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
+        <h2 className="text-xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-2xl">
           {t("notifications.title")}
         </h2>
-        <p className="mt-2 text-base text-[var(--color-text-secondary)] leading-relaxed">
+        <p className="mt-1.5 text-sm text-[var(--color-text-secondary)] sm:text-base">
           {t("notifications.subtitle")}
         </p>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="space-y-3"
-      >
+      <div className="space-y-2.5">
         {NOTIFICATION_OPTIONS.map((option, i) => (
           <motion.div
             key={option.key}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.15 + i * 0.08 }}
-            className="relative"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 + i * 0.06 }}
           >
-            <label className="group cursor-pointer">
+            <div
+              className={cn(
+                "flex items-center gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 transition-all",
+                notifications[option.key]
+                  ? "border-[var(--color-primary)] bg-[var(--color-primary-light)]"
+                  : "border-[var(--color-border)] bg-[var(--color-bg-card)]"
+              )}
+            >
               <div
-                className={cn(
-                  "flex items-center gap-4 rounded-2xl border-2 p-4 transition-all",
-                  "bg-[var(--color-bg-card)]",
-                  notifications[option.key]
-                    ? "border-[var(--color-primary)] bg-[var(--color-primary-light)]"
-                    : "border-[var(--color-border)] hover:border-[var(--color-primary)]/30"
-                )}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12"
+                style={{ backgroundColor: `${option.color}15` }}
               >
-                <motion.div
-                  animate={{ scale: notifications[option.key] ? 1.05 : 1 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: `${option.color}20` }}
-                >
-                  <option.icon
-                    className="h-6 w-6 transition-colors"
-                    style={{ color: option.color }}
-                  />
-                </motion.div>
-
-                <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-[var(--color-text-primary)]">
-                    {t(option.titleKey)}
-                  </h3>
-                  <p className="mt-0.5 text-sm text-[var(--color-text-tertiary)]">
-                    {t(option.descKey)}
-                  </p>
-                </div>
-
-                {/* Custom Toggle Switch */}
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    checked={notifications[option.key]}
-                    onChange={() => toggle(option.key)}
-                    className="peer h-6 w-6 appearance-none rounded-full border-2 transition-all
-                      bg-[var(--color-bg-surface)] border-[var(--color-border)]
-                      peer-checked:bg-[var(--color-primary)] peer-checked:border-[var(--color-primary)]
-                      peer-focus:ring-2 peer-focus:ring-[var(--color-primary)]/20
-                      peer-hover:border-[var(--color-primary)]/50
-                      cursor-pointer"
-                    aria-label={t(option.titleKey)}
-                  />
-                  <motion.div
-                    animate={{ x: notifications[option.key] ? 24 : 2 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                    className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white shadow-md transition-transform
-                      peer-checked:translate-x-6"
-                  />
-                </div>
-
-                {/* Checkmark animation when enabled */}
-                {notifications[option.key] && (
-                  <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.1 }}
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--color-primary)]"
-                  >
-                    <Check className="h-5 w-5" />
-                  </motion.div>
-                )}
+                <option.icon className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: option.color }} />
               </div>
-            </label>
+
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-semibold text-[var(--color-text-primary)] sm:text-base">
+                  {t(option.titleKey)}
+                </h3>
+                <p className="text-xs text-[var(--color-text-tertiary)] sm:text-sm">
+                  {t(option.descKey)}
+                </p>
+              </div>
+
+              <Toggle checked={notifications[option.key]} onToggle={() => toggle(option.key)} />
+            </div>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
 
-      {/* Summary */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="mt-8 p-4 rounded-2xl bg-[var(--color-bg-surface)] border border-[var(--color-border)]"
+        className="mt-6 flex items-start gap-2.5 rounded-xl bg-[var(--color-bg-surface)] p-3 sm:rounded-2xl sm:p-4"
       >
-        <p className="text-sm font-medium text-[var(--color-text-primary)] flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
-          {t("notifications.summary")}
-        </p>
-        <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
-          {t("notifications.summaryDesc")}
-        </p>
+        <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
+        <div>
+          <p className="text-sm font-medium text-[var(--color-text-primary)]">
+            {t("notifications.summary")}
+          </p>
+          <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)] sm:text-sm">
+            {t("notifications.summaryDesc")}
+          </p>
+        </div>
       </motion.div>
     </div>
   );
