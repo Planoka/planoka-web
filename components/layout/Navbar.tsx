@@ -8,6 +8,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { LanguageToggle } from "@/components/common/LanguageToggle";
 import { Button } from "@/components/ui/button";
 import { getClerkPaths } from "@/lib/clerk-paths";
 
@@ -60,6 +61,7 @@ export function Navbar() {
             <Search className="h-4 w-4" />
           </Button>
 
+          <LanguageToggle />
           <ThemeToggle />
 
           <Show when="signed-in">

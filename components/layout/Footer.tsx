@@ -43,6 +43,7 @@ const quickLinks = [
 export function Footer() {
   const locale = useLocale();
   const t = useTranslations("nav");
+  const ft = useTranslations("footer");
 
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]">
@@ -54,8 +55,7 @@ export function Footer() {
               <Image src="/icons/logo.png" alt="Planoka" width={90} height={90} priority />
             </Link>
             <p className="text-sm leading-relaxed text-[var(--color-text-tertiary)]">
-              La plateforme communautaire qui connecte les Camerounais aux meilleurs bons plans près
-              de chez eux : restaurants, sorties, loisirs, shopping et services.
+              {ft("description")}
             </p>
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
@@ -88,7 +88,7 @@ export function Footer() {
 
           {/* Quick links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Navigation</h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">{ft("navigation")}</h4>
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.key}>
@@ -113,7 +113,7 @@ export function Footer() {
 
           {/* Contact info */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Contact</h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">{ft("contact")}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-sm text-[var(--color-text-tertiary)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
@@ -142,14 +142,14 @@ export function Footer() {
 
           {/* Newsletter */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Newsletter</h4>
+            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">{ft("newsletter")}</h4>
             <p className="text-sm leading-relaxed text-[var(--color-text-tertiary)]">
-              Recevez les meilleurs bons plans chaque semaine dans votre boîte mail.
+              {ft("newsletterDesc")}
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
               <input
                 type="email"
-                placeholder="votre@email.com"
+                placeholder={ft("newsletterPlaceholder")}
                 className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-page)] px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
               />
               <Button
@@ -166,14 +166,14 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[var(--color-border)] pt-6 sm:flex-row">
           <p className="text-xs text-[var(--color-text-tertiary)]">
-            &copy; {new Date().getFullYear()} Planoka. Tous droits réservés.
+            &copy; {new Date().getFullYear()} Planoka. {ft("rights")}
           </p>
           <div className="flex items-center gap-4 text-xs text-[var(--color-text-tertiary)]">
-            <Link href="/privacy" className="transition-colors hover:text-[var(--color-primary)]">
-              Politique de confidentialité
+            <Link href={`/${locale}/privacy`} className="transition-colors hover:text-[var(--color-primary)]">
+              {ft("privacy")}
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-[var(--color-primary)]">
-              Conditions d&apos;utilisation
+            <Link href={`/${locale}/terms`} className="transition-colors hover:text-[var(--color-primary)]">
+              {ft("terms")}
             </Link>
           </div>
         </div>

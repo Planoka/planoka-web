@@ -95,7 +95,10 @@
     "confirm": "Confirm",
     "save": "Save",
     "delete": "Delete",
-    "close": "Close"
+    "close": "Close",
+    "language": "Change language",
+    "search": "Search",
+    "searchPlaceholder": "Search for a plan, city..."
   },
   "theme": {
     "light": "Light",
@@ -108,5 +111,147 @@
     "subtitle2": "has gone on vacation...",
     "backHome": "Back to home",
     "imageAlt": "Error 404 - Page not found"
+  },
+  "error": {
+    "title": "An error occurred",
+    "description": "Please try again. If the problem persists, contact us.",
+    "retry": "Retry",
+    "criticalTitle": "Critical error",
+    "criticalDescription": "A critical error occurred. Please reload the page.",
+    "reload": "Reload",
+    "backHome": "Back to home"
+  },
+  "footer": {
+    "description": "The community platform that connects Cameroonians to the best local deals: restaurants, outings, leisure, shopping and services.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Get the best deals every week in your inbox.",
+    "newsletterPlaceholder": "your@email.com",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "landing": {
+    "badge": "Cameroon's first local deals platform",
+    "heroTitle": "The best deals",
+    "heroTitleHighlight": "near you",
+    "heroSearchPlaceholder": "Search for a plan, city...",
+    "explorePlans": "Explore plans",
+    "learnMore": "Learn more",
+    "whyPlanoka": "Why choose Planoka?",
+    "whyPlanokaDesc": "Everything you need to discover and share the best deals in Cameroon.",
+    "filteredPlans": "Filtered plans",
+    "plansAvailable": "{count} plan(s) available",
+    "downloadTitle": "Download",
+    "downloadTitleEnd": "the app",
+    "downloadDesc": "Available on iOS and Android. Access all deals wherever you are, receive notifications and share in one click.",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
+    "downloadOn": "Download on",
+    "availableOn": "Available on",
+    "ctaTitle": "Ready to discover the best deals?",
+    "ctaDesc": "Join the Planoka community and never miss a deal near you.",
+    "getStarted": "Get started now",
+    "features": {
+      "explore": {
+        "title": "Explore",
+        "desc": "Discover hundreds of verified deals near you: restaurants, outings, leisure and services."
+      },
+      "boosts": {
+        "title": "Boosts",
+        "desc": "Boost the plans you love and help them gain visibility within the community."
+      },
+      "favorites": {
+        "title": "Favorites",
+        "desc": "Save your favorite plans and build your own collection of must-visit spots."
+      },
+      "share": {
+        "title": "Share",
+        "desc": "Share your discoveries with friends on WhatsApp, Instagram, X and more."
+      },
+      "recommendations": {
+        "title": "Recommendations",
+        "desc": "Receive personalized suggestions based on your interests and city."
+      },
+      "local": {
+        "title": "Local",
+        "desc": "100% Cameroonian: deals that celebrate the richness and diversity of our country."
+      }
+    },
+    "stats": {
+      "plans": "Published plans",
+      "users": "Active users",
+      "cities": "Cities covered",
+      "categories": "Categories"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated:",
+      "intro": "At Planoka, we take the protection of your personal data very seriously. This privacy policy explains how we collect, use and protect your information.",
+      "sections": {
+        "data": {
+          "title": "1. Data collected",
+          "content": "We collect information you provide directly: first name, last name, email address, phone number, city, interests and profile pictures. We also automatically collect usage data such as visited pages, interactions with plans and browsing preferences."
+        },
+        "use": {
+          "title": "2. Use of data",
+          "content": "Your data is used to provide our services, personalize your experience, recommend relevant deals, improve our platform and contact you if needed. We never use your data for unauthorized purposes."
+        },
+        "share": {
+          "title": "3. Data sharing",
+          "content": "We never sell your personal data to third parties. Your information may be shared with trusted service providers who help us operate the platform (hosting, analytics, notifications), subject to strict confidentiality guarantees."
+        },
+        "cookies": {
+          "title": "4. Cookies",
+          "content": "We use cookies essential for the platform's operation, authentication cookies to manage your sessions, and analytics cookies to improve our services. You can manage your cookie preferences in your browser settings."
+        },
+        "rights": {
+          "title": "5. Your rights",
+          "content": "In accordance with Cameroonian data protection law, you have the right to access, rectify, delete and port your data. You can exercise these rights by contacting us at privacy@planoka.cm."
+        },
+        "security": {
+          "title": "6. Security",
+          "content": "We implement appropriate technical and organizational security measures to protect your data against unauthorized access, modification, disclosure or destruction."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated:",
+      "intro": "Welcome to Planoka. By using our platform, you agree to these terms of service. Please read them carefully.",
+      "sections": {
+        "acceptance": {
+          "title": "1. Acceptance of terms",
+          "content": "By accessing or using Planoka, you confirm that you have read, understood and agree to be bound by these terms. If you do not accept these terms, please do not use our services."
+        },
+        "account": {
+          "title": "2. User account",
+          "content": "You are responsible for maintaining the confidentiality of your login credentials. You agree to provide accurate and up-to-date information. You must be at least 13 years old to use Planoka."
+        },
+        "content": {
+          "title": "3. Published content",
+          "content": "By publishing a deal on Planoka, you guarantee that the information is accurate and that you have the necessary rights. You are solely responsible for the content you publish. Planoka reserves the right to remove any inappropriate content."
+        },
+        "conduct": {
+          "title": "4. User conduct",
+          "content": "You agree not to use Planoka for fraudulent activities, spam, harassment or any other illegal activity. Failure to comply with these rules may result in the suspension of your account."
+        },
+        "liability": {
+          "title": "5. Limitation of liability",
+          "content": "Planoka acts as a matching platform and is not responsible for transactions or interactions between users. We do not guarantee the accuracy of information published by users."
+        },
+        "modifications": {
+          "title": "6. Modifications",
+          "content": "We reserve the right to modify these terms at any time. Users will be notified of material changes. Continued use of the platform after modifications constitutes your acceptance of the new terms."
+        },
+        "contact": {
+          "title": "7. Contact",
+          "content": "For any questions regarding these terms, please contact us at legal@planoka.cm or by mail at Douala, Cameroon."
+        }
+      }
+    }
   }
 }
