@@ -77,15 +77,61 @@
     "subtitle": "Configurez votre profil pour découvrir les meilleurs bons plans près de chez vous.",
     "continue": "Commencer à explorer",
     "welcome": "Bienvenue sur Planoka !",
-    "step1": "Choisissez vos centres d'intérêt",
-    "step2": "Votre ville principale",
-    "step3": "Langue et thème",
+    "welcomeDesc": "Quelques étapes pour personnaliser votre expérience et découvrir les meilleurs plans près de chez vous.",
+    "welcomeFeatures": {
+      "explore": "Explorez des centaines de bons plans vérifiés",
+      "recommendations": "Recevez des recommandations personnalisées",
+      "local": "Trouvez les meilleures adresses dans votre ville",
+      "boost": "Boostez les plans que vous aimez"
+    },
+    "step1": "Centres d'intérêt",
+    "step2": "Votre ville",
+    "step3": "Notifications",
+    "step4": "Budget",
+    "stepLabels": {
+      "welcome": "Bienvenue",
+      "categories": "Centres d'intérêt",
+      "city": "Ville",
+      "notifications": "Notifications",
+      "budget": "Budget"
+    },
     "minCategories": "Sélectionnez au moins 3 catégories",
     "maxCategories": "Maximum 8 catégories",
     "skip": "Passer",
     "next": "Suivant",
     "back": "Retour",
-    "finish": "Commencer"
+    "finish": "Commencer",
+    "city": {
+      "title": "Votre ville principale",
+      "subtitle": "Recevez les bons plans autour de votre ville"
+    },
+    "notifications": {
+      "title": "Vos notifications",
+      "subtitle": "Choisissez comment rester informé des meilleurs plans",
+      "push": {
+        "title": "Notifications push",
+        "desc": "Recevez des alertes instantanées pour les plans près de vous"
+      },
+      "email": {
+        "title": "Notifications email",
+        "desc": "Recevez un récapitulatif par email"
+      },
+      "weekly": {
+        "title": "Résumé hebdomadaire",
+        "desc": "Un top 10 des meilleurs plans chaque semaine"
+      },
+      "deals": {
+        "title": "Alertes promotions",
+        "desc": "Soyez informé des offres exclusives et réductions"
+      },
+      "summary": "Personnalisation intelligente",
+      "summaryDesc": "Nos algorithmes sélectionnent les plans les plus pertinents pour vous"
+    },
+    "budget": {
+      "title": "Votre budget",
+      "subtitle": "Pour des recommandations adaptées à vos moyens",
+      "hint": "Vous pourrez modifier ces préférences à tout moment dans les paramètres."
+    }
   },
   "common": {
     "loading": "Chargement...",
@@ -152,7 +198,10 @@
     "availableOn": "Disponible sur",
     "ctaTitle": "Prêt à découvrir les meilleurs plans ?",
     "ctaDesc": "Rejoignez la communauté Planoka et ne manquez plus aucun bon plan près de chez vous.",
+    "ctaTitleSignedIn": "Explorez les plans près de vous",
+    "ctaDescSignedIn": "Découvrez les meilleurs bons plans partagés par la communauté Planoka.",
     "getStarted": "Commencer maintenant",
+    "sharePlan": "Partager un plan",
     "features": {
       "explore": {
         "title": "Explorez",

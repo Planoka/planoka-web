@@ -77,15 +77,61 @@
     "subtitle": "Set up your profile to discover the best local deals near you.",
     "continue": "Start exploring",
     "welcome": "Welcome to Planoka!",
-    "step1": "Choose your interests",
-    "step2": "Your main city",
-    "step3": "Language and theme",
+    "welcomeDesc": "A few steps to personalize your experience and discover the best deals near you.",
+    "welcomeFeatures": {
+      "explore": "Explore hundreds of verified deals",
+      "recommendations": "Get personalized recommendations",
+      "local": "Find the best spots in your city",
+      "boost": "Boost the plans you love"
+    },
+    "step1": "Interests",
+    "step2": "Your city",
+    "step3": "Notifications",
+    "step4": "Budget",
+    "stepLabels": {
+      "welcome": "Welcome",
+      "categories": "Interests",
+      "city": "City",
+      "notifications": "Notifications",
+      "budget": "Budget"
+    },
     "minCategories": "Select at least 3 categories",
     "maxCategories": "Maximum 8 categories",
     "skip": "Skip",
     "next": "Next",
     "back": "Back",
-    "finish": "Get started"
+    "finish": "Get started",
+    "city": {
+      "title": "Your main city",
+      "subtitle": "Receive deals around your city"
+    },
+    "notifications": {
+      "title": "Your notifications",
+      "subtitle": "Choose how to stay informed about the best deals",
+      "push": {
+        "title": "Push notifications",
+        "desc": "Get instant alerts for deals near you"
+      },
+      "email": {
+        "title": "Email notifications",
+        "desc": "Receive a summary by email"
+      },
+      "weekly": {
+        "title": "Weekly digest",
+        "desc": "A top 10 of the best deals every week"
+      },
+      "deals": {
+        "title": "Deal alerts",
+        "desc": "Get notified about exclusive offers and discounts"
+      },
+      "summary": "Smart personalization",
+      "summaryDesc": "Our algorithms select the most relevant deals for you"
+    },
+    "budget": {
+      "title": "Your budget",
+      "subtitle": "For recommendations tailored to your means",
+      "hint": "You can change these preferences anytime in settings."
+    }
   },
   "common": {
     "loading": "Loading...",
@@ -152,7 +198,10 @@
     "availableOn": "Available on",
     "ctaTitle": "Ready to discover the best deals?",
     "ctaDesc": "Join the Planoka community and never miss a deal near you.",
+    "ctaTitleSignedIn": "Explore deals near you",
+    "ctaDescSignedIn": "Discover the best deals shared by the Planoka community.",
     "getStarted": "Get started now",
+    "sharePlan": "Share a plan",
     "features": {
       "explore": {
         "title": "Explore",

@@ -16,12 +16,16 @@ import {
   Heart,
   Globe,
   ChevronDown,
+  ArrowUpRight,
 } from "lucide-react";
 import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { getPlansWithDetails, getFeaturedPlans } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+import { ReviewsCarousel } from "@/components/common/ReviewsCarousel";
+import { CookieConsent } from "@/components/common/CookieConsent";
 
 const stats = [
   { value: "500+", key: "plans" },
@@ -33,9 +37,9 @@ const stats = [
 export default function HomePage() {
   const t = useTranslations("feed");
   const lt = useTranslations("landing");
-  const ct = useTranslations("common");
   const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const { user, isSignedIn } = useUser();
 
   const allPlans = useMemo(() => getPlansWithDetails(), []);
   const featuredPlans = useMemo(() => getFeaturedPlans(), []);
@@ -64,8 +68,11 @@ export default function HomePage() {
     { icon: Globe, titleKey: "local.title", descKey: "local.desc" },
   ];
 
+  const firstName = user?.firstName || "Planoka";
+
   return (
     <div className="min-h-screen">
+      <CookieConsent />
       {/* ═══ HERO SECTION ═══ */}
       <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -93,8 +100,18 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
               >
-                {lt("heroTitle")}
-                <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
+                {isSignedIn ? (
+                  <>
+                    Bonjour {firstName} <span className="text-[var(--color-primary)]">👋</span>
+                    <br />
+                    <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
+                  </>
+                ) : (
+                  <>
+                    {lt("heroTitle")}
+                    <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
+                  </>
+                )}
               </motion.h1>
 
               <motion.p
@@ -312,10 +329,12 @@ export default function HomePage() {
 
         {filteredPlans.length > 0 && (
           <div className="mt-10 flex justify-center">
-            <Button variant="outline" size="lg" className="gap-2 rounded-full">
-              {t("loadMore")}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Link href={`/${locale}/plans`}>
+              <Button variant="outline" size="lg" className="gap-2 rounded-full">
+                {t("loadMore")}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         )}
       </section>
@@ -415,33 +434,61 @@ export default function HomePage() {
           <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] px-8 py-12 text-center sm:px-16">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/5 to-transparent" />
             <h2 className="relative text-2xl font-bold text-white sm:text-3xl">
-              {lt("ctaTitle")}
+              {isSignedIn ? lt("ctaTitleSignedIn") : lt("ctaTitle")}
             </h2>
             <p className="relative mx-auto mt-3 max-w-md text-white/80">
-              {lt("ctaDesc")}
+              {isSignedIn ? lt("ctaDescSignedIn") : lt("ctaDesc")}
             </p>
             <div className="relative mt-6 flex flex-wrap justify-center gap-3">
-              <Link href={`/${locale}/sign-up`}>
-                <Button
-                  size="lg"
-                  className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
-                >
-                  {lt("getStarted")}
-                </Button>
-              </Link>
-              <Link href={`/${locale}#features`}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
-                >
-                  {lt("learnMore")}
-                </Button>
-              </Link>
+              {isSignedIn ? (
+                <>
+                  <Link href={`/${locale}/plans`}>
+                    <Button
+                      size="lg"
+                      className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
+                    >
+                      {lt("explorePlans")}
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href={`/${locale}/plans/new`}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
+                    >
+                      {lt("sharePlan")}
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href={`/${locale}/sign-up`}>
+                    <Button
+                      size="lg"
+                      className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
+                    >
+                      {lt("getStarted")}
+                    </Button>
+                  </Link>
+                  <Link href={`/${locale}#features`}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
+                    >
+                      {lt("learnMore")}
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* ═══ REVIEWS CAROUSEL ═══ */}
+      <ReviewsCarousel />
     </div>
   );
 }
