@@ -101,5 +101,12 @@
     "light": "Clair",
     "dark": "Sombre",
     "system": "Automatique"
+  },
+  "notFound": {
+    "title": "OUPS !",
+    "subtitle1": "La page que vous cherchez",
+    "subtitle2": "a pris des vacances...",
+    "backHome": "Retour à l'accueil",
+    "imageAlt": "Erreur 404 - Page introuvable"
   }
 }

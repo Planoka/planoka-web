@@ -101,5 +101,12 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "notFound": {
+    "title": "OOPS!",
+    "subtitle1": "The page you are looking for",
+    "subtitle2": "has gone on vacation...",
+    "backHome": "Back to home",
+    "imageAlt": "Error 404 - Page not found"
   }
 }
