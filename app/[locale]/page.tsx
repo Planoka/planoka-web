@@ -343,23 +343,23 @@ export default function HomePage() {
             <div className="max-w-lg text-center lg:text-left">
               <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
                 <span className="relative">
-                <svg
-                  width="219"
-                  height="24"
-                  viewBox="0 0 219 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-primary absolute inset-x-0 inset-y-9 -bottom-1 w-full"
-                >
-                  <path
-                    d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></path>
-                </svg>
-                <span className="relative">Téléchargez </span>
-              </span>
-              l&apos;application
+                  <svg
+                    width="219"
+                    height="24"
+                    viewBox="0 0 219 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-primary absolute inset-x-0 inset-y-9 -bottom-1 w-full"
+                  >
+                    <path
+                      d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></path>
+                  </svg>
+                  <span className="relative">Téléchargez </span>
+                </span>
+                l&apos;application
               </h2>
               <p className="mt-7 text-[var(--color-text-secondary)]">
                 Disponible sur iOS et Android. Accédez à tous les bons plans où que vous soyez,

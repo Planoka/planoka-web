@@ -49,22 +49,19 @@ export default function PlansPage() {
   }, [plans, searchQuery, sortBy]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-page)] pb-20 pt-20 sm:pt-24 lg:pb-0">
+    <div className="min-h-screen bg-[var(--color-bg-page)] pt-20 pb-20 sm:pt-24 lg:pb-0">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
         {/* Header & Search */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
-              {t("latest")}
-            </h1>
+            <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">{t("latest")}</h1>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Découvrez des pépites autour de vous
             </p>
           </div>
 
-          <div className="flex w-full sm:w-auto items-center gap-2">
-            <div className="flex-1 flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]">
+          <div className="flex w-full items-center gap-2 sm:w-auto">
+            <div className="flex flex-1 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]">
               <Search className="h-4 w-4 text-[var(--color-text-tertiary)]" />
               <input
                 type="text"
@@ -76,7 +73,7 @@ export default function PlansPage() {
             </div>
             <Button
               variant="outline"
-              className="h-10 w-10 shrink-0 p-0 rounded-xl"
+              className="h-10 w-10 shrink-0 rounded-xl p-0"
               onClick={() => setSortBy(sortBy === "recent" ? "popular" : "recent")}
               title={`Trié par: ${sortBy === "recent" ? "Plus récents" : "Populaires"}`}
             >
@@ -94,7 +91,10 @@ export default function PlansPage() {
         {isLoading ? (
           <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="mb-4 h-[300px] w-full animate-pulse rounded-2xl bg-[var(--color-border)]" />
+              <div
+                key={i}
+                className="mb-4 h-[300px] w-full animate-pulse rounded-2xl bg-[var(--color-border)]"
+              />
             ))}
           </div>
         ) : filteredAndSortedPlans.length > 0 ? (
@@ -110,8 +110,8 @@ export default function PlansPage() {
             </div>
             <p className="text-[var(--color-text-secondary)]">{t("empty")}</p>
             {searchQuery && (
-              <Button 
-                variant="link" 
+              <Button
+                variant="link"
                 onClick={() => setSearchQuery("")}
                 className="mt-2 text-[var(--color-primary)]"
               >
@@ -120,7 +120,6 @@ export default function PlansPage() {
             )}
           </div>
         )}
-
       </div>
     </div>
   );

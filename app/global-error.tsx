@@ -16,9 +16,7 @@ export default function GlobalError({
           <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-red-50 dark:bg-red-950">
             <AlertTriangle className="h-12 w-12 text-red-500" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            Erreur critique
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Erreur critique</h1>
           <p className="mt-2 max-w-sm text-gray-500">
             Une erreur critique est survenue. Veuillez recharger la page.
           </p>
