@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { MapPin, Heart, Play, MessageCircle, Share2, Zap } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { useStore } from "@/store/useStore";
 import type { Plan } from "@/types";
 
 type PlanCardProps = {
@@ -40,7 +41,8 @@ function getCategoryMeta(categorieId: string) {
 export function PlanCard({ plan }: PlanCardProps) {
   const locale = useLocale();
   const cat = getCategoryMeta(plan.categorie_id);
-  const [favorited, setFavorited] = useState(false);
+  const toggleFavorite = useStore((s) => s.toggleFavorite);
+  const favorited = useStore((s) => s.favorites.includes(plan.id));
   const [boosted, setBoosted] = useState(plan.is_boosted ?? false);
   const [boostCount, setBoostCount] = useState(plan.boosts_count);
 
@@ -51,7 +53,7 @@ export function PlanCard({ plan }: PlanCardProps) {
   const handleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setFavorited(!favorited);
+    toggleFavorite(plan.id);
   };
 
   const handleBoost = (e: React.MouseEvent) => {

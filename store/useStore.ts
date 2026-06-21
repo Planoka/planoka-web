@@ -19,6 +19,13 @@ interface AppState {
   /** Catégorie sélectionnée */
   selectedCategory: string | null;
   setSelectedCategory: (category: string | null) => void;
+
+  /** Favoris — IDs des plans sauvegardés */
+  favorites: string[];
+  toggleFavorite: (planId: string) => void;
+  addFavorite: (planId: string) => void;
+  removeFavorite: (planId: string) => void;
+  isFavorite: (planId: string) => boolean;
 }
 
 const defaultFilters: FeedFilters = {
@@ -29,7 +36,7 @@ const defaultFilters: FeedFilters = {
 
 export const useStore = create<AppState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       currentUser: null,
       setCurrentUser: (user) => set({ currentUser: user }),
 
@@ -43,12 +50,32 @@ export const useStore = create<AppState>()(
 
       selectedCategory: null,
       setSelectedCategory: (category) => set({ selectedCategory: category }),
+
+      favorites: [],
+      toggleFavorite: (planId) =>
+        set((state) => ({
+          favorites: state.favorites.includes(planId)
+            ? state.favorites.filter((id) => id !== planId)
+            : [...state.favorites, planId],
+        })),
+      addFavorite: (planId) =>
+        set((state) => ({
+          favorites: state.favorites.includes(planId)
+            ? state.favorites
+            : [...state.favorites, planId],
+        })),
+      removeFavorite: (planId) =>
+        set((state) => ({
+          favorites: state.favorites.filter((id) => id !== planId),
+        })),
+      isFavorite: (planId) => get().favorites.includes(planId),
     }),
     {
       name: "planoka-store",
       partialize: (state) => ({
         feedView: state.feedView,
         feedFilters: { sort: state.feedFilters.sort },
+        favorites: state.favorites,
       }),
     }
   )

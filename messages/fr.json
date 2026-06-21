@@ -10,6 +10,35 @@
     "signOut": "Se déconnecter",
     "signUp": "S'inscrire"
   },
+  "favorites": {
+    "title": "Mes Favoris",
+    "subtitle": "Retrouvez tous les bons plans que vous avez sauvegardés",
+    "count": "{count} plan(s) sauvegardé(s)",
+    "empty": "Aucun favori pour le moment",
+    "emptyDesc": "Explorez les plans et sauvegardez ceux qui vous plaisent. Ils apparaîtront ici !",
+    "emptyAction": "Explorer les plans",
+    "removed": "Retiré des favoris",
+    "removedDesc": "Ce plan a été retiré de vos favoris",
+    "undo": "Annuler",
+    "sort": {
+      "recent": "Les plus récents",
+      "oldest": "Les plus anciens",
+      "alpha": "A → Z",
+      "alphaDesc": "Z → A",
+      "boosted": "Les plus boostés"
+    },
+    "filter": {
+      "all": "Toutes les catégories",
+      "label": "Filtrer par catégorie"
+    },
+    "search": "Rechercher dans vos favoris...",
+    "grid": "Grille",
+    "list": "Liste",
+    "clearAll": "Tout retirer",
+    "clearAllConfirm": "Retirer tous les favoris ?",
+    "clearAllDesc": "Cette action est irréversible. Tous les plans seront retirés de vos favoris.",
+    "shareAll": "Partager ma collection"
+  },
   "feed": {
     "title": "Les meilleurs plans près de chez vous",
     "subtitle": "Découvrez les bons plans partagés par la communauté camerounaise",
@@ -77,15 +106,61 @@
     "subtitle": "Configurez votre profil pour découvrir les meilleurs bons plans près de chez vous.",
     "continue": "Commencer à explorer",
     "welcome": "Bienvenue sur Planoka !",
-    "step1": "Choisissez vos centres d'intérêt",
-    "step2": "Votre ville principale",
-    "step3": "Langue et thème",
+    "welcomeDesc": "Quelques étapes pour personnaliser votre expérience et découvrir les meilleurs plans près de chez vous.",
+    "welcomeFeatures": {
+      "explore": "Explorez des centaines de bons plans vérifiés",
+      "recommendations": "Recevez des recommandations personnalisées",
+      "local": "Trouvez les meilleures adresses dans votre ville",
+      "boost": "Boostez les plans que vous aimez"
+    },
+    "step1": "Centres d'intérêt",
+    "step2": "Votre ville",
+    "step3": "Notifications",
+    "step4": "Budget",
+    "stepLabels": {
+      "welcome": "Bienvenue",
+      "categories": "Centres d'intérêt",
+      "city": "Ville",
+      "notifications": "Notifications",
+      "budget": "Budget"
+    },
     "minCategories": "Sélectionnez au moins 3 catégories",
     "maxCategories": "Maximum 8 catégories",
     "skip": "Passer",
     "next": "Suivant",
     "back": "Retour",
-    "finish": "Commencer"
+    "finish": "Commencer",
+    "city": {
+      "title": "Votre ville principale",
+      "subtitle": "Recevez les bons plans autour de votre ville"
+    },
+    "notifications": {
+      "title": "Vos notifications",
+      "subtitle": "Choisissez comment rester informé des meilleurs plans",
+      "push": {
+        "title": "Notifications push",
+        "desc": "Recevez des alertes instantanées pour les plans près de vous"
+      },
+      "email": {
+        "title": "Notifications email",
+        "desc": "Recevez un récapitulatif par email"
+      },
+      "weekly": {
+        "title": "Résumé hebdomadaire",
+        "desc": "Un top 10 des meilleurs plans chaque semaine"
+      },
+      "deals": {
+        "title": "Alertes promotions",
+        "desc": "Soyez informé des offres exclusives et réductions"
+      },
+      "summary": "Personnalisation intelligente",
+      "summaryDesc": "Nos algorithmes sélectionnent les plans les plus pertinents pour vous"
+    },
+    "budget": {
+      "title": "Votre budget",
+      "subtitle": "Pour des recommandations adaptées à vos moyens",
+      "hint": "Vous pourrez modifier ces préférences à tout moment dans les paramètres."
+    }
   },
   "common": {
     "loading": "Chargement...",
@@ -95,11 +170,166 @@
     "confirm": "Confirmer",
     "save": "Enregistrer",
     "delete": "Supprimer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "language": "Changer la langue",
+    "search": "Rechercher",
+    "searchPlaceholder": "Rechercher un bon plan, une ville..."
   },
   "theme": {
     "light": "Clair",
     "dark": "Sombre",
     "system": "Automatique"
+  },
+  "notFound": {
+    "title": "OUPS !",
+    "subtitle1": "La page que vous cherchez",
+    "subtitle2": "a pris des vacances...",
+    "backHome": "Retour à l'accueil",
+    "imageAlt": "Erreur 404 - Page introuvable"
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "description": "Veuillez réessayer. Si le problème persiste, contactez-nous.",
+    "retry": "Réessayer",
+    "criticalTitle": "Erreur critique",
+    "criticalDescription": "Une erreur critique est survenue. Veuillez recharger la page.",
+    "reload": "Recharger",
+    "backHome": "Retour à l'accueil"
+  },
+  "footer": {
+    "description": "La plateforme communautaire qui connecte les Camerounais aux meilleurs bons plans près de chez eux : restaurants, sorties, loisirs, shopping et services.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Recevez les meilleurs bons plans chaque semaine dans votre boîte mail.",
+    "newsletterPlaceholder": "votre@email.com",
+    "rights": "Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation"
+  },
+  "landing": {
+    "badge": "La première plateforme de bons plans au Cameroun",
+    "heroTitle": "Les meilleurs plans",
+    "heroTitleHighlight": "près de chez vous",
+    "heroSearchPlaceholder": "Rechercher un bon plan, une ville...",
+    "explorePlans": "Explorer les plans",
+    "learnMore": "En savoir plus",
+    "whyPlanoka": "Pourquoi choisir Planoka ?",
+    "whyPlanokaDesc": "Tout ce dont vous avez besoin pour découvrir et partager les meilleurs bons plans au Cameroun.",
+    "filteredPlans": "Plans filtrés",
+    "plansAvailable": "{count} plan(s) disponible(s)",
+    "downloadTitle": "Téléchargez",
+    "downloadTitleEnd": "l'application",
+    "downloadDesc": "Disponible sur iOS et Android. Accédez à tous les bons plans où que vous soyez, recevez des notifications et partagez en un clic.",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
+    "downloadOn": "Télécharger sur",
+    "availableOn": "Disponible sur",
+    "ctaTitle": "Prêt à découvrir les meilleurs plans ?",
+    "ctaDesc": "Rejoignez la communauté Planoka et ne manquez plus aucun bon plan près de chez vous.",
+    "ctaTitleSignedIn": "Explorez les plans près de vous",
+    "ctaDescSignedIn": "Découvrez les meilleurs bons plans partagés par la communauté Planoka.",
+    "getStarted": "Commencer maintenant",
+    "sharePlan": "Partager un plan",
+    "features": {
+      "explore": {
+        "title": "Explorez",
+        "desc": "Découvrez des centaines de bons plans vérifiés près de chez vous : restaurants, sorties, loisirs et services."
+      },
+      "boosts": {
+        "title": "Boosts",
+        "desc": "Boostez les plans que vous aimez et aidez-les à gagner en visibilité auprès de la communauté."
+      },
+      "favorites": {
+        "title": "Favoris",
+        "desc": "Sauvegardez vos plans préférés et constituez votre propre collection d'adresses incontournables."
+      },
+      "share": {
+        "title": "Partage",
+        "desc": "Partagez vos découvertes avec vos amis sur WhatsApp, Instagram, X et bien plus encore."
+      },
+      "recommendations": {
+        "title": "Recommandations",
+        "desc": "Recevez des suggestions personnalisées basées sur vos centres d'intérêt et votre ville."
+      },
+      "local": {
+        "title": "Local",
+        "desc": "100% camerounais : des bons plans qui célèbrent la richesse et la diversité de notre pays."
+      }
+    },
+    "stats": {
+      "plans": "Bons plans publiés",
+      "users": "Utilisateurs actifs",
+      "cities": "Villes couvertes",
+      "categories": "Catégories"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "lastUpdated": "Dernière mise à jour :",
+      "intro": "Chez Planoka, nous accordons une grande importance à la protection de vos données personnelles. Cette politique de confidentialité vous explique comment nous collectons, utilisons et protégeons vos informations.",
+      "sections": {
+        "data": {
+          "title": "1. Données collectées",
+          "content": "Nous collectons les informations que vous nous fournissez directement : nom, prénom, adresse email, numéro de téléphone, ville, centres d'intérêt et photos de profil. Nous collectons également automatiquement des données d'utilisation telles que les pages visitées, les interactions avec les plans et les préférences de navigation."
+        },
+        "use": {
+          "title": "2. Utilisation des données",
+          "content": "Vos données sont utilisées pour vous fournir nos services, personnaliser votre expérience, vous recommander des plans pertinents, améliorer notre plateforme et vous contacter si nécessaire. Nous n'utilisons jamais vos données à des fins non autorisées."
+        },
+        "share": {
+          "title": "3. Partage des données",
+          "content": "Nous ne vendons jamais vos données personnelles à des tiers. Vos informations peuvent être partagées avec des prestataires de services de confiance qui nous aident à opérer la plateforme (hébergement, analyses, notifications), sous réserve de严格的 garanties de confidentialité."
+        },
+        "cookies": {
+          "title": "4. Cookies",
+          "content": "Nous utilisons des cookies essentiels au fonctionnement de la plateforme, des cookies d'authentification pour gérer vos sessions, et des cookies d'analyse pour améliorer nos services. Vous pouvez gérer vos préférences de cookies dans les paramètres de votre navigateur."
+        },
+        "rights": {
+          "title": "5. Vos droits",
+          "content": "Conformément à la loi camerounaise sur la protection des données, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Vous pouvez exercer ces droits en nous contactant à privacy@planoka.cm."
+        },
+        "security": {
+          "title": "6. Sécurité",
+          "content": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, modification, divulgation ou destruction."
+        }
+      }
+    },
+    "terms": {
+      "title": "Conditions d'utilisation",
+      "lastUpdated": "Dernière mise à jour :",
+      "intro": "Bienvenue sur Planoka. En utilisant notre plateforme, vous acceptez les présentes conditions d'utilisation. Veuillez les lire attentivement.",
+      "sections": {
+        "acceptance": {
+          "title": "1. Acceptation des conditions",
+          "content": "En accédant ou en utilisant Planoka, vous confirmez avoir lu, compris et accepté d'être lié par ces conditions. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser nos services."
+        },
+        "account": {
+          "title": "2. Compte utilisateur",
+          "content": "Vous êtes responsable de la confidentialité de vos identifiants de connexion. Vous vous engagez à fournir des informations exactes et à jour. Vous devez avoir au moins 13 ans pour utiliser Planoka."
+        },
+        "content": {
+          "title": "3. Contenu publié",
+          "content": "En publiant un bon plan sur Planoka, vous garantissez que les informations sont exactes et que vous disposez des droits nécessaires. Vous êtes seul responsable du contenu que vous publiez. Planoka se réserve le droit de supprimer tout contenu inapproprié."
+        },
+        "conduct": {
+          "title": "4. Conduite des utilisateurs",
+          "content": "Vous vous engagez à ne pas utiliser Planoka pour des activités frauduleuses, spam, harcèlement ou toute autre activité illicite. Le non-respect de ces règles peut entraîner la suspension de votre compte."
+        },
+        "liability": {
+          "title": "5. Limitation de responsabilité",
+          "content": "Planoka agit comme une plateforme de mise en relation et n'est pas responsable des transactions ou interactions entre utilisateurs. Nous ne garantissons pas l'exactitude des informations publiées par les utilisateurs."
+        },
+        "modifications": {
+          "title": "6. Modifications",
+          "content": "Nous nous réservons le droit de modifier ces conditions à tout moment. Les utilisateurs seront informés des changements importants. L'utilisation continue de la plateforme après les modifications constitue votre acceptation des nouvelles conditions."
+        },
+        "contact": {
+          "title": "7. Contact",
+          "content": "Pour toute question concernant ces conditions, veuillez nous contacter à legal@planoka.cm ou par courrier à Douala, Cameroun."
+        }
+      }
+    }
   }
 }

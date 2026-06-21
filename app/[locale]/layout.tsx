@@ -8,9 +8,7 @@ import { AuthSync } from "@/components/providers/AuthSync";
 import { ThemeProviderWrapper } from "@/components/providers/ThemeProviderWrapper";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { LenisProvider } from "@/components/providers/LenisProvider";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { TabBarMobile } from "@/components/layout/TabBarMobile";
+import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getClerkPaths } from "@/lib/clerk-paths";
 import "./globals.css";
 
@@ -53,10 +51,7 @@ export default async function RootLayout({
               <QueryProvider>
                 <LenisProvider>
                   <AuthSync />
-                  <Navbar />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                  <TabBarMobile />
+                  <LayoutShell locale={locale}>{children}</LayoutShell>
                 </LenisProvider>
               </QueryProvider>
             </NextIntlClientProvider>

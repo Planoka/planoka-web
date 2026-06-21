@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 import { motion } from "motion/react";
 import {
   Search,
@@ -15,56 +16,30 @@ import {
   Heart,
   Globe,
   ChevronDown,
+  ArrowUpRight,
 } from "lucide-react";
 import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { getPlansWithDetails, getFeaturedPlans } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
-const features = [
-  {
-    icon: Compass,
-    title: "Explorez",
-    desc: "Découvrez des centaines de bons plans vérifiés près de chez vous : restaurants, sorties, loisirs et services.",
-  },
-  {
-    icon: Zap,
-    title: "Boosts",
-    desc: "Boostez les plans que vous aimez et aidez-les à gagner en visibilité auprès de la communauté.",
-  },
-  {
-    icon: Heart,
-    title: "Favoris",
-    desc: "Sauvegardez vos plans préférés et constituez votre propre collection d'adresses incontournables.",
-  },
-  {
-    icon: Share2,
-    title: "Partage",
-    desc: "Partagez vos découvertes avec vos amis sur WhatsApp, Instagram, X et bien plus encore.",
-  },
-  {
-    icon: Star,
-    title: "Recommandations",
-    desc: "Recevez des suggestions personnalisées basées sur vos centres d'intérêt et votre ville.",
-  },
-  {
-    icon: Globe,
-    title: "Local",
-    desc: "100% camerounais : des bons plans qui célèbrent la richesse et la diversité de notre pays.",
-  },
-];
+import { useUser } from "@clerk/nextjs";
+import { ReviewsCarousel } from "@/components/common/ReviewsCarousel";
+import { CookieConsent } from "@/components/common/CookieConsent";
 
 const stats = [
-  { value: "500+", label: "Bons plans publiés" },
-  { value: "10K+", label: "Utilisateurs actifs" },
-  { value: "50+", label: "Villes couvertes" },
-  { value: "8", label: "Catégories" },
+  { value: "500+", key: "plans" },
+  { value: "10K+", key: "users" },
+  { value: "50+", key: "cities" },
+  { value: "8", key: "categories" },
 ];
 
 export default function HomePage() {
   const t = useTranslations("feed");
+  const lt = useTranslations("landing");
+  const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const { isSignedIn } = useUser();
 
   const allPlans = useMemo(() => getPlansWithDetails(), []);
   const featuredPlans = useMemo(() => getFeaturedPlans(), []);
@@ -84,11 +59,20 @@ export default function HomePage() {
     return allPlans.filter((p) => p.categorie_id === catMap[selectedCategory]);
   }, [selectedCategory, allPlans]);
 
+  const features = [
+    { icon: Compass, titleKey: "explore.title", descKey: "explore.desc" },
+    { icon: Zap, titleKey: "boosts.title", descKey: "boosts.desc" },
+    { icon: Heart, titleKey: "favorites.title", descKey: "favorites.desc" },
+    { icon: Share2, titleKey: "share.title", descKey: "share.desc" },
+    { icon: Star, titleKey: "recommendations.title", descKey: "recommendations.desc" },
+    { icon: Globe, titleKey: "local.title", descKey: "local.desc" },
+  ];
+
   return (
     <div className="min-h-screen">
+      <CookieConsent />
       {/* ═══ HERO SECTION ═══ */}
       <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20">
-        {/* Background decoration */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
           <div className="absolute -top-20 -right-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
@@ -97,7 +81,6 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:justify-between">
-            {/* Text Content */}
             <div className="flex-1 text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -106,7 +89,7 @@ export default function HomePage() {
                 className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary-light)] px-4 py-1.5 text-xs font-medium text-[var(--color-primary)]"
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                La première plateforme de bons plans au Cameroun
+                {lt("badge")}
               </motion.div>
 
               <motion.h1
@@ -115,8 +98,18 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
               >
-                Les meilleurs plans
-                <span className="text-[var(--color-primary)]"> près de chez vous</span>
+                {isSignedIn ? (
+                  <>
+                    Les meilleurs plans
+                    <br />
+                    <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
+                  </>
+                ) : (
+                  <>
+                    {lt("heroTitle")}
+                    <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
+                  </>
+                )}
               </motion.h1>
 
               <motion.p
@@ -137,7 +130,7 @@ export default function HomePage() {
                 <Search className="h-5 w-5 text-[var(--color-text-tertiary)]" />
                 <input
                   type="text"
-                  placeholder="Rechercher un bon plan, une ville..."
+                  placeholder={lt("heroSearchPlaceholder")}
                   className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 />
                 <kbd className="hidden rounded-md border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] text-[var(--color-text-tertiary)] sm:inline">
@@ -151,16 +144,20 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
               >
-                <Button
-                  size="lg"
-                  className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90"
-                >
-                  Explorer les plans
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="lg" className="gap-2 rounded-full px-8 text-base">
-                  En savoir plus
-                </Button>
+                <Link href={`/${locale}#plans-grid`}>
+                  <Button
+                    size="lg"
+                    className="gap-2 rounded-full bg-[var(--color-primary)] px-8 text-base hover:brightness-90"
+                  >
+                    {lt("explorePlans")}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href={`/${locale}#features`}>
+                  <Button variant="outline" size="lg" className="gap-2 rounded-full px-8 text-base">
+                    {lt("learnMore")}
+                  </Button>
+                </Link>
               </motion.div>
             </div>
 
@@ -184,7 +181,6 @@ export default function HomePage() {
                   priority
                 />
               </motion.div>
-              {/* Floating elements around mascot */}
               <motion.div
                 animate={{ y: [0, -10, 0], rotate: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -211,11 +207,13 @@ export default function HomePage() {
           >
             {stats.map((stat) => (
               <div
-                key={stat.label}
+                key={stat.key}
                 className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/50 px-4 py-4 text-center backdrop-blur-sm"
               >
                 <p className="text-2xl font-bold text-[var(--color-primary)]">{stat.value}</p>
-                <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">{stat.label}</p>
+                <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">
+                  {lt(`stats.${stat.key}`)}
+                </p>
               </div>
             ))}
           </motion.div>
@@ -258,59 +256,61 @@ export default function HomePage() {
       )}
 
       {/* ═══ FEATURES SECTION ═══ */}
-      <section className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16">
+      <section
+        id="features"
+        className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-              Pourquoi choisir Planoka ?
+              {lt("whyPlanoka")}
             </h2>
-            <p className="mt-3 text-[var(--color-text-secondary)]">
-              Tout ce dont vous avez besoin pour découvrir et partager les meilleurs bons plans au
-              Cameroun.
-            </p>
+            <p className="mt-3 text-[var(--color-text-secondary)]">{lt("whyPlanokaDesc")}</p>
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05, duration: 0.3 }}
-                className="group rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-              >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-primary-light)] text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-white">
-                  <feature.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-base font-semibold text-[var(--color-text-primary)]">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-tertiary)]">
-                  {feature.desc}
-                </p>
-              </motion.div>
-            ))}
+            {features.map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div
+                  key={feature.titleKey}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                  className="group rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
+                >
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-primary-light)] text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-white">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-base font-semibold text-[var(--color-text-primary)]">
+                    {lt(`features.${feature.titleKey}`)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-tertiary)]">
+                    {lt(`features.${feature.descKey}`)}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ═══ PLANS GRID (Pinterest Masonry) ═══ */}
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <section id="plans-grid" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-xl font-bold text-[var(--color-text-primary)]">
-              {selectedCategory ? "Plans filtrés" : t("latest")}
+              {selectedCategory ? lt("filteredPlans") : t("latest")}
             </h2>
             <p className="mt-0.5 text-sm text-[var(--color-text-tertiary)]">
-              {filteredPlans.length} plan{filteredPlans.length !== 1 ? "s" : ""} disponibles
+              {lt("plansAvailable", { count: filteredPlans.length })}
             </p>
           </div>
         </div>
 
         <CategoryPills selected={selectedCategory} onSelect={setSelectedCategory} />
 
-        {/* Pinterest masonry layout */}
         <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
           {filteredPlans.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
@@ -328,10 +328,12 @@ export default function HomePage() {
 
         {filteredPlans.length > 0 && (
           <div className="mt-10 flex justify-center">
-            <Button variant="outline" size="lg" className="gap-2 rounded-full">
-              {t("loadMore")}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Link href={`/${locale}/plans`}>
+              <Button variant="outline" size="lg" className="gap-2 rounded-full">
+                {t("loadMore")}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         )}
       </section>
@@ -357,37 +359,38 @@ export default function HomePage() {
                       strokeWidth="4"
                     ></path>
                   </svg>
-                  <span className="relative">Téléchargez </span>
+                  <span className="relative">{lt("downloadTitle")} </span>
                 </span>
-                l&apos;application
+                {lt("downloadTitleEnd")}
               </h2>
-              <p className="mt-7 text-[var(--color-text-secondary)]">
-                Disponible sur iOS et Android. Accédez à tous les bons plans où que vous soyez,
-                recevez des notifications et partagez en un clic.
-              </p>
+              <p className="mt-7 text-[var(--color-text-secondary)]">{lt("downloadDesc")}</p>
               <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
-                  href="#"
+                  href="https://apps.apple.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2.5 rounded-xl bg-[var(--color-text-primary)] px-5 py-3 text-white transition-all hover:opacity-90"
                 >
                   <svg className="h-6 w-6 dark:text-black" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                   </svg>
                   <div className="text-left dark:text-black">
-                    <p className="text-[10px] opacity-80">Télécharger sur</p>
-                    <p className="text-sm font-semibold">App Store</p>
+                    <p className="text-[10px] opacity-80">{lt("downloadOn")}</p>
+                    <p className="text-sm font-semibold">{lt("appStore")}</p>
                   </div>
                 </a>
                 <a
-                  href="#"
+                  href="https://play.google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2.5 rounded-xl bg-[var(--color-text-primary)] px-5 py-3 text-white transition-all hover:opacity-90"
                 >
                   <svg className="h-6 w-6 dark:text-black" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.921V2.735a1 1 0 0 1 .609-.921zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
                   </svg>
                   <div className="text-left dark:text-black">
-                    <p className="text-[10px] opacity-80">Disponible sur</p>
-                    <p className="text-sm font-semibold">Google Play</p>
+                    <p className="text-[10px] opacity-80">{lt("availableOn")}</p>
+                    <p className="text-sm font-semibold">{lt("googlePlay")}</p>
                   </div>
                 </a>
               </div>
@@ -428,29 +431,61 @@ export default function HomePage() {
           <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] px-8 py-12 text-center sm:px-16">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/5 to-transparent" />
             <h2 className="relative text-2xl font-bold text-white sm:text-3xl">
-              Prêt à découvrir les meilleurs plans ?
+              {isSignedIn ? lt("ctaTitleSignedIn") : lt("ctaTitle")}
             </h2>
             <p className="relative mx-auto mt-3 max-w-md text-white/80">
-              Rejoignez la communauté Planoka et ne manquez plus aucun bon plan près de chez vous.
+              {isSignedIn ? lt("ctaDescSignedIn") : lt("ctaDesc")}
             </p>
             <div className="relative mt-6 flex flex-wrap justify-center gap-3">
-              <Button
-                size="lg"
-                className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
-              >
-                Commencer maintenant
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-full border-white/30 px-8 text-[var(--color-primary)] hover:bg-white/10 dark:text-black"
-              >
-                En savoir plus
-              </Button>
+              {isSignedIn ? (
+                <>
+                  <Link href={`/${locale}/plans`}>
+                    <Button
+                      size="lg"
+                      className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
+                    >
+                      {lt("explorePlans")}
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href={`/${locale}/plans/new`}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
+                    >
+                      {lt("sharePlan")}
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href={`/${locale}/sign-up`}>
+                    <Button
+                      size="lg"
+                      className="rounded-full bg-white px-8 text-[var(--color-primary)] hover:bg-white/90"
+                    >
+                      {lt("getStarted")}
+                    </Button>
+                  </Link>
+                  <Link href={`/${locale}#features`}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full border-white/30 px-8 text-white hover:bg-white/10"
+                    >
+                      {lt("learnMore")}
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* ═══ REVIEWS CAROUSEL ═══ */}
+      <ReviewsCarousel />
     </div>
   );
 }
