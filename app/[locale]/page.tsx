@@ -102,7 +102,7 @@ export default function HomePage() {
               >
                 {isSignedIn ? (
                   <>
-                    Bonjour {firstName} <span className="text-[var(--color-primary)]">👋</span>
+                    Les meilleurs plans 
                     <br />
                     <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
                   </>
