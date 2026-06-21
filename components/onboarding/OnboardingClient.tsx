@@ -193,30 +193,6 @@ export function OnboardingClient() {
           </Button>
         </div>
       </div>
-
-      {/* Right side: Mascot — desktop only */}
-      <div className="hidden lg:flex fixed top-0 right-0 bottom-0 w-1/2 flex-col items-center justify-center bg-gradient-to-br from-[var(--color-primary-light)] via-[var(--color-bg-page)] to-[var(--color-primary-light)] overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
-
-        <motion.div
-          animate={{ y: [0, -15, 0], scale: [1, 1.02, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative w-[380px] h-[380px] z-10"
-        >
-          <Image src="/images/mascot.png" alt="Planoka Mascot" fill className="object-contain drop-shadow-2xl" priority />
-        </motion.div>
-
-        <div className="mt-8 text-center z-10 max-w-xs px-4">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-primary)]/10 mx-auto">
-            <Sparkles className="h-6 w-6 text-[var(--color-primary)]" />
-          </div>
-          <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">Bienvenue sur Planoka !</h2>
-          <p className="mt-2 text-[var(--color-text-secondary)]">
-            Personnalisez votre expérience pour découvrir les meilleurs plans près de chez vous.
-          </p>
-        </div>
-      </div>
     </div>
   );
 }
