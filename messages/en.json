@@ -10,6 +10,35 @@
     "signOut": "Sign out",
     "signUp": "Sign up"
   },
+  "favorites": {
+    "title": "My Favorites",
+    "subtitle": "Find all the deals you've saved",
+    "count": "{count} saved plan(s)",
+    "empty": "No favorites yet",
+    "emptyDesc": "Explore plans and save the ones you like. They'll appear here!",
+    "emptyAction": "Explore plans",
+    "removed": "Removed from favorites",
+    "removedDesc": "This plan has been removed from your favorites",
+    "undo": "Undo",
+    "sort": {
+      "recent": "Most recent",
+      "oldest": "Oldest",
+      "alpha": "A → Z",
+      "alphaDesc": "Z → A",
+      "boosted": "Most boosted"
+    },
+    "filter": {
+      "all": "All categories",
+      "label": "Filter by category"
+    },
+    "search": "Search in your favorites...",
+    "grid": "Grid",
+    "list": "List",
+    "clearAll": "Remove all",
+    "clearAllConfirm": "Remove all favorites?",
+    "clearAllDesc": "This action is irreversible. All plans will be removed from your favorites.",
+    "shareAll": "Share my collection"
+  },
   "feed": {
     "title": "The best plans near you",
     "subtitle": "Discover good deals shared by the Cameroonian community",

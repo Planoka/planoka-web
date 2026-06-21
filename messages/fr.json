@@ -10,6 +10,35 @@
     "signOut": "Se déconnecter",
     "signUp": "S'inscrire"
   },
+  "favorites": {
+    "title": "Mes Favoris",
+    "subtitle": "Retrouvez tous les bons plans que vous avez sauvegardés",
+    "count": "{count} plan(s) sauvegardé(s)",
+    "empty": "Aucun favori pour le moment",
+    "emptyDesc": "Explorez les plans et sauvegardez ceux qui vous plaisent. Ils apparaîtront ici !",
+    "emptyAction": "Explorer les plans",
+    "removed": "Retiré des favoris",
+    "removedDesc": "Ce plan a été retiré de vos favoris",
+    "undo": "Annuler",
+    "sort": {
+      "recent": "Les plus récents",
+      "oldest": "Les plus anciens",
+      "alpha": "A → Z",
+      "alphaDesc": "Z → A",
+      "boosted": "Les plus boostés"
+    },
+    "filter": {
+      "all": "Toutes les catégories",
+      "label": "Filtrer par catégorie"
+    },
+    "search": "Rechercher dans vos favoris...",
+    "grid": "Grille",
+    "list": "Liste",
+    "clearAll": "Tout retirer",
+    "clearAllConfirm": "Retirer tous les favoris ?",
+    "clearAllDesc": "Cette action est irréversible. Tous les plans seront retirés de vos favoris.",
+    "shareAll": "Partager ma collection"
+  },
   "feed": {
     "title": "Les meilleurs plans près de chez vous",
     "subtitle": "Découvrez les bons plans partagés par la communauté camerounaise",
