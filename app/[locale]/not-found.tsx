@@ -11,9 +11,7 @@ export default function NotFound() {
       <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-[var(--color-primary-light)]">
         <span className="text-4xl font-bold text-[var(--color-primary)]">404</span>
       </div>
-      <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
-        Page introuvable
-      </h1>
+      <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Page introuvable</h1>
       <p className="mt-2 max-w-sm text-[var(--color-text-secondary)]">
         La page que vous cherchez n&apos;existe pas ou a été déplacée.
       </p>

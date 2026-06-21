@@ -41,7 +41,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-[var(--color-bg-page)] text-[var(--color-text-primary)]">
+      <body className="flex min-h-full flex-col bg-[var(--color-bg-page)] text-[var(--color-text-primary)]">
         <ClerkProvider
           dynamic
           appearance={{ theme: shadcn }}
