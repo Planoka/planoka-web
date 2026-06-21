@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { plansApi } from "@/lib/api";
-import { getPlansWithDetails, getPlansByCategory } from "@/lib/mock-data";
+import { getPlansWithDetails} from "@/lib/mock-data";
 import type { Plan } from "@/types";
 
 // Toggle this to switch between Mock and API mode
@@ -60,7 +60,11 @@ export function useBoostPlan() {
         return data;
       }
     },
-    onSuccess: (_, id) => {
+    /**
+     * @deprecated 
+     * TODO: Rendre la fonction plus générique
+     */
+    onSuccess: () => {
       // Invalidate both lists and specific plan to refresh boost count
       queryClient.invalidateQueries({ queryKey: ["plans"] });
     },

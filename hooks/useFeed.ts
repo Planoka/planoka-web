@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { feedApi } from "@/lib/api";
-import { getFeaturedPlans } from "@/lib/mock-data";
 import type { Plan } from "@/types";
 
 // Toggle this to switch between Mock and API mode
