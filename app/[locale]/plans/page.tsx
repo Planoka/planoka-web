@@ -73,7 +73,7 @@ export default function PlansPage() {
             className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
+              <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-10">
                 <span className="relative inline-block">
                   <svg
                     width="219"
@@ -81,7 +81,7 @@ export default function PlansPage() {
                     viewBox="0 0 219 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="text-[var(--color-primary)] absolute inset-x-0 inset-y-5 -bottom-1 w-full"
+                    className="text-[var(--color-primary)] absolute inset-x-0 inset-y-10 -bottom-1 w-full"
                   >
                     <path
                       d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
