@@ -51,9 +51,7 @@ export default async function RootLayout({
               <QueryProvider>
                 <LenisProvider>
                   <AuthSync />
-                  <LayoutShell locale={locale}>
-                    {children}
-                  </LayoutShell>
+                  <LayoutShell locale={locale}>{children}</LayoutShell>
                 </LenisProvider>
               </QueryProvider>
             </NextIntlClientProvider>

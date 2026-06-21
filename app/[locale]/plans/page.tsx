@@ -73,7 +73,7 @@ export default function PlansPage() {
             className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
           >
             <div>
-              <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-10">
+              <h1 className="mb-10 text-3xl font-bold text-[var(--color-text-primary)]">
                 <span className="relative inline-block">
                   <svg
                     width="219"
@@ -81,7 +81,7 @@ export default function PlansPage() {
                     viewBox="0 0 219 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="text-[var(--color-primary)] absolute inset-x-0 inset-y-10 -bottom-1 w-full"
+                    className="absolute inset-x-0 inset-y-10 -bottom-1 w-full text-[var(--color-primary)]"
                   >
                     <path
                       d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
@@ -99,7 +99,7 @@ export default function PlansPage() {
 
             {/* Search & Sort */}
             <div className="flex w-full items-center gap-2 sm:w-auto">
-              <div className="flex flex-1 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2.5 focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)] transition-all sm:w-64">
+              <div className="flex flex-1 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2.5 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)] sm:w-64">
                 <Search className="h-4 w-4 text-[var(--color-text-tertiary)]" />
                 <input
                   type="text"
@@ -112,9 +112,12 @@ export default function PlansPage() {
                   className="w-full bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 />
               </div>
-              <div className="flex rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] overflow-hidden">
+              <div className="flex overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]">
                 <button
-                  onClick={() => { setSortBy("recent"); setCurrentPage(1); }}
+                  onClick={() => {
+                    setSortBy("recent");
+                    setCurrentPage(1);
+                  }}
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-all",
                     sortBy === "recent"
@@ -126,7 +129,10 @@ export default function PlansPage() {
                   <span className="hidden sm:inline">Récents</span>
                 </button>
                 <button
-                  onClick={() => { setSortBy("popular"); setCurrentPage(1); }}
+                  onClick={() => {
+                    setSortBy("popular");
+                    setCurrentPage(1);
+                  }}
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-all",
                     sortBy === "popular"
@@ -144,14 +150,21 @@ export default function PlansPage() {
 
         {/* Categories */}
         <div className="mb-8 overflow-hidden">
-          <CategoryPills selected={selectedCategory} onSelect={(cat) => { setSelectedCategory(cat); setCurrentPage(1); }} />
+          <CategoryPills
+            selected={selectedCategory}
+            onSelect={(cat) => {
+              setSelectedCategory(cat);
+              setCurrentPage(1);
+            }}
+          />
         </div>
 
         {/* Results count */}
         <div className="mb-4 flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
           <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-            {filteredAndSortedPlans.length} plan{filteredAndSortedPlans.length !== 1 ? "s" : ""} disponible{filteredAndSortedPlans.length !== 1 ? "s" : ""}
+            {filteredAndSortedPlans.length} plan{filteredAndSortedPlans.length !== 1 ? "s" : ""}{" "}
+            disponible{filteredAndSortedPlans.length !== 1 ? "s" : ""}
           </p>
         </div>
 
@@ -159,7 +172,10 @@ export default function PlansPage() {
         {isLoading ? (
           <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
             {Array.from({ length: FEED_PAGE_SIZE }).map((_, i) => (
-              <div key={i} className="mb-4 h-[300px] w-full animate-pulse rounded-2xl bg-[var(--color-border)]" />
+              <div
+                key={i}
+                className="mb-4 h-[300px] w-full animate-pulse rounded-2xl bg-[var(--color-border)]"
+              />
             ))}
           </div>
         ) : paginatedPlans.length > 0 ? (
@@ -180,7 +196,10 @@ export default function PlansPage() {
             {searchQuery && (
               <Button
                 variant="link"
-                onClick={() => { setSearchQuery(""); setCurrentPage(1); }}
+                onClick={() => {
+                  setSearchQuery("");
+                  setCurrentPage(1);
+                }}
                 className="mt-2 text-[var(--color-primary)]"
               >
                 Effacer la recherche
@@ -228,8 +247,8 @@ export default function PlansPage() {
                     className={cn(
                       "flex h-9 w-9 items-center justify-center rounded-xl text-sm font-medium transition-all",
                       currentPage === item
-                        ? "bg-[var(--color-primary)] text-white shadow-md shadow-[var(--color-primary)]/20"
-                        : "bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30"
+                        ? "bg-[var(--color-primary)] text-white shadow-[var(--color-primary)]/20 shadow-md"
+                        : "border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/30"
                     )}
                   >
                     {item}

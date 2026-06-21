@@ -100,7 +100,7 @@ export default function HomePage() {
               >
                 {isSignedIn ? (
                   <>
-                    Les meilleurs plans 
+                    Les meilleurs plans
                     <br />
                     <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
                   </>
@@ -256,15 +256,16 @@ export default function HomePage() {
       )}
 
       {/* ═══ FEATURES SECTION ═══ */}
-      <section id="features" className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16">
+      <section
+        id="features"
+        className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
               {lt("whyPlanoka")}
             </h2>
-            <p className="mt-3 text-[var(--color-text-secondary)]">
-              {lt("whyPlanokaDesc")}
-            </p>
+            <p className="mt-3 text-[var(--color-text-secondary)]">{lt("whyPlanokaDesc")}</p>
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -362,9 +363,7 @@ export default function HomePage() {
                 </span>
                 {lt("downloadTitleEnd")}
               </h2>
-              <p className="mt-7 text-[var(--color-text-secondary)]">
-                {lt("downloadDesc")}
-              </p>
+              <p className="mt-7 text-[var(--color-text-secondary)]">{lt("downloadDesc")}</p>
               <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href="https://apps.apple.com"

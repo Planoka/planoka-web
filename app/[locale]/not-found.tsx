@@ -12,12 +12,12 @@ export default function NotFound() {
       {/* Decorative blobs */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
+        <div className="absolute -right-40 -bottom-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
       </div>
 
       {/* 404 Number */}
       <div className="relative">
-        <h1 className="text-[120px] font-black leading-none text-[var(--color-primary)]/10 sm:text-[180px]">
+        <h1 className="text-[120px] leading-none font-black text-[var(--color-primary)]/10 sm:text-[180px]">
           404
         </h1>
         <div className="absolute inset-0 flex items-center justify-center">
@@ -26,14 +26,14 @@ export default function NotFound() {
             alt={t("imageAlt")}
             width={200}
             height={200}
-            className="h-32 w-32 sm:h-48 sm:w-48 object-contain drop-shadow-xl"
+            className="h-32 w-32 object-contain drop-shadow-xl sm:h-48 sm:w-48"
             priority
           />
         </div>
       </div>
 
       {/* Text */}
-      <div className="mt-4 z-10">
+      <div className="z-10 mt-4">
         <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
           {t("title")}
         </h2>
@@ -45,7 +45,7 @@ export default function NotFound() {
       {/* Action buttons */}
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <Link href={`/${locale}`}>
-          <button className="flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[var(--color-primary)]/25 transition-all hover:brightness-90 active:scale-95">
+          <button className="flex items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-8 py-3.5 text-sm font-semibold text-white shadow-[var(--color-primary)]/25 shadow-lg transition-all hover:brightness-90 active:scale-95">
             <Home className="h-4 w-4" />
             {t("backHome")}
           </button>

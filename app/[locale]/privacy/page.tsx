@@ -22,9 +22,7 @@ export default async function PrivacyPage() {
         </div>
       </div>
 
-      <p className="mb-8 leading-relaxed text-[var(--color-text-secondary)]">
-        {t("intro")}
-      </p>
+      <p className="mb-8 leading-relaxed text-[var(--color-text-secondary)]">{t("intro")}</p>
 
       <div className="space-y-8">
         {sections.map((section) => (

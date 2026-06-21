@@ -4,7 +4,15 @@ import { FileText } from "lucide-react";
 export default async function TermsPage() {
   const t = await getTranslations("legal.terms");
 
-  const sections = ["acceptance", "account", "content", "conduct", "liability", "modifications", "contact"] as const;
+  const sections = [
+    "acceptance",
+    "account",
+    "content",
+    "conduct",
+    "liability",
+    "modifications",
+    "contact",
+  ] as const;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
@@ -22,9 +30,7 @@ export default async function TermsPage() {
         </div>
       </div>
 
-      <p className="mb-8 leading-relaxed text-[var(--color-text-secondary)]">
-        {t("intro")}
-      </p>
+      <p className="mb-8 leading-relaxed text-[var(--color-text-secondary)]">{t("intro")}</p>
 
       <div className="space-y-8">
         {sections.map((section) => (

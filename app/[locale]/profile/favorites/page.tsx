@@ -55,9 +55,13 @@ function sortPlans(plans: Plan[], sort: SortKey): Plan[] {
   const sorted = [...plans];
   switch (sort) {
     case "recent":
-      return sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      return sorted.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
     case "oldest":
-      return sorted.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+      return sorted.sort(
+        (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
     case "alpha":
       return sorted.sort((a, b) => a.titre.localeCompare(b.titre, "fr"));
     case "alphaDesc":
@@ -95,7 +99,7 @@ export default function FavoritesPage() {
         (p) =>
           p.titre.toLowerCase().includes(q) ||
           p.description.toLowerCase().includes(q) ||
-          p.ville.toLowerCase().includes(q),
+          p.ville.toLowerCase().includes(q)
       );
     }
 
@@ -152,9 +156,7 @@ export default function FavoritesPage() {
                 <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
                   {t("title")}
                 </h1>
-                <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
-                  {t("subtitle")}
-                </p>
+                <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">{t("subtitle")}</p>
               </div>
               <div className="sm:ml-auto">
                 <Badge variant="secondary" className="rounded-full px-3 py-1 text-sm">
@@ -178,17 +180,17 @@ export default function FavoritesPage() {
           <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
             {/* Search */}
             <div className="relative mb-3">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={t("search")}
-                className="h-10 rounded-xl border-[var(--color-border)] bg-[var(--color-bg-surface)] pl-10 pr-10 text-sm"
+                className="h-10 rounded-xl border-[var(--color-border)] bg-[var(--color-bg-surface)] pr-10 pl-10 text-sm"
               />
               {search && (
                 <button
                   onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -196,14 +198,14 @@ export default function FavoritesPage() {
             </div>
 
             {/* Category pills */}
-            <div className="mb-3 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <div className="mb-3 flex scrollbar-none gap-2 overflow-x-auto pb-1">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={cn(
                   "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                   !selectedCategory
                     ? "bg-[var(--color-primary)] text-white shadow-sm"
-                    : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-primary-light)] hover:text-[var(--color-primary)]",
+                    : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-primary-light)] hover:text-[var(--color-primary)]"
                 )}
               >
                 {t("filter.all")}
@@ -211,12 +213,18 @@ export default function FavoritesPage() {
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.slug}
-                  onClick={() => setSelectedCategory(selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}` ? null : `cat-${CATEGORIES.indexOf(cat) + 1}`)}
+                  onClick={() =>
+                    setSelectedCategory(
+                      selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
+                        ? null
+                        : `cat-${CATEGORIES.indexOf(cat) + 1}`
+                    )
+                  }
                   className={cn(
                     "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                     selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
                       ? "text-white shadow-sm"
-                      : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]",
+                      : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                   )}
                   style={
                     selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
@@ -224,7 +232,17 @@ export default function FavoritesPage() {
                       : undefined
                   }
                 >
-                  {tCat(cat.slug as "restauration" | "loisirs" | "sorties" | "shopping" | "services" | "sante" | "education" | "sport")}
+                  {tCat(
+                    cat.slug as
+                      | "restauration"
+                      | "loisirs"
+                      | "sorties"
+                      | "shopping"
+                      | "services"
+                      | "sante"
+                      | "education"
+                      | "sport"
+                  )}
                 </button>
               ))}
             </div>
@@ -236,7 +254,7 @@ export default function FavoritesPage() {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value as SortKey)}
-                  className="rounded-lg border-0 bg-transparent text-xs font-medium text-[var(--color-text-secondary)] outline-none cursor-pointer"
+                  className="cursor-pointer rounded-lg border-0 bg-transparent text-xs font-medium text-[var(--color-text-secondary)] outline-none"
                 >
                   {SORT_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -303,7 +321,7 @@ export default function FavoritesPage() {
                 <motion.div
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary)] shadow-lg"
+                  className="absolute -top-2 -right-2 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary)] shadow-lg"
                 >
                   <Sparkles className="h-5 w-5 text-white" />
                 </motion.div>
@@ -333,9 +351,7 @@ export default function FavoritesPage() {
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-bg-surface)]">
                 <Search className="h-7 w-7 text-[var(--color-text-tertiary)]" />
               </div>
-              <p className="text-sm text-[var(--color-text-tertiary)]">
-                {t("empty")}
-              </p>
+              <p className="text-sm text-[var(--color-text-tertiary)]">{t("empty")}</p>
             </motion.div>
           ) : view === "grid" ? (
             /* ═══ GRID VIEW ═══ */
@@ -390,9 +406,7 @@ export default function FavoritesPage() {
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             className="fixed bottom-24 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-3 shadow-lg md:bottom-8"
           >
-            <p className="text-sm text-[var(--color-text-secondary)]">
-              {t("removed")}
-            </p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{t("removed")}</p>
             <Button
               variant="ghost"
               size="sm"
@@ -448,7 +462,8 @@ function FavoriteGridCard({
   onRemove: (plan: Plan) => void;
   getCategoryName: (cat: string) => string;
 }) {
-  const catColor = CATEGORIES[parseInt(plan.categorie_id.replace("cat-", "")) - 1]?.color ?? "#E8610A";
+  const catColor =
+    CATEGORIES[parseInt(plan.categorie_id.replace("cat-", "")) - 1]?.color ?? "#E8610A";
 
   return (
     <motion.div
@@ -456,7 +471,7 @@ function FavoriteGridCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20, scale: 0.95 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.3) }}
-      className="break-inside-avoid mb-4"
+      className="mb-4 break-inside-avoid"
     >
       <Link
         href={`/${locale}/plans/${plan.id}`}
@@ -481,7 +496,7 @@ function FavoriteGridCard({
 
           {/* Category badge */}
           <span
-            className="absolute left-3 top-3 z-10 rounded-md px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm"
+            className="absolute top-3 left-3 z-10 rounded-md px-2 py-0.5 text-[11px] font-bold tracking-wider text-white uppercase backdrop-blur-sm"
             style={{ backgroundColor: `${catColor}CC` }}
           >
             {getCategoryName(plan.categorie_id)}
@@ -494,15 +509,15 @@ function FavoriteGridCard({
               e.stopPropagation();
               onRemove(plan);
             }}
-            className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[var(--color-danger)] opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100 hover:scale-110 active:scale-90"
+            className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[var(--color-danger)] opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100 hover:scale-110 active:scale-90"
             aria-label="Retirer des favoris"
           >
             <Heart className="h-4 w-4 fill-[var(--color-danger)]" />
           </button>
 
           {/* Bottom info */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 p-3">
-            <h3 className="line-clamp-2 text-base font-bold leading-tight text-white drop-shadow-sm">
+          <div className="absolute right-0 bottom-0 left-0 z-10 p-3">
+            <h3 className="line-clamp-2 text-base leading-tight font-bold text-white drop-shadow-sm">
               {plan.titre}
             </h3>
             <p className="mt-1 flex items-center gap-1 text-[12px] text-white/75">
@@ -521,7 +536,10 @@ function FavoriteGridCard({
             <span>{plan.comments_count} comments</span>
           </div>
           <span className="text-[11px] text-[var(--color-text-tertiary)]">
-            {new Date(plan.created_at).toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US", { day: "numeric", month: "short" })}
+            {new Date(plan.created_at).toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US", {
+              day: "numeric",
+              month: "short",
+            })}
           </span>
         </div>
       </Link>
@@ -543,7 +561,8 @@ function FavoriteListCard({
   onRemove: (plan: Plan) => void;
   getCategoryName: (cat: string) => string;
 }) {
-  const catColor = CATEGORIES[parseInt(plan.categorie_id.replace("cat-", "")) - 1]?.color ?? "#E8610A";
+  const catColor =
+    CATEGORIES[parseInt(plan.categorie_id.replace("cat-", "")) - 1]?.color ?? "#E8610A";
 
   return (
     <motion.div
@@ -577,9 +596,9 @@ function FavoriteListCard({
         <div className="flex flex-1 flex-col justify-between py-0.5">
           <div>
             <div className="flex items-start justify-between gap-2">
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <span
-                  className="mb-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"
+                  className="mb-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase"
                   style={{ backgroundColor: catColor }}
                 >
                   {getCategoryName(plan.categorie_id)}
@@ -591,7 +610,10 @@ function FavoriteListCard({
                   <span>{plan.ville}</span>
                   <span>&bull;</span>
                   <span>
-                    {new Date(plan.created_at).toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US", { day: "numeric", month: "short" })}
+                    {new Date(plan.created_at).toLocaleDateString(
+                      locale === "fr" ? "fr-FR" : "en-US",
+                      { day: "numeric", month: "short" }
+                    )}
                   </span>
                 </p>
               </div>
