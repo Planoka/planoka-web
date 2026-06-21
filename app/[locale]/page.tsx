@@ -39,7 +39,7 @@ export default function HomePage() {
   const lt = useTranslations("landing");
   const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { user, isSignedIn } = useUser();
+  const { isSignedIn } = useUser();
 
   const allPlans = useMemo(() => getPlansWithDetails(), []);
   const featuredPlans = useMemo(() => getFeaturedPlans(), []);
@@ -67,8 +67,6 @@ export default function HomePage() {
     { icon: Star, titleKey: "recommendations.title", descKey: "recommendations.desc" },
     { icon: Globe, titleKey: "local.title", descKey: "local.desc" },
   ];
-
-  const firstName = user?.firstName || "Planoka";
 
   return (
     <div className="min-h-screen">

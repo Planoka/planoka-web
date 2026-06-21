@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, ChevronLeft, ChevronRight, X, Quote, MapPin, BadgeCheck, Pen, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -239,7 +240,7 @@ function ReviewCard({ review, onClick }: { review: Review; onClick: () => void }
 
         <div className="mt-3 flex items-center gap-3">
           <div className="relative h-9 w-9 overflow-hidden rounded-full bg-[var(--color-bg-surface)]">
-            <img src={review.avatar} alt={review.name} className="h-full w-full object-cover" loading="lazy" />
+            <Image src={review.avatar} alt={review.name} width={36} height={36} className="h-full w-full object-cover" loading="lazy" />
             {review.verified && (
               <div className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-primary)]">
                 <BadgeCheck className="h-3 w-3 text-white" />
@@ -279,7 +280,7 @@ function ReviewModal({ review, onClose }: { review: Review; onClose: () => void 
 
         <div className="mb-4 flex items-center gap-4">
           <div className="relative h-14 w-14 overflow-hidden rounded-full bg-[var(--color-bg-surface)]">
-            <img src={review.avatar} alt={review.name} className="h-full w-full object-cover" loading="lazy" />
+            <Image src={review.avatar} alt={review.name} width={56} height={56} className="h-full w-full object-cover" loading="lazy" />
             {review.verified && (
               <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-primary)] ring-2 ring-[var(--color-bg-card)]">
                 <BadgeCheck className="h-3 w-3 text-white" />
