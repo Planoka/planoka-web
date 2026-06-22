@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
@@ -66,7 +66,7 @@ export function AddPlanForm() {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<AddPlanFormData>({
     resolver: zodResolver(addPlanSchema),
@@ -83,10 +83,10 @@ export function AddPlanForm() {
     },
   });
 
-  const watchedTitre = watch("titre");
-  const watchedDescription = watch("description");
-  const watchedCategory = watch("categorie_id");
-  const watchedVille = watch("ville");
+  const watchedTitre = useWatch({ control, name: "titre" });
+  const watchedDescription = useWatch({ control, name: "description" });
+  const watchedCategory = useWatch({ control, name: "categorie_id" });
+  const watchedVille = useWatch({ control, name: "ville" });
 
   /* ─── Media State ─── */
   const [media, setMedia] = useState<MediaPreview | null>(null);
