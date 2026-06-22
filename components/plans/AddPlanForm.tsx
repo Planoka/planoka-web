@@ -16,6 +16,14 @@ import {
   ChevronDown,
   Check,
   AlertCircle,
+  UtensilsCrossed,
+  Gamepad2,
+  Music,
+  ShoppingBag,
+  Briefcase,
+  Heart,
+  BookOpen,
+  Dumbbell,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -44,15 +52,15 @@ type MediaPreview = {
 const USE_MOCK = true;
 
 /* ─── Category Config ─── */
-const CATEGORY_META: Record<string, { color: string; icon: string; slug: string }> = {
-  "cat-1": { color: "#E8610A", icon: "🍽", slug: "restauration" },
-  "cat-2": { color: "#7C3AED", icon: "🎮", slug: "loisirs" },
-  "cat-3": { color: "#059669", icon: "🎵", slug: "sorties" },
-  "cat-4": { color: "#DC2626", icon: "🛍", slug: "shopping" },
-  "cat-5": { color: "#2563EB", icon: "💼", slug: "services" },
-  "cat-6": { color: "#DB2777", icon: "❤️", slug: "sante" },
-  "cat-7": { color: "#D97706", icon: "📚", slug: "education" },
-  "cat-8": { color: "#0891B2", icon: "🏋️", slug: "sport" },
+const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; slug: string }> = {
+  "cat-1": { color: "#E8610A", icon: UtensilsCrossed, slug: "restauration" },
+  "cat-2": { color: "#7C3AED", icon: Gamepad2, slug: "loisirs" },
+  "cat-3": { color: "#059669", icon: Music, slug: "sorties" },
+  "cat-4": { color: "#DC2626", icon: ShoppingBag, slug: "shopping" },
+  "cat-5": { color: "#2563EB", icon: Briefcase, slug: "services" },
+  "cat-6": { color: "#DB2777", icon: Heart, slug: "sante" },
+  "cat-7": { color: "#D97706", icon: BookOpen, slug: "education" },
+  "cat-8": { color: "#0891B2", icon: Dumbbell, slug: "sport" },
 };
 
 export function AddPlanForm() {
@@ -124,7 +132,7 @@ export function AddPlanForm() {
 
   /* ─── Filtered cities ─── */
   const filteredCities = VALID_CAMEROON_CITIES_LIST.filter((c) =>
-    c.toLowerCase().includes(citySearch.toLowerCase()),
+    c.toLowerCase().includes(citySearch.toLowerCase())
   );
 
   /* ─── Handle Media Upload ─── */
@@ -151,7 +159,7 @@ export function AddPlanForm() {
       setValue(type === "image" ? "image_file" : "video_file", file);
       setValue(type === "image" ? "video_file" : "image_file", null);
     },
-    [media, setValue],
+    [media, setValue]
   );
 
   /* ─── Remove Media ─── */
@@ -204,7 +212,7 @@ export function AddPlanForm() {
             toast.error("Erreur de localisation");
         }
       },
-      { enableHighAccuracy: true, timeout: 10000 },
+      { enableHighAccuracy: true, timeout: 10000 }
     );
   }, [setValue]);
 
@@ -223,7 +231,7 @@ export function AddPlanForm() {
       setCitySearch(city);
       setCityOpen(false);
     },
-    [setValue],
+    [setValue]
   );
 
   /* ─── Handle Category Select ─── */
@@ -231,7 +239,7 @@ export function AddPlanForm() {
     (catId: string) => {
       setValue("categorie_id", catId);
     },
-    [setValue],
+    [setValue]
   );
 
   /* ─── Submit ─── */
@@ -290,7 +298,7 @@ export function AddPlanForm() {
       "h-12 w-full rounded-xl border bg-[var(--color-bg-surface)] px-4 text-sm text-[var(--color-text-primary)] outline-none transition-all placeholder:text-[var(--color-text-tertiary)]",
       hasError
         ? "border-[var(--color-danger)] ring-2 ring-[var(--color-danger)]/20"
-        : "border-[var(--color-border)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20",
+        : "border-[var(--color-border)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
     );
 
   const labelClass = "mb-2 block text-sm font-semibold text-[var(--color-text-primary)]";
@@ -339,7 +347,7 @@ export function AddPlanForm() {
                       ? "bg-[var(--color-primary)] text-white shadow-sm"
                       : i < step
                         ? "bg-[var(--color-primary)]/20 text-[var(--color-primary)]"
-                        : "bg-[var(--color-bg-surface)] text-[var(--color-text-tertiary)]",
+                        : "bg-[var(--color-bg-surface)] text-[var(--color-text-tertiary)]"
                   )}
                 >
                   {i < step ? <Check className="h-3.5 w-3.5" /> : i + 1}
@@ -351,7 +359,7 @@ export function AddPlanForm() {
                       ? "text-[var(--color-primary)]"
                       : i < step
                         ? "text-[var(--color-text-secondary)]"
-                        : "text-[var(--color-text-tertiary)]",
+                        : "text-[var(--color-text-tertiary)]"
                   )}
                 >
                   {s.label}
@@ -360,7 +368,7 @@ export function AddPlanForm() {
                   <div
                     className={cn(
                       "ml-2 h-px flex-1",
-                      i < step ? "bg-[var(--color-primary)]/40" : "bg-[var(--color-border)]",
+                      i < step ? "bg-[var(--color-primary)]/40" : "bg-[var(--color-border)]"
                     )}
                   />
                 )}
@@ -395,7 +403,7 @@ export function AddPlanForm() {
                     className={inputClass(!!errors.titre)}
                     maxLength={TITLE_MAX}
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-[var(--color-text-tertiary)]">
+                  <span className="absolute top-1/2 right-3 -translate-y-1/2 text-[11px] text-[var(--color-text-tertiary)]">
                     {watchedTitre.length}/{TITLE_MAX}
                   </span>
                 </div>
@@ -415,7 +423,10 @@ export function AddPlanForm() {
                 <textarea
                   {...register("description")}
                   placeholder={t("descriptionPlaceholder")}
-                  className={cn(inputClass(!!errors.description), "min-h-[140px] resize-y py-3 leading-relaxed")}
+                  className={cn(
+                    inputClass(!!errors.description),
+                    "min-h-[140px] resize-y py-3 leading-relaxed"
+                  )}
                   maxLength={DESCRIPTION_MAX}
                 />
                 <div className="mt-1.5 flex items-center justify-between">
@@ -471,19 +482,45 @@ export function AddPlanForm() {
                           "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 text-center transition-all",
                           isActive
                             ? "border-current shadow-sm"
-                            : "border-[var(--color-border)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-bg-surface)]",
+                            : "border-[var(--color-border)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-bg-surface)]"
                         )}
                         style={{
                           borderColor: isActive ? meta.color : undefined,
                           backgroundColor: isActive ? `${meta.color}10` : undefined,
                         }}
                       >
-                        <span className="text-2xl">{meta.icon}</span>
+                        {(() => {
+                          const Icon = meta.icon;
+                          return (
+                            <div
+                              className={cn(
+                                "mb-1 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300",
+                                isActive ? "scale-110 shadow-sm" : ""
+                              )}
+                              style={{
+                                backgroundColor: isActive ? meta.color : `${meta.color}15`,
+                                color: isActive ? "white" : meta.color,
+                              }}
+                            >
+                              <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                            </div>
+                          );
+                        })()}
                         <span
-                          className="text-xs font-semibold leading-tight"
+                          className="text-xs leading-tight font-semibold"
                           style={{ color: isActive ? meta.color : undefined }}
                         >
-                          {tCat(meta.slug as "restauration" | "loisirs" | "sorties" | "shopping" | "services" | "sante" | "education" | "sport")}
+                          {tCat(
+                            meta.slug as
+                              | "restauration"
+                              | "loisirs"
+                              | "sorties"
+                              | "shopping"
+                              | "services"
+                              | "sante"
+                              | "education"
+                              | "sport"
+                          )}
                         </span>
                       </button>
                     );
@@ -506,7 +543,7 @@ export function AddPlanForm() {
                   <div
                     className={cn(
                       inputClass(!!errors.ville),
-                      "flex cursor-pointer items-center justify-between",
+                      "flex cursor-pointer items-center justify-between"
                     )}
                     onClick={() => setCityOpen(!cityOpen)}
                   >
@@ -516,7 +553,7 @@ export function AddPlanForm() {
                     <ChevronDown
                       className={cn(
                         "h-4 w-4 text-[var(--color-text-tertiary)] transition-transform",
-                        cityOpen && "rotate-180",
+                        cityOpen && "rotate-180"
                       )}
                     />
                   </div>
@@ -528,7 +565,7 @@ export function AddPlanForm() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -8, scale: 0.98 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 right-0 z-50 mt-1 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-lg"
+                        className="absolute top-full right-0 left-0 z-50 mt-1 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-lg"
                       >
                         <div className="p-2">
                           <input
@@ -550,8 +587,8 @@ export function AddPlanForm() {
                               className={cn(
                                 "flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--color-primary-light)]",
                                 watchedVille === city
-                                  ? "text-[var(--color-primary)] font-medium"
-                                  : "text-[var(--color-text-secondary)]",
+                                  ? "font-medium text-[var(--color-primary)]"
+                                  : "text-[var(--color-text-secondary)]"
                               )}
                             >
                               <MapPin className="h-3.5 w-3.5 shrink-0" />
@@ -600,11 +637,7 @@ export function AddPlanForm() {
                 {media && mediaType === "image" ? (
                   <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={media.url}
-                      alt="Aperçu"
-                      className="h-64 w-full object-cover"
-                    />
+                    <img src={media.url} alt="Aperçu" className="h-64 w-full object-cover" />
                     <button
                       type="button"
                       onClick={removeMedia}
@@ -645,11 +678,7 @@ export function AddPlanForm() {
 
                 {media && mediaType === "video" ? (
                   <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)]">
-                    <video
-                      src={media.url}
-                      controls
-                      className="h-64 w-full object-cover"
-                    />
+                    <video src={media.url} controls className="h-64 w-full object-cover" />
                     <button
                       type="button"
                       onClick={removeMedia}
@@ -712,7 +741,7 @@ export function AddPlanForm() {
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-success)]/10">
                         <MapPin className="h-5 w-5 text-[var(--color-success)]" />
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium text-[var(--color-text-primary)]">
                           Position capturée
                         </p>
@@ -743,7 +772,7 @@ export function AddPlanForm() {
                       "flex w-full flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-bg-surface)] py-10 transition-all",
                       locationLoading
                         ? "opacity-60"
-                        : "hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-light)]/50",
+                        : "hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-light)]/50"
                     )}
                   >
                     {locationLoading ? (
