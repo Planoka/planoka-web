@@ -63,8 +63,55 @@
     "status": {
       "pending": "En attente",
       "active": "Actif",
-      "rejected": "Rejeté",
-      "archived": "Archivé"
+      "rejected": "Rejeté"
+    },
+    "detail": {
+      "postedBy": "Posté par",
+      "verified": "Certifié",
+      "follow": "Suivre",
+      "following": "Abonné",
+      "description": "À propos",
+      "location": "Localisation",
+      "getDirections": "Itinéraire",
+      "copyAddress": "Copier l'adresse",
+      "addressCopied": "Adresse copiée !",
+      "writeComment": "Ajouter un commentaire...",
+      "reply": "Répondre",
+      "viewReplies": "Voir {count} réponse(s)",
+      "hideReplies": "Masquer les réponses",
+      "beFirst": "Soyez le premier à commenter !",
+      "beFirstDesc": "Partagez votre avis sur ce bon plan",
+      "sharePlan": "Partager ce plan",
+      "copyLink": "Copier le lien",
+      "linkCopied": "Lien copié !",
+      "cancel": "Annuler",
+      "replyAdded": "Réponse ajoutée !",
+      "commentAdded": "Commentaire publié !",
+      "boostedToast": "Plan boosté ! 🚀",
+      "removedFav": "Retiré des favoris",
+      "addedFav": "Ajouté aux favoris ❤️",
+      "notFound": "Plan introuvable",
+      "notFoundDesc": "Ce bon plan n'existe pas ou a été supprimé.",
+      "backToPlans": "Retour aux plans",
+      "creator": "Créateur du plan",
+      "unfollowed": "Abonnement annulé",
+      "followed": "Vous suivez cet utilisateur !",
+      "featured": "Plan en vedette",
+      "featuredDesc": "Ce bon plan a été mis en avant par l'équipe Planoka",
+      "comments": "Commentaires",
+      "showLess": "Voir moins",
+      "showAll": "Voir tous les commentaires ({count})",
+      "sharedOn": "Partagé sur",
+      "platformDesc": "Plateforme des bons plans au Cameroun",
+      "save": "Sauvegarder",
+      "time": {
+        "justNow": "À l'instant",
+        "min": "min",
+        "h": "h",
+        "d": "j",
+        "w": "sem",
+        "mo": "mois"
+      }
     }
   },
   "form": {
@@ -209,6 +256,74 @@
     "language": "Changer la langue",
     "search": "Rechercher",
     "searchPlaceholder": "Rechercher un bon plan, une ville..."
+  },
+  "profile": {
+    "page": {
+      "editProfile": "Modifier le profil",
+      "shareProfile": "Partager le profil",
+      "shareTitle": "Découvrez le profil de {name} sur Planoka",
+      "tabs": {
+        "posts": "Posts",
+        "liked": "Aimés",
+        "saved": "Sauvegardés"
+      },
+      "empty": {
+        "posts": "Aucun plan publié",
+        "postsDesc": "Publiez votre premier bon plan pour le voir apparaître ici.",
+        "liked": "Aucun plan aimé",
+        "likedDesc": "Les plans que vous boostez apparaîtront ici.",
+        "saved": "Aucun plan sauvegardé",
+        "savedDesc": "Sauvegardez des plans pour les retrouver ici."
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Gérez vos préférences et votre compte",
+      "sections": {
+        "account": "Compte",
+        "preferences": "Préférences",
+        "support": "Support & Légal"
+      },
+      "items": {
+        "editProfile": "Modifier le profil",
+        "security": "Sécurité et mot de passe",
+        "pushNotifications": "Notifications Push",
+        "language": "Langue",
+        "darkMode": "Mode Sombre",
+        "help": "Centre d'aide et FAQ",
+        "contact": "Nous contacter",
+        "privacy": "Politique de confidentialité"
+      },
+      "signOut": "Déconnexion",
+      "signOutSuccess": "Déconnexion réussie",
+      "signOutError": "Erreur lors de la déconnexion",
+      "soon": "Bientôt disponible",
+      "build": "Build"
+    },
+    "edit": {
+      "title": "Modifier le profil",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "success": "Profil mis à jour !",
+      "changePhoto": "Modifier la photo de profil",
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Votre nom complet",
+      "username": "Nom d'utilisateur",
+      "usernamePlaceholder": "nom_utilisateur",
+      "bio": "Biographie",
+      "bioPlaceholder": "Décrivez-vous en quelques mots..."
+    },
+    "security": {
+      "title": "Sécurité & Mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "errorMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+      "errorMismatch": "Les mots de passe ne correspondent pas",
+      "updateBtn": "Mettre à jour le mot de passe",
+      "updating": "Mise à jour...",
+      "success": "Mot de passe mis à jour !"
+    }
   },
   "theme": {
     "light": "Clair",

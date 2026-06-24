@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useClerk } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 import { motion } from "motion/react";
@@ -115,6 +115,7 @@ function SectionHeader({ title }: { title: string }) {
 ═══════════════════════════════════════ */
 export default function SettingsPage() {
   const locale = useLocale();
+  const t = useTranslations("profile.settings");
   const router = useRouter();
   const { signOut } = useClerk();
   const { theme, setTheme } = useTheme();
@@ -125,10 +126,10 @@ export default function SettingsPage() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      toast.success("Déconnexion réussie");
+      toast.success(t("signOutSuccess"));
       router.push(`/${locale}`);
     } catch {
-      toast.error("Erreur lors de la déconnexion");
+      toast.error(t("signOutError"));
     }
   };
 
@@ -159,10 +160,10 @@ export default function SettingsPage() {
         className="mx-auto max-w-2xl px-5 pt-6"
       >
         <h1 className="text-[28px] font-bold tracking-tight text-[var(--color-text-primary)]">
-          Paramètres
+          {t("title")}
         </h1>
         <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
-          Gérez vos préférences et votre compte
+          {t("subtitle")}
         </p>
       </motion.div>
 
@@ -174,23 +175,23 @@ export default function SettingsPage() {
         className="mx-auto max-w-2xl"
       >
         {/* ── COMPTE ── */}
-        <SectionHeader title="Compte" />
+        <SectionHeader title={t("sections.account")} />
         <div className="mx-4 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]">
           <SettingsRow
             icon={UserRoundPen}
-            label="Modifier le profil"
+            label={t("items.editProfile")}
             href={`/${locale}/profile/edit`}
           />
           <div className="mx-5 h-px bg-[var(--color-border)]" />
           <SettingsRow
             icon={ShieldCheck}
-            label="Sécurité et mot de passe"
+            label={t("items.security")}
             href={`/${locale}/profile/security`}
           />
           <div className="mx-5 h-px bg-[var(--color-border)]" />
           <SettingsRow
             icon={Bell}
-            label="Notifications Push"
+            label={t("items.pushNotifications")}
             trailing={
               <Toggle checked={pushEnabled} onChange={setPushEnabled} />
             }
@@ -198,11 +199,11 @@ export default function SettingsPage() {
         </div>
 
         {/* ── PRÉFÉRENCES ── */}
-        <SectionHeader title="Préférences" />
+        <SectionHeader title={t("sections.preferences")} />
         <div className="mx-4 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]">
           <SettingsRow
             icon={Globe}
-            label="Langue"
+            label={t("items.language")}
             href={`/${locale === "fr" ? "en" : "fr"}/profile/settings`}
             trailing={
               <span className="mr-1 text-sm text-[var(--color-text-tertiary)]">
@@ -213,7 +214,7 @@ export default function SettingsPage() {
           <div className="mx-5 h-px bg-[var(--color-border)]" />
           <SettingsRow
             icon={Moon}
-            label="Mode Sombre"
+            label={t("items.darkMode")}
             trailing={
               <Toggle checked={isDark} onChange={handleDarkToggle} />
             }
@@ -221,23 +222,23 @@ export default function SettingsPage() {
         </div>
 
         {/* ── SUPPORT & LÉGAL ── */}
-        <SectionHeader title="Support & Légal" />
+        <SectionHeader title={t("sections.support")} />
         <div className="mx-4 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]">
           <SettingsRow
             icon={HelpCircle}
-            label="Centre d'aide et FAQ"
-            onClick={() => toast.info("FAQ bientôt disponible")}
+            label={t("items.help")}
+            onClick={() => toast.info(t("soon"))}
           />
           <div className="mx-5 h-px bg-[var(--color-border)]" />
           <SettingsRow
             icon={MessageSquareText}
-            label="Nous contacter"
-            onClick={() => toast.info("Contact bientôt disponible")}
+            label={t("items.contact")}
+            onClick={() => toast.info(t("soon"))}
           />
           <div className="mx-5 h-px bg-[var(--color-border)]" />
           <SettingsRow
             icon={FileText}
-            label="Politique de confidentialité"
+            label={t("items.privacy")}
             href={`/${locale}/privacy`}
           />
         </div>
@@ -249,13 +250,13 @@ export default function SettingsPage() {
             className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-4 text-[15px] font-bold text-[var(--color-danger)] transition-all hover:bg-red-100 active:scale-[0.98]"
           >
             <LogOut className="h-5 w-5" />
-            Déconnexion
+            {t("signOut")}
           </button>
         </div>
 
         {/* ── App version ── */}
         <p className="mt-4 mb-8 text-center text-xs text-[var(--color-text-tertiary)]">
-          Planoka v1.0.0 (Build 42)
+          Planoka v1.0.0 ({t("build")} 42)
         </p>
       </motion.div>
     </div>

@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useUser } from "@clerk/nextjs";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -172,20 +172,16 @@ function ProfilePlanCard({
   );
 }
 
-/* ─── Tabs ─── */
-const TABS = [
-  { key: "posts", label: "Posts" },
-  { key: "liked", label: "Liked" },
-  { key: "saved", label: "Saved" },
-] as const;
+const TABS = ["posts", "liked", "saved"] as const;
 
-type TabKey = (typeof TABS)[number]["key"];
+type TabKey = (typeof TABS)[number];
 
 /* ═══════════════════════════════════════
    MAIN PROFILE PAGE
 ═══════════════════════════════════════ */
 export default function ProfilePage() {
   const locale = useLocale();
+  const t = useTranslations("profile.page");
   const { user, isLoaded } = useUser();
   const favorites = useStore((s) => s.favorites);
   const [activeTab, setActiveTab] = useState<TabKey>("posts");
@@ -299,20 +295,20 @@ export default function ProfilePage() {
             href={`/${locale}/profile/edit`}
             className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-md shadow-[var(--color-primary)]/25 transition-all hover:bg-[var(--color-primary-hover)] active:scale-[0.97]"
           >
-            Modifier le profil
+            {t("editProfile")}
           </Link>
           <button
             onClick={() => {
               if (typeof navigator !== "undefined" && navigator.share) {
                 navigator.share({
                   title: profileName,
-                  text: `Découvrez le profil de ${profileName} sur Planoka`,
+                  text: t("shareTitle", { name: profileName }),
                   url: window.location.href,
                 });
               }
             }}
             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] transition-all hover:border-[var(--color-border-strong)] active:scale-95"
-            aria-label="Partager le profil"
+            aria-label={t("shareProfile")}
           >
             <Share2 className="h-5 w-5 text-[var(--color-text-secondary)]" />
           </button>
@@ -324,17 +320,17 @@ export default function ProfilePage() {
         <div className="relative flex border-b border-[var(--color-border)]">
           {TABS.map((tab) => (
             <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              key={tab}
+              onClick={() => setActiveTab(tab)}
               className={cn(
                 "relative flex-1 py-3 text-center text-sm font-semibold transition-colors",
-                activeTab === tab.key
+                activeTab === tab
                   ? "text-[var(--color-primary)]"
                   : "text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
               )}
             >
-              {tab.label}
-              {activeTab === tab.key && (
+              {t(`tabs.${tab}`)}
+              {activeTab === tab && (
                 <motion.div
                   layoutId="profile-tab-indicator"
                   className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-[var(--color-primary)]"
@@ -366,18 +362,10 @@ export default function ProfilePage() {
                   )}
                 </div>
                 <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  {activeTab === "posts"
-                    ? "Aucun plan publié"
-                    : activeTab === "liked"
-                      ? "Aucun plan liké"
-                      : "Aucun plan sauvegardé"}
+                  {t(`empty.${activeTab}`)}
                 </p>
                 <p className="max-w-xs text-xs text-[var(--color-text-tertiary)]">
-                  {activeTab === "posts"
-                    ? "Publiez votre premier bon plan pour le voir apparaître ici."
-                    : activeTab === "liked"
-                      ? "Les plans que vous boostez apparaîtront ici."
-                      : "Sauvegardez des plans pour les retrouver ici."}
+                  {t(`empty.${activeTab}Desc`)}
                 </p>
               </motion.div>
             ) : (

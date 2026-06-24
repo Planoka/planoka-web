@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
@@ -51,6 +52,7 @@ function PasswordField({
 ═══════════════════════════════════════ */
 export default function SecurityPage() {
   const router = useRouter();
+  const t = useTranslations("profile.security");
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -65,14 +67,14 @@ export default function SecurityPage() {
   const handleSubmit = async () => {
     if (!canSubmit) return;
     if (newPassword !== confirmPassword) {
-      toast.error("Les mots de passe ne correspondent pas");
+      toast.error(t("errorMismatch"));
       return;
     }
     setSaving(true);
     // Mock update
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setSaving(false);
-    toast.success("Mot de passe mis à jour !");
+    toast.success(t("success"));
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
@@ -92,7 +94,7 @@ export default function SecurityPage() {
             <ArrowLeft className="h-5 w-5 text-[var(--color-text-primary)]" />
           </button>
           <h2 className="flex-1 text-center text-base font-bold text-[var(--color-text-primary)]">
-            Sécurité &amp; Mot de passe
+            {t("title")}
           </h2>
           <div className="w-9" /> {/* Spacer for centering */}
         </div>
@@ -108,19 +110,19 @@ export default function SecurityPage() {
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-5 py-6">
           <div className="space-y-5">
             <PasswordField
-              label="Mot de passe actuel"
+              label={t("currentPassword")}
               value={currentPassword}
               onChange={setCurrentPassword}
               placeholder="••••••••"
             />
             <PasswordField
-              label="Nouveau mot de passe"
+              label={t("newPassword")}
               value={newPassword}
               onChange={setNewPassword}
               placeholder="••••••••"
             />
             <PasswordField
-              label="Confirmer le mot de passe"
+              label={t("confirmPassword")}
               value={confirmPassword}
               onChange={setConfirmPassword}
               placeholder="••••••••"
@@ -129,13 +131,13 @@ export default function SecurityPage() {
             {/* Validation hints */}
             {newPassword.length > 0 && newPassword.length < 6 && (
               <p className="text-xs text-[var(--color-danger)]">
-                Le mot de passe doit contenir au moins 6 caractères
+                {t("errorMinLength")}
               </p>
             )}
             {confirmPassword.length > 0 &&
               newPassword !== confirmPassword && (
                 <p className="text-xs text-[var(--color-danger)]">
-                  Les mots de passe ne correspondent pas
+                  {t("errorMismatch")}
                 </p>
               )}
           </div>
@@ -149,10 +151,10 @@ export default function SecurityPage() {
             {saving ? (
               <span className="flex items-center justify-center gap-2">
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                Mise à jour...
+                {t("updating")}
               </span>
             ) : (
-              "Mettre à jour le mot de passe"
+              t("updateBtn")
             )}
           </button>
         </div>

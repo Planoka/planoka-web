@@ -63,8 +63,55 @@
     "status": {
       "pending": "Pending",
       "active": "Active",
-      "rejected": "Rejected",
-      "archived": "Archived"
+      "rejected": "Rejected"
+    },
+    "detail": {
+      "postedBy": "Posted by",
+      "verified": "Verified",
+      "follow": "Follow",
+      "following": "Following",
+      "description": "About",
+      "location": "Location",
+      "getDirections": "Get directions",
+      "copyAddress": "Copy address",
+      "addressCopied": "Address copied!",
+      "writeComment": "Add a comment...",
+      "reply": "Reply",
+      "viewReplies": "View {count} reply(ies)",
+      "hideReplies": "Hide replies",
+      "beFirst": "Be the first to comment!",
+      "beFirstDesc": "Share your thoughts on this plan",
+      "sharePlan": "Share this plan",
+      "copyLink": "Copy link",
+      "linkCopied": "Link copied!",
+      "cancel": "Cancel",
+      "replyAdded": "Reply added!",
+      "commentAdded": "Comment published!",
+      "boostedToast": "Plan boosted! 🚀",
+      "removedFav": "Removed from favorites",
+      "addedFav": "Added to favorites ❤️",
+      "notFound": "Plan not found",
+      "notFoundDesc": "This plan doesn't exist or has been deleted.",
+      "backToPlans": "Back to plans",
+      "creator": "Plan creator",
+      "unfollowed": "Unfollowed",
+      "followed": "You are following this user!",
+      "featured": "Featured plan",
+      "featuredDesc": "This plan has been highlighted by the Planoka team",
+      "comments": "Comments",
+      "showLess": "Show less",
+      "showAll": "View all comments ({count})",
+      "sharedOn": "Shared on",
+      "platformDesc": "The platform for great deals in Cameroon",
+      "save": "Save",
+      "time": {
+        "justNow": "Just now",
+        "min": "m",
+        "h": "h",
+        "d": "d",
+        "w": "w",
+        "mo": "mo"
+      }
     }
   },
   "form": {
@@ -208,7 +255,75 @@
     "close": "Close",
     "language": "Change language",
     "search": "Search",
-    "searchPlaceholder": "Search for a plan, city..."
+    "searchPlaceholder": "Search for a plan, a city..."
+  },
+  "profile": {
+    "page": {
+      "editProfile": "Edit profile",
+      "shareProfile": "Share profile",
+      "shareTitle": "Discover {name}'s profile on Planoka",
+      "tabs": {
+        "posts": "Posts",
+        "liked": "Liked",
+        "saved": "Saved"
+      },
+      "empty": {
+        "posts": "No posts yet",
+        "postsDesc": "Publish your first plan to see it appear here.",
+        "liked": "No liked plans",
+        "likedDesc": "The plans you boost will appear here.",
+        "saved": "No saved plans",
+        "savedDesc": "Save plans to find them here."
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage your preferences and account",
+      "sections": {
+        "account": "Account",
+        "preferences": "Preferences",
+        "support": "Support & Legal"
+      },
+      "items": {
+        "editProfile": "Edit profile",
+        "security": "Security and password",
+        "pushNotifications": "Push Notifications",
+        "language": "Language",
+        "darkMode": "Dark Mode",
+        "help": "Help Center & FAQ",
+        "contact": "Contact us",
+        "privacy": "Privacy Policy"
+      },
+      "signOut": "Sign out",
+      "signOutSuccess": "Successfully signed out",
+      "signOutError": "Error signing out",
+      "soon": "Coming soon",
+      "build": "Build"
+    },
+    "edit": {
+      "title": "Edit Profile",
+      "save": "Save",
+      "saving": "Saving...",
+      "success": "Profile updated!",
+      "changePhoto": "Change profile photo",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Your full name",
+      "username": "Username",
+      "usernamePlaceholder": "username",
+      "bio": "Bio",
+      "bioPlaceholder": "Describe yourself in a few words..."
+    },
+    "security": {
+      "title": "Security & Password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "errorMinLength": "Password must be at least 6 characters",
+      "errorMismatch": "Passwords do not match",
+      "updateBtn": "Update password",
+      "updating": "Updating...",
+      "success": "Password updated!"
+    }
   },
   "theme": {
     "light": "Light",

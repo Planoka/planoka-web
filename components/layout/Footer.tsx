@@ -46,7 +46,7 @@ export function Footer() {
   const ft = useTranslations("footer");
 
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)] mt-4">
+    <footer className="hidden md:block border-t border-[var(--color-border)] bg-[var(--color-bg-card)] mt-4">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}

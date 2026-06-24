@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useUser } from "@clerk/nextjs";
 import { motion } from "motion/react";
 import { X, Camera } from "lucide-react";
@@ -13,6 +14,7 @@ import { toast } from "sonner";
 ═══════════════════════════════════════ */
 export default function EditProfilePage() {
   const router = useRouter();
+  const t = useTranslations("profile.edit");
   const { user, isLoaded } = useUser();
 
   const [avatarError, setAvatarError] = useState(false);
@@ -41,7 +43,7 @@ export default function EditProfilePage() {
     // Mock save
     await new Promise((resolve) => setTimeout(resolve, 800));
     setSaving(false);
-    toast.success("Profil mis à jour !");
+    toast.success(t("success"));
     router.back();
   };
 
@@ -66,14 +68,14 @@ export default function EditProfilePage() {
             <X className="h-5 w-5 text-[var(--color-text-primary)]" />
           </button>
           <h2 className="text-base font-bold text-[var(--color-text-primary)]">
-            Modifier le profil
+            {t("title")}
           </h2>
           <button
             onClick={handleSave}
             disabled={saving}
             className="text-sm font-bold text-[var(--color-primary)] transition-opacity disabled:opacity-50"
           >
-            {saving ? "..." : "Enregistrer"}
+            {saving ? t("saving") : t("save")}
           </button>
         </div>
       </div>
@@ -115,7 +117,7 @@ export default function EditProfilePage() {
             </button>
           </div>
           <button className="mt-3 text-sm font-semibold text-[var(--color-primary)]">
-            Modifier la photo de profil
+            {t("changePhoto")}
           </button>
         </div>
 
@@ -124,21 +126,21 @@ export default function EditProfilePage() {
           {/* Full name */}
           <div>
             <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
-              Nom complet
+              {t("fullName")}
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] font-medium text-[var(--color-text-primary)] outline-none transition-all focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 placeholder:text-[var(--color-text-tertiary)]"
-              placeholder="Votre nom complet"
+              placeholder={t("fullNamePlaceholder")}
             />
           </div>
 
           {/* Username */}
           <div>
             <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
-              Nom d&apos;utilisateur
+              {t("username")}
             </label>
             <div className="flex items-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20">
               <span className="mr-1 text-[15px] text-[var(--color-text-tertiary)]">@</span>
@@ -149,7 +151,7 @@ export default function EditProfilePage() {
                   setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))
                 }
                 className="flex-1 bg-transparent text-[15px] font-medium text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
-                placeholder="nom_utilisateur"
+                placeholder={t("usernamePlaceholder")}
               />
             </div>
           </div>
@@ -157,7 +159,7 @@ export default function EditProfilePage() {
           {/* Bio */}
           <div>
             <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
-              Biographie
+              {t("bio")}
             </label>
             <textarea
               value={bio}
@@ -165,7 +167,7 @@ export default function EditProfilePage() {
               rows={4}
               maxLength={160}
               className="w-full resize-none rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] font-medium leading-relaxed text-[var(--color-text-primary)] outline-none transition-all focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 placeholder:text-[var(--color-text-tertiary)]"
-              placeholder="Décrivez-vous en quelques mots..."
+              placeholder={t("bioPlaceholder")}
             />
             <p className="mt-1 text-right text-xs text-[var(--color-text-tertiary)]">
               {bio.length}/160

@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowLeft,
@@ -53,19 +53,19 @@ const CATEGORY_META: Record<
 };
 
 /* ─── Time ago helper ─── */
-function timeAgo(dateStr: string): string {
+function timeAgo(dateStr: string, t: (key: string) => string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "À l'instant";
-  if (mins < 60) return `${mins}min`;
+  if (mins < 1) return t("justNow");
+  if (mins < 60) return `${mins}${t("min")}`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h`;
+  if (hours < 24) return `${hours}${t("h")}`;
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}j`;
+  if (days < 7) return `${days}${t("d")}`;
   const weeks = Math.floor(days / 7);
-  if (weeks < 5) return `${weeks}sem`;
+  if (weeks < 5) return `${weeks}${t("w")}`;
   const months = Math.floor(days / 30);
-  return `${months}mois`;
+  return `${months}${t("mo")}`;
 }
 
 /* ─── Avatar Fallback ─── */
@@ -119,9 +119,11 @@ function Avatar({
 function ShareSheet({
   plan,
   onClose,
+  t,
 }: {
   plan: { titre: string; id: string };
   onClose: () => void;
+  t: (key: string) => string;
 }) {
   const [copied, setCopied] = useState(false);
   const url =
@@ -131,12 +133,12 @@ function ShareSheet({
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast.success("Lien copié !");
+    toast.success(t("linkCopied"));
   };
 
   const shareItems = [
     {
-      label: "Copier le lien",
+      label: t("copyLink"),
       icon: copied ? Check : LinkIcon,
       action: copyLink,
       color: "#6b6b6b",
@@ -213,7 +215,7 @@ function ShareSheet({
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-[var(--color-border-strong)]" />
         <h3 className="mb-5 text-center text-base font-bold text-[var(--color-text-primary)]">
-          Partager ce plan
+          {t("sharePlan")}
         </h3>
         <div className="grid grid-cols-4 gap-3">
           {shareItems.map((item) => {
@@ -241,7 +243,7 @@ function ShareSheet({
           onClick={onClose}
           className="mt-4 w-full rounded-2xl bg-[var(--color-bg-surface)] py-3.5 text-sm font-semibold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]"
         >
-          Annuler
+          {t("cancel")}
         </button>
       </motion.div>
     </motion.div>
@@ -266,6 +268,8 @@ function CommentItem({
   planId: string;
   depth?: number;
 }) {
+  const t = useTranslations("plan.detail");
+  const timeT = useTranslations("plan.detail.time");
   const [liked, setLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(() => (stringToHash(comment.id) % 15) + 1);
 
@@ -287,7 +291,7 @@ function CommentItem({
         onSuccess: () => {
           setReplyText("");
           setShowReplyInput(false);
-          toast.success("Réponse ajoutée !");
+          toast.success(t("replyAdded"));
         },
       }
     );
@@ -310,7 +314,7 @@ function CommentItem({
               {comment.author?.nom ?? "Anonyme"}
             </span>
             <span className="text-xs text-[var(--color-text-tertiary)]">
-              {timeAgo(comment.created_at)}
+              {timeAgo(comment.created_at, timeT)}
             </span>
           </div>
           <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -341,7 +345,7 @@ function CommentItem({
               onClick={() => setShowReplyInput((s) => !s)}
               className="text-xs font-semibold text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-primary)]"
             >
-              Répondre
+              {t("reply")}
             </button>
           )}
 
@@ -394,13 +398,12 @@ function CommentItem({
             {showReplies ? (
               <>
                 <ChevronUp size={13} />
-                Masquer les réponses
+                {t("hideReplies")}
               </>
             ) : (
               <>
                 <ChevronDown size={13} />
-                {comment.replies!.length} réponse
-                {comment.replies!.length > 1 ? "s" : ""}
+                {t("viewReplies", { count: comment.replies!.length })}
               </>
             )}
           </button>
@@ -436,6 +439,8 @@ export default function PlanDetailPage() {
   const params = useParams();
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("plan.detail");
+  const timeT = useTranslations("plan.detail.time");
   const planId = params.id as string;
 
   const { data: plan, isLoading, isError } = usePlan(planId);
@@ -472,7 +477,7 @@ export default function PlanDetailPage() {
       const next = !prev;
       setBoostCount((c) => (next ? c + 1 : Math.max(0, c - 1)));
       boostPlan.mutate(planId);
-      if (next) toast.success("Plan boosté ! 🚀");
+      if (next) toast.success(t("boostedToast"));
       return next;
     });
   }, [boostPlan, planId]);
@@ -480,8 +485,8 @@ export default function PlanDetailPage() {
   const handleFavorite = useCallback(() => {
     toggleFavorite(planId);
     favoritePlan.mutate(planId);
-    toast.success(favorited ? "Retiré des favoris" : "Ajouté aux favoris ❤️");
-  }, [toggleFavorite, favoritePlan, planId, favorited]);
+    toast.success(favorited ? t("removedFav") : t("addedFav"));
+  }, [toggleFavorite, favoritePlan, planId, favorited, t]);
 
   const handleSubmitComment = useCallback(() => {
     const text = commentText.trim();
@@ -491,7 +496,7 @@ export default function PlanDetailPage() {
       {
         onSuccess: () => {
           setCommentText("");
-          toast.success("Commentaire publié !");
+          toast.success(t("commentAdded"));
           setShowAllComments(true);
         },
       }
@@ -535,15 +540,15 @@ export default function PlanDetailPage() {
         <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-[var(--color-primary-light)]">
           <MapPin className="h-10 w-10 text-[var(--color-primary)]" />
         </div>
-        <h1 className="text-xl font-bold text-[var(--color-text-primary)]">Plan introuvable</h1>
+        <h1 className="text-xl font-bold text-[var(--color-text-primary)]">{t("notFound")}</h1>
         <p className="text-center text-sm text-[var(--color-text-tertiary)]">
-          Ce bon plan n&apos;existe pas ou a été supprimé.
+          {t("notFoundDesc")}
         </p>
         <button
           onClick={() => router.push(`/${locale}/plans`)}
           className="rounded-2xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-primary-hover)]"
         >
-          Retour aux plans
+          {t("backToPlans")}
         </button>
       </div>
     );
@@ -625,7 +630,7 @@ export default function PlanDetailPage() {
               <span className="font-medium">{plan.ville}</span>
               <span className="text-[var(--color-border-strong)]">·</span>
               <Clock size={13} />
-              <span>{timeAgo(plan.created_at)}</span>
+              <span>{timeAgo(plan.created_at, timeT)}</span>
             </div>
           </div>
 
@@ -664,7 +669,7 @@ export default function PlanDetailPage() {
                 size={16}
                 className={cn("transition-all", favorited && "fill-red-500")}
               />
-              <span>{favorited ? "Favori" : "Sauvegarder"}</span>
+              <span>{favorited ? t("addedFav").split(" ")[0] : t("save")}</span>
             </motion.button>
 
             {/* Share */}
@@ -674,7 +679,7 @@ export default function PlanDetailPage() {
               className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-text-primary)]"
             >
               <Share2 size={16} />
-              <span>Partager</span>
+              <span>{t("sharePlan").split(" ")[0]}</span>
             </motion.button>
 
             {/* Comment shortcut */}
@@ -705,14 +710,14 @@ export default function PlanDetailPage() {
                     {plan.author.nom}
                   </p>
                   <p className="text-xs text-[var(--color-text-tertiary)]">
-                    Créateur du plan
+                    {t("creator")}
                   </p>
                 </div>
               </div>
               <motion.button
                 onClick={() => {
                   setFollowing((f) => !f);
-                  toast.success(following ? "Abonnement annulé" : "Vous suivez cet utilisateur !");
+                  toast.success(following ? t("unfollowed") : t("followed"));
                 }}
                 whileTap={{ scale: 0.93 }}
                 className={cn(
@@ -725,12 +730,12 @@ export default function PlanDetailPage() {
                 {following ? (
                   <>
                     <UserCheck size={15} />
-                    Suivi
+                    {t("following")}
                   </>
                 ) : (
                   <>
                     <UserPlus size={15} />
-                    Suivre
+                    {t("follow")}
                   </>
                 )}
               </motion.button>
@@ -743,7 +748,7 @@ export default function PlanDetailPage() {
           {/* ── Description ── */}
           <section className="mb-6">
             <h2 className="mb-3 text-base font-bold text-[var(--color-text-primary)]">
-              À propos
+              {t("description")}
             </h2>
             <p className="text-sm leading-7 text-[var(--color-text-secondary)]">
               {plan.description}
@@ -757,9 +762,9 @@ export default function PlanDetailPage() {
                 <Zap size={18} className="fill-amber-500 text-amber-500" />
               </div>
               <div>
-                <p className="text-xs font-bold text-amber-700">Plan en vedette</p>
+                <p className="text-xs font-bold text-amber-700">{t("featured")}</p>
                 <p className="text-xs text-amber-600/80">
-                  Ce bon plan a été mis en avant par l&apos;équipe Planoka
+                  {t("featuredDesc")}
                 </p>
               </div>
             </div>
@@ -774,7 +779,7 @@ export default function PlanDetailPage() {
           <section id="comments" className="mb-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-base font-bold text-[var(--color-text-primary)]">
-                Commentaires
+                {t("comments")}
                 <span className="ml-2 text-sm font-normal text-[var(--color-text-tertiary)]">
                   ({totalCommentCount})
                 </span>
@@ -794,7 +799,7 @@ export default function PlanDetailPage() {
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
-                  placeholder="Ajouter un commentaire..."
+                  placeholder={t("writeComment")}
                   className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 />
                 <motion.button
@@ -832,10 +837,10 @@ export default function PlanDetailPage() {
                   <MessageCircle size={24} className="text-[var(--color-text-tertiary)]" />
                 </div>
                 <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Soyez le premier à commenter !
+                  {t("beFirst")}
                 </p>
                 <p className="text-xs text-[var(--color-text-tertiary)]">
-                  Partagez votre avis sur ce bon plan
+                  {t("beFirstDesc")}
                 </p>
               </div>
             ) : (
@@ -865,12 +870,12 @@ export default function PlanDetailPage() {
                     {showAllComments ? (
                       <>
                         <ChevronUp size={16} />
-                        Voir moins
+                        {t("showLess")}
                       </>
                     ) : (
                       <>
                         <ChevronDown size={16} />
-                        Voir tous les commentaires ({totalCommentCount})
+                        {t("showAll", { count: totalCommentCount })}
                       </>
                     )}
                   </button>
@@ -883,9 +888,9 @@ export default function PlanDetailPage() {
           <div className="mb-6 h-px bg-[var(--color-border)]" />
           <div className="pb-6">
             <p className="text-xs text-center text-[var(--color-text-tertiary)]">
-              Partagé sur{" "}
+              {t("sharedOn")}{" "}
               <span className="font-bold text-[var(--color-primary)]">Planoka</span>
-              {" "}· Plateforme des bons plans au Cameroun
+              {" "}· {t("platformDesc")}
             </p>
           </div>
         </div>
@@ -907,7 +912,7 @@ export default function PlanDetailPage() {
             )}
           >
             <Zap size={16} className={cn(boosted && "fill-white")} />
-            {boosted ? "Boosté !" : "Booster"}
+            {boosted ? t("boostedToast").split(" ")[1] ?? "Boosté" : "Booster"}
           </motion.button>
           <motion.button
             onClick={focusCommentInput}
@@ -915,7 +920,7 @@ export default function PlanDetailPage() {
             className="flex flex-1 items-center justify-center gap-2 rounded-2xl border border-[var(--color-border)] py-3 text-sm font-bold text-[var(--color-text-secondary)]"
           >
             <MessageCircle size={16} />
-            Commenter
+            {t("sharePlan").split(" ")[0] === "Partager" ? "Commenter" : "Comment"}
           </motion.button>
           <motion.button
             onClick={() => setShowShare(true)}
@@ -932,7 +937,7 @@ export default function PlanDetailPage() {
       ═══════════════════════════════ */}
       <AnimatePresence>
         {showShare && plan && (
-          <ShareSheet plan={plan} onClose={() => setShowShare(false)} />
+          <ShareSheet plan={plan} onClose={() => setShowShare(false)} t={t} />
         )}
       </AnimatePresence>
     </div>
