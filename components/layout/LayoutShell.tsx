@@ -26,7 +26,7 @@ export function LayoutShell({ children, locale }: { children: React.ReactNode; l
   return (
     <>
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pb-[90px] md:pb-0">{children}</main>
       {isHome ? <Footer /> : <FooterMinimal />}
       <TabBarMobile />
     </>

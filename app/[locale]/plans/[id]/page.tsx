@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -452,35 +452,26 @@ export default function PlanDetailPage() {
   const toggleFavorite = useStore((s) => s.toggleFavorite);
   const favorited = useStore((s) => s.favorites.includes(planId));
 
-  const [boosted, setBoosted] = useState(false);
-  const [boostCount, setBoostCount] = useState(0);
+  const [optimisticBoosted, setOptimisticBoosted] = useState<boolean | null>(null);
+  const [optimisticBoostCount, setOptimisticBoostCount] = useState<number | null>(null);
   const [following, setFollowing] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [showAllComments, setShowAllComments] = useState(false);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync boost count once plan is loaded
-  // We disable the lint rule here because we need to sync local optimistic state with the server data
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (plan) {
-      setBoosted(plan.is_boosted ?? false);
-      setBoostCount(plan.boosts_count);
-    }
-  }, [plan?.id]);
+  const boosted = optimisticBoosted ?? (plan?.is_boosted ?? false);
+  const boostCount = optimisticBoostCount ?? (plan?.boosts_count ?? 0);
 
   const cat = plan ? (CATEGORY_META[plan.categorie_id] ?? CATEGORY_META["cat-1"]) : null;
 
   const handleBoost = useCallback(() => {
-    setBoosted((prev) => {
-      const next = !prev;
-      setBoostCount((c) => (next ? c + 1 : Math.max(0, c - 1)));
-      boostPlan.mutate(planId);
-      if (next) toast.success(t("boostedToast"));
-      return next;
-    });
-  }, [boostPlan, planId]);
+    const next = !boosted;
+    setOptimisticBoosted(next);
+    setOptimisticBoostCount(next ? boostCount + 1 : Math.max(0, boostCount - 1));
+    boostPlan.mutate(planId);
+    if (next) toast.success(t("boostedToast"));
+  }, [boosted, boostCount, boostPlan, planId, t]);
 
   const handleFavorite = useCallback(() => {
     toggleFavorite(planId);
@@ -501,7 +492,7 @@ export default function PlanDetailPage() {
         },
       }
     );
-  }, [commentText, addComment]);
+  }, [commentText, addComment, t]);
 
   const focusCommentInput = () => {
     commentInputRef.current?.focus();

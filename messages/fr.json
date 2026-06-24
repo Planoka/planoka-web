@@ -8,7 +8,8 @@
     "settings": "Paramètres",
     "signIn": "Se connecter",
     "signOut": "Se déconnecter",
-    "signUp": "S'inscrire"
+    "signUp": "S'inscrire",
+    "back": "Retour"
   },
   "favorites": {
     "title": "Mes Favoris",
@@ -154,6 +155,8 @@
     "stepCategory": "Catégorie",
     "stepMedia": "Média",
     "stepLocation": "Localisation",
+    "optional": "(optionnelle)",
+    "charsRemaining": "Encore {count} caractères minimum",
     "success": "Plan publié avec succès !",
     "successMock": "Plan publié avec succès ! (Mode démo)",
     "errorPublish": "Erreur lors de la publication",

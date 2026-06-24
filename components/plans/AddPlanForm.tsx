@@ -272,10 +272,10 @@ export function AddPlanForm() {
 
   /* ─── Steps ─── */
   const steps = [
-    { key: "basics", label: "Informations" },
-    { key: "category", label: "Catégorie" },
-    { key: "media", label: "Média" },
-    { key: "location", label: "Localisation" },
+    { key: "basics", label: t("stepBasics") },
+    { key: "category", label: t("stepCategory") },
+    { key: "media", label: t("stepMedia") },
+    { key: "location", label: t("stepLocation") },
   ];
 
   const canProceed = () => {
@@ -326,7 +326,7 @@ export function AddPlanForm() {
               {t("submit")}
             </h1>
             <p className="mt-2 text-sm text-[var(--color-text-tertiary)]">
-              Décrivez votre bon plan et aidez la communauté à découvrir les meilleures adresses
+              {t("headerDesc")}
             </p>
           </motion.div>
         </div>
@@ -438,7 +438,7 @@ export function AddPlanForm() {
                   ) : (
                     <p className="text-xs text-[var(--color-text-tertiary)]">
                       {watchedDescription.length < DESCRIPTION_MIN
-                        ? `Encore ${DESCRIPTION_MIN - watchedDescription.length} caractères minimum`
+                        ? t("charsRemaining", { count: DESCRIPTION_MIN - watchedDescription.length })
                         : " "}
                     </p>
                   )}
@@ -466,7 +466,7 @@ export function AddPlanForm() {
                   <span className="ml-1 text-[var(--color-danger)]">*</span>
                 </label>
                 <p className="mb-4 text-sm text-[var(--color-text-tertiary)]">
-                  Choisissez la catégorie qui correspond le mieux à votre bon plan
+                  {t("categoryDesc")}
                 </p>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {CATEGORIES.map((cat, idx) => {
@@ -571,7 +571,7 @@ export function AddPlanForm() {
                           <input
                             value={citySearch}
                             onChange={(e) => setCitySearch(e.target.value)}
-                            placeholder="Rechercher une ville..."
+                            placeholder={t("citySearch")}
                             className="mb-1 h-9 w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 text-sm outline-none focus:border-[var(--color-primary)]"
                             autoFocus
                           />
@@ -600,7 +600,7 @@ export function AddPlanForm() {
                           ))}
                           {filteredCities.length === 0 && (
                             <p className="px-4 py-3 text-xs text-[var(--color-text-tertiary)]">
-                              Aucune ville trouvée
+                              {t("noCityFound")}
                             </p>
                           )}
                         </div>
@@ -631,7 +631,7 @@ export function AddPlanForm() {
               <div>
                 <label className={labelClass}>{t("image")}</label>
                 <p className="mb-4 text-sm text-[var(--color-text-tertiary)]">
-                  Ajoutez une photo pour illustrer votre bon plan (max 10 MB)
+                  {t("imageDesc")}
                 </p>
 
                 {media && mediaType === "image" ? (
@@ -653,10 +653,10 @@ export function AddPlanForm() {
                     </div>
                     <div className="text-center">
                       <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                        Cliquez pour ajouter une photo
+                        {t("imageLabel")}
                       </p>
                       <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">
-                        PNG, JPG ou WebP
+                        {t("imageFormat")}
                       </p>
                     </div>
                     <input
@@ -673,7 +673,7 @@ export function AddPlanForm() {
               <div>
                 <label className={labelClass}>{t("video")}</label>
                 <p className="mb-4 text-sm text-[var(--color-text-tertiary)]">
-                  Ajoutez une vidéo (optionnelle, max 100 MB)
+                  {t("videoDesc")}
                 </p>
 
                 {media && mediaType === "video" ? (
@@ -694,10 +694,10 @@ export function AddPlanForm() {
                     </div>
                     <div className="text-center">
                       <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                        Cliquez pour ajouter une vidéo
+                        {t("videoLabel")}
                       </p>
                       <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">
-                        MP4, MOV ou WebM
+                        {t("videoFormat")}
                       </p>
                     </div>
                     <input
@@ -725,14 +725,13 @@ export function AddPlanForm() {
             >
               <div>
                 <label className={labelClass}>
-                  Localisation
+                  {t("location")}
                   <span className="ml-2 text-xs font-normal text-[var(--color-text-tertiary)]">
-                    (optionnelle)
+                    {t("optional")}
                   </span>
                 </label>
                 <p className="mb-4 text-sm text-[var(--color-text-tertiary)]">
-                  Ajoutez votre position uniquement si vous êtes sur place. Les plans géolocalisés
-                  apparaîtront sur la carte interactive de l&apos;explorateur.
+                  {t("locationDesc")}
                 </p>
 
                 {location ? (
@@ -743,14 +742,14 @@ export function AddPlanForm() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                          Position capturée
+                          {t("locationSuccess")}
                         </p>
                         <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">
                           {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
                         </p>
                         {location.accuracy > 0 && (
                           <p className="text-xs text-[var(--color-text-tertiary)]">
-                            Précision : {location.accuracy} mètres
+                            {t("locationPrecision", { meters: location.accuracy })}
                           </p>
                         )}
                       </div>
@@ -784,10 +783,10 @@ export function AddPlanForm() {
                         </div>
                         <div className="text-center">
                           <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                            Capturer ma position
+                            {t("locationCapture")}
                           </p>
                           <p className="mt-0.5 text-xs text-[var(--color-text-tertiary)]">
-                            Activez la géolocalisation pour ajouter votre position
+                            {t("locationHint")}
                           </p>
                         </div>
                       </>
@@ -820,7 +819,7 @@ export function AddPlanForm() {
               onClick={() => setStep(step + 1)}
               className="rounded-xl bg-[var(--color-primary)] text-white hover:brightness-90 disabled:opacity-50"
             >
-              Suivant
+              {t("next")}
             </Button>
           ) : (
             <Button
@@ -832,7 +831,7 @@ export function AddPlanForm() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Publication...
+                  {t("submitting")}
                 </>
               ) : (
                 <>

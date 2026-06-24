@@ -8,7 +8,8 @@
     "settings": "Settings",
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "back": "Back"
   },
   "favorites": {
     "title": "My Favorites",
@@ -154,6 +155,8 @@
     "stepCategory": "Category",
     "stepMedia": "Media",
     "stepLocation": "Location",
+    "optional": "(optional)",
+    "charsRemaining": "{count} more characters minimum",
     "success": "Plan published successfully!",
     "successMock": "Plan published successfully! (Demo mode)",
     "errorPublish": "Error publishing the plan",

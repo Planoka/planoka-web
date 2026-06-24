@@ -24,7 +24,9 @@ export function TabBarMobile() {
       {tabs.map((tab) => {
         const isActive = tab.href === "/"
           ? pathname === `/${locale}` || pathname === `/${locale}/`
-          : pathname.startsWith(`/${locale}${tab.href}`);
+          : tab.key === "profile"
+            ? pathname.startsWith(`/${locale}${tab.href}`) && !pathname.includes("/favorites")
+            : pathname.startsWith(`/${locale}${tab.href}`);
         const Icon = tab.icon;
         const isCenter = tab.key === "add";
 
