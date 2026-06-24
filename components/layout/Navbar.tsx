@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
-import { usePathname } from "next/navigation";
-import { Plus, Search } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Plus, Search, ArrowLeft } from "lucide-react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { LanguageToggle } from "@/components/common/LanguageToggle";
@@ -22,15 +22,34 @@ export function Navbar() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const paths = getClerkPaths(locale);
+
+  const isTopLevel = 
+    pathname === `/${locale}` || 
+    pathname === `/${locale}/` || 
+    pathname.startsWith(`/${locale}/search`) || 
+    pathname === `/${locale}/profile` || 
+    pathname === `/${locale}/profile/`;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-bg-card)]/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href={`/${locale}`} className="flex shrink-0 items-center gap-2.5">
-          <Image src="/icons/logo.png" alt="Planoka" width={90} height={90} priority />
-        </Link>
+        {/* Logo and optional Back Button */}
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2.5">
+          {!isTopLevel && (
+            <button
+              onClick={() => router.back()}
+              className="mr-1 flex h-10 w-10 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-surface)] hover:text-[var(--color-text-primary)]"
+              aria-label={t("back")}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+          )}
+          <Link href={`/${locale}`} className="flex items-center gap-2.5">
+            <Image src="/icons/logo.png" alt="Planoka" width={90} height={90} priority />
+          </Link>
+        </div>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
