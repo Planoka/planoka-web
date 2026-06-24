@@ -248,6 +248,14 @@ function ShareSheet({
   );
 }
 
+function stringToHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
 /* ─── Comment Item ─── */
 function CommentItem({
   comment,
@@ -259,8 +267,8 @@ function CommentItem({
   depth?: number;
 }) {
   const [liked, setLiked] = useState(false);
-  const likeCount = useMemo(() => Math.floor(Math.random() * 15) + 1, []);
-  const [likeDisplayCount, setLikeDisplayCount] = useState(likeCount);
+  const [likeDisplayCount, setLikeDisplayCount] = useState(() => (stringToHash(comment.id) % 15) + 1);
+
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [showReplies, setShowReplies] = useState(depth === 0);
@@ -448,12 +456,13 @@ export default function PlanDetailPage() {
   const commentInputRef = useRef<HTMLInputElement>(null);
 
   // Sync boost count once plan is loaded
+  // We disable the lint rule here because we need to sync local optimistic state with the server data
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (plan) {
       setBoosted(plan.is_boosted ?? false);
       setBoostCount(plan.boosts_count);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [plan?.id]);
 
   const cat = plan ? (CATEGORY_META[plan.categorie_id] ?? CATEGORY_META["cat-1"]) : null;
