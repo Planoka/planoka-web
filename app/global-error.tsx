@@ -39,19 +39,20 @@ export default function GlobalError({
             <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-red-50 dark:bg-red-950">
               <AlertTriangle className="h-12 w-12 text-[#EF4444]" />
             </div>
-            <h1 className="text-2xl font-bold">Erreur critique</h1>
+            <h1 className="text-2xl font-bold">Erreur critique / Critical error</h1>
             <p className="text-[var(--color-text-secondary, #3D3D3D)] mt-2 max-w-sm">
               Une erreur critique est survenue. Veuillez recharger la page.
+              <br />A critical error has occurred. Please reload the page.
             </p>
             <div className="mt-6 flex gap-3">
               <Button onClick={reset} className="gap-2 bg-[#E8610A] hover:brightness-90">
                 <RefreshCw className="h-4 w-4" />
-                Recharger
+                Recharger / Reload
               </Button>
               <Link href="/">
                 <Button variant="outline" className="gap-2">
                   <Home className="h-4 w-4" />
-                  Accueil
+                  Accueil / Home
                 </Button>
               </Link>
             </div>
