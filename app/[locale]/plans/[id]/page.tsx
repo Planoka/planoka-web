@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -38,10 +38,7 @@ import { useStore } from "@/store/useStore";
 import type { Comment } from "@/types";
 
 /* ─── Category Meta ─── */
-const CATEGORY_META: Record<
-  string,
-  { color: string; icon: React.ElementType; label: string }
-> = {
+const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; label: string }> = {
   "cat-1": { color: "#E8610A", icon: UtensilsCrossed, label: "Restauration" },
   "cat-2": { color: "#7C3AED", icon: Gamepad2, label: "Loisirs" },
   "cat-3": { color: "#059669", icon: Music, label: "Sorties" },
@@ -126,8 +123,7 @@ function ShareSheet({
   t: (key: string) => string;
 }) {
   const [copied, setCopied] = useState(false);
-  const url =
-    typeof window !== "undefined" ? window.location.href : "";
+  const url = typeof window !== "undefined" ? window.location.href : "";
 
   const copyLink = () => {
     navigator.clipboard.writeText(url);
@@ -232,7 +228,7 @@ function ShareSheet({
                 >
                   {item.svgContent ?? (Icon ? <Icon size={20} /> : null)}
                 </div>
-                <span className="text-center text-[11px] font-medium leading-tight text-[var(--color-text-secondary)]">
+                <span className="text-center text-[11px] leading-tight font-medium text-[var(--color-text-secondary)]">
                   {item.label}
                 </span>
               </button>
@@ -271,7 +267,9 @@ function CommentItem({
   const t = useTranslations("plan.detail");
   const timeT = useTranslations("plan.detail.time");
   const [liked, setLiked] = useState(false);
-  const [likeDisplayCount, setLikeDisplayCount] = useState(() => (stringToHash(comment.id) % 15) + 1);
+  const [likeDisplayCount, setLikeDisplayCount] = useState(
+    () => (stringToHash(comment.id) % 15) + 1
+  );
 
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [replyText, setReplyText] = useState("");
@@ -300,13 +298,13 @@ function CommentItem({
   const hasReplies = comment.replies && comment.replies.length > 0;
 
   return (
-    <div className={cn("flex gap-3", depth > 0 && "ml-10 mt-3")}>
+    <div className={cn("flex gap-3", depth > 0 && "mt-3 ml-10")}>
       <Avatar
         src={comment.author?.avatar_url}
         name={comment.author?.nom ?? "?"}
         size={depth > 0 ? 32 : 38}
       />
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         {/* Bubble */}
         <div className="rounded-2xl rounded-tl-sm bg-[var(--color-bg-surface)] px-4 py-3">
           <div className="mb-1 flex items-center gap-2">
@@ -333,10 +331,7 @@ function CommentItem({
                 : "text-[var(--color-text-tertiary)] hover:text-[var(--color-danger)]"
             )}
           >
-            <Heart
-              size={13}
-              className={cn("transition-all", liked && "fill-current scale-125")}
-            />
+            <Heart size={13} className={cn("transition-all", liked && "scale-125 fill-current")} />
             {likeDisplayCount}
           </button>
 
@@ -363,12 +358,8 @@ function CommentItem({
               exit={{ opacity: 0, height: 0 }}
               className="mt-3 flex items-center gap-2 overflow-hidden"
             >
-              <Avatar
-                src="https://i.pravatar.cc/150?img=68"
-                name="Vous"
-                size={28}
-              />
-              <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/30 transition-all">
+              <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={28} />
+              <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/30">
                 <input
                   autoFocus
                   value={replyText}
@@ -380,7 +371,7 @@ function CommentItem({
                 <button
                   onClick={handleReply}
                   disabled={!replyText.trim() || addComment.isPending}
-                  className="text-[var(--color-primary)] disabled:opacity-40 transition-opacity"
+                  className="text-[var(--color-primary)] transition-opacity disabled:opacity-40"
                 >
                   <Send size={15} />
                 </button>
@@ -419,12 +410,7 @@ function CommentItem({
               className="overflow-hidden"
             >
               {comment.replies!.map((reply) => (
-                <CommentItem
-                  key={reply.id}
-                  comment={reply}
-                  planId={planId}
-                  depth={1}
-                />
+                <CommentItem key={reply.id} comment={reply} planId={planId} depth={1} />
               ))}
             </motion.div>
           )}
@@ -460,8 +446,8 @@ export default function PlanDetailPage() {
   const [showAllComments, setShowAllComments] = useState(false);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
-  const boosted = optimisticBoosted ?? (plan?.is_boosted ?? false);
-  const boostCount = optimisticBoostCount ?? (plan?.boosts_count ?? 0);
+  const boosted = optimisticBoosted ?? plan?.is_boosted ?? false;
+  const boostCount = optimisticBoostCount ?? plan?.boosts_count ?? 0;
 
   const cat = plan ? (CATEGORY_META[plan.categorie_id] ?? CATEGORY_META["cat-1"]) : null;
 
@@ -500,10 +486,7 @@ export default function PlanDetailPage() {
   };
 
   const visibleComments = showAllComments ? comments : comments.slice(0, 3);
-  const totalCommentCount = comments.reduce(
-    (acc, c) => acc + 1 + (c.replies?.length ?? 0),
-    0
-  );
+  const totalCommentCount = comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0);
 
   /* ── Loading skeleton ── */
   if (isLoading) {
@@ -516,7 +499,10 @@ export default function PlanDetailPage() {
           <div className="mb-6 h-4 w-32 animate-pulse rounded-lg bg-[var(--color-border)]" />
           <div className="flex gap-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-11 w-28 animate-pulse rounded-2xl bg-[var(--color-border)]" />
+              <div
+                key={i}
+                className="h-11 w-28 animate-pulse rounded-2xl bg-[var(--color-border)]"
+              />
             ))}
           </div>
         </div>
@@ -532,9 +518,7 @@ export default function PlanDetailPage() {
           <MapPin className="h-10 w-10 text-[var(--color-primary)]" />
         </div>
         <h1 className="text-xl font-bold text-[var(--color-text-primary)]">{t("notFound")}</h1>
-        <p className="text-center text-sm text-[var(--color-text-tertiary)]">
-          {t("notFoundDesc")}
-        </p>
+        <p className="text-center text-sm text-[var(--color-text-tertiary)]">{t("notFoundDesc")}</p>
         <button
           onClick={() => router.push(`/${locale}/plans`)}
           className="rounded-2xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-primary-hover)]"
@@ -563,10 +547,7 @@ export default function PlanDetailPage() {
             sizes="100vw"
           />
         ) : (
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: `${cat!.color}20` }}
-          />
+          <div className="absolute inset-0" style={{ backgroundColor: `${cat!.color}20` }} />
         )}
 
         {/* Gradient overlay */}
@@ -575,7 +556,7 @@ export default function PlanDetailPage() {
         {/* Back button */}
         <button
           onClick={() => router.back()}
-          className="absolute left-4 top-14 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
+          className="absolute top-14 left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
           aria-label="Retour"
         >
           <ArrowLeft className="h-5 w-5 text-white" />
@@ -583,7 +564,7 @@ export default function PlanDetailPage() {
 
         {/* More options */}
         <button
-          className="absolute right-4 top-14 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
+          className="absolute top-14 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
           aria-label="Plus d'options"
         >
           <MoreHorizontal className="h-5 w-5 text-white" />
@@ -592,7 +573,7 @@ export default function PlanDetailPage() {
         {/* Category pill — bottom left of hero */}
         <div className="absolute bottom-5 left-4 z-10">
           <div
-            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest backdrop-blur-md"
+            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-widest uppercase backdrop-blur-md"
             style={{
               backgroundColor: `${cat!.color}25`,
               color: cat!.color,
@@ -610,10 +591,9 @@ export default function PlanDetailPage() {
       ═══════════════════════════════ */}
       <div className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-6 shadow-xl">
         <div className="mx-auto max-w-2xl px-5">
-
           {/* ── Title + location ── */}
           <div className="mb-5">
-            <h1 className="text-2xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
+            <h1 className="text-2xl leading-tight font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
               {plan.titre}
             </h1>
             <div className="mt-2 flex items-center gap-1.5 text-sm text-[var(--color-text-tertiary)]">
@@ -634,15 +614,14 @@ export default function PlanDetailPage() {
               className={cn(
                 "flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all",
                 boosted
-                  ? "bg-[var(--color-primary)] text-white shadow-md shadow-[var(--color-primary)]/30"
+                  ? "bg-[var(--color-primary)] text-white shadow-[var(--color-primary)]/30 shadow-md"
                   : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/40 hover:text-[var(--color-primary)]"
               )}
             >
-              <Zap
-                size={16}
-                className={cn("transition-all", boosted && "fill-white")}
-              />
-              <span>{boostCount} Boost{boostCount !== 1 ? "s" : ""}</span>
+              <Zap size={16} className={cn("transition-all", boosted && "fill-white")} />
+              <span>
+                {boostCount} Boost{boostCount !== 1 ? "s" : ""}
+              </span>
             </motion.button>
 
             {/* Favorite */}
@@ -652,14 +631,11 @@ export default function PlanDetailPage() {
               className={cn(
                 "flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all",
                 favorited
-                  ? "bg-red-50 text-red-500 border border-red-200"
+                  ? "border border-red-200 bg-red-50 text-red-500"
                   : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-red-200 hover:text-red-500"
               )}
             >
-              <Heart
-                size={16}
-                className={cn("transition-all", favorited && "fill-red-500")}
-              />
+              <Heart size={16} className={cn("transition-all", favorited && "fill-red-500")} />
               <span>{favorited ? t("addedFav").split(" ")[0] : t("save")}</span>
             </motion.button>
 
@@ -691,18 +667,12 @@ export default function PlanDetailPage() {
           {plan.author && (
             <div className="mb-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Avatar
-                  src={plan.author.avatar_url}
-                  name={plan.author.nom}
-                  size={46}
-                />
+                <Avatar src={plan.author.avatar_url} name={plan.author.nom} size={46} />
                 <div>
                   <p className="text-sm font-bold text-[var(--color-text-primary)]">
                     {plan.author.nom}
                   </p>
-                  <p className="text-xs text-[var(--color-text-tertiary)]">
-                    {t("creator")}
-                  </p>
+                  <p className="text-xs text-[var(--color-text-tertiary)]">{t("creator")}</p>
                 </div>
               </div>
               <motion.button
@@ -714,8 +684,8 @@ export default function PlanDetailPage() {
                 className={cn(
                   "flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold transition-all",
                   following
-                    ? "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] border border-[var(--color-border)]"
-                    : "bg-[var(--color-primary)] text-white shadow-md shadow-[var(--color-primary)]/25 hover:bg-[var(--color-primary-hover)]"
+                    ? "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)]"
+                    : "bg-[var(--color-primary)] text-white shadow-[var(--color-primary)]/25 shadow-md hover:bg-[var(--color-primary-hover)]"
                 )}
               >
                 {following ? (
@@ -748,15 +718,13 @@ export default function PlanDetailPage() {
 
           {/* ── Featured badge ── */}
           {plan.is_featured && (
-            <div className="mb-5 flex items-center gap-3 rounded-2xl bg-amber-50 px-4 py-3 border border-amber-200">
+            <div className="mb-5 flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-600">
                 <Zap size={18} className="fill-amber-500 text-amber-500" />
               </div>
               <div>
                 <p className="text-xs font-bold text-amber-700">{t("featured")}</p>
-                <p className="text-xs text-amber-600/80">
-                  {t("featuredDesc")}
-                </p>
+                <p className="text-xs text-amber-600/80">{t("featuredDesc")}</p>
               </div>
             </div>
           )}
@@ -779,12 +747,8 @@ export default function PlanDetailPage() {
 
             {/* Comment input */}
             <div className="mb-6 flex items-center gap-3">
-              <Avatar
-                src="https://i.pravatar.cc/150?img=68"
-                name="Vous"
-                size={38}
-              />
-              <div className="flex flex-1 items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 focus-within:bg-[var(--color-bg-card)]">
+              <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={38} />
+              <div className="flex flex-1 items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20">
                 <input
                   ref={commentInputRef}
                   value={commentText}
@@ -830,9 +794,7 @@ export default function PlanDetailPage() {
                 <p className="text-sm font-medium text-[var(--color-text-secondary)]">
                   {t("beFirst")}
                 </p>
-                <p className="text-xs text-[var(--color-text-tertiary)]">
-                  {t("beFirstDesc")}
-                </p>
+                <p className="text-xs text-[var(--color-text-tertiary)]">{t("beFirstDesc")}</p>
               </div>
             ) : (
               <div className="space-y-5">
@@ -844,10 +806,7 @@ export default function PlanDetailPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
                     >
-                      <CommentItem
-                        comment={comment}
-                        planId={planId}
-                      />
+                      <CommentItem comment={comment} planId={planId} />
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -878,10 +837,9 @@ export default function PlanDetailPage() {
           {/* ── More plans from same category ── */}
           <div className="mb-6 h-px bg-[var(--color-border)]" />
           <div className="pb-6">
-            <p className="text-xs text-center text-[var(--color-text-tertiary)]">
-              {t("sharedOn")}{" "}
-              <span className="font-bold text-[var(--color-primary)]">Planoka</span>
-              {" "}· {t("platformDesc")}
+            <p className="text-center text-xs text-[var(--color-text-tertiary)]">
+              {t("sharedOn")} <span className="font-bold text-[var(--color-primary)]">Planoka</span>{" "}
+              · {t("platformDesc")}
             </p>
           </div>
         </div>
@@ -903,7 +861,7 @@ export default function PlanDetailPage() {
             )}
           >
             <Zap size={16} className={cn(boosted && "fill-white")} />
-            {boosted ? t("boostedToast").split(" ")[1] ?? "Boosté" : "Booster"}
+            {boosted ? (t("boostedToast").split(" ")[1] ?? "Boosté") : "Booster"}
           </motion.button>
           <motion.button
             onClick={focusCommentInput}
@@ -927,9 +885,7 @@ export default function PlanDetailPage() {
           SHARE SHEET MODAL
       ═══════════════════════════════ */}
       <AnimatePresence>
-        {showShare && plan && (
-          <ShareSheet plan={plan} onClose={() => setShowShare(false)} t={t} />
-        )}
+        {showShare && plan && <ShareSheet plan={plan} onClose={() => setShowShare(false)} t={t} />}
       </AnimatePresence>
     </div>
   );

@@ -41,8 +41,8 @@ export default function GlobalError({
             </div>
             <h1 className="text-2xl font-bold">Erreur critique / Critical error</h1>
             <p className="text-[var(--color-text-secondary, #3D3D3D)] mt-2 max-w-sm">
-              Une erreur critique est survenue. Veuillez recharger la page.<br />
-              A critical error has occurred. Please reload the page.
+              Une erreur critique est survenue. Veuillez recharger la page.
+              <br />A critical error has occurred. Please reload the page.
             </p>
             <div className="mt-6 flex gap-3">
               <Button onClick={reset} className="gap-2 bg-[#E8610A] hover:brightness-90">

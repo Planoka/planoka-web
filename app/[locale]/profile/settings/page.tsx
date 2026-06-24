@@ -23,13 +23,7 @@ import {
 import { toast } from "sonner";
 
 /* ─── Toggle Switch ─── */
-function Toggle({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: (v: boolean) => void;
-}) {
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
     <button
       role="switch"
@@ -74,24 +68,18 @@ function SettingsRow({
       <Icon
         className="h-5 w-5 shrink-0"
         style={{
-          color: danger
-            ? "var(--color-danger)"
-            : "var(--color-text-tertiary)",
+          color: danger ? "var(--color-danger)" : "var(--color-text-tertiary)",
         }}
       />
       <span
         className="flex-1 text-[15px] font-medium"
         style={{
-          color: danger
-            ? "var(--color-danger)"
-            : "var(--color-text-primary)",
+          color: danger ? "var(--color-danger)" : "var(--color-text-primary)",
         }}
       >
         {label}
       </span>
-      {trailing ?? (
-        <ChevronRight className="h-4.5 w-4.5 text-[var(--color-text-tertiary)]" />
-      )}
+      {trailing ?? <ChevronRight className="h-4.5 w-4.5 text-[var(--color-text-tertiary)]" />}
     </div>
   );
 
@@ -104,7 +92,7 @@ function SettingsRow({
 /* ─── Section Header ─── */
 function SectionHeader({ title }: { title: string }) {
   return (
-    <p className="mb-2 mt-7 px-5 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--color-text-tertiary)]">
+    <p className="mt-7 mb-2 px-5 text-[11px] font-bold tracking-[0.12em] text-[var(--color-text-tertiary)] uppercase">
       {title}
     </p>
   );
@@ -162,9 +150,7 @@ export default function SettingsPage() {
         <h1 className="text-[28px] font-bold tracking-tight text-[var(--color-text-primary)]">
           {t("title")}
         </h1>
-        <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
-          {t("subtitle")}
-        </p>
+        <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">{t("subtitle")}</p>
       </motion.div>
 
       {/* ═══ SECTIONS ═══ */}
@@ -192,9 +178,7 @@ export default function SettingsPage() {
           <SettingsRow
             icon={Bell}
             label={t("items.pushNotifications")}
-            trailing={
-              <Toggle checked={pushEnabled} onChange={setPushEnabled} />
-            }
+            trailing={<Toggle checked={pushEnabled} onChange={setPushEnabled} />}
           />
         </div>
 
@@ -215,9 +199,7 @@ export default function SettingsPage() {
           <SettingsRow
             icon={Moon}
             label={t("items.darkMode")}
-            trailing={
-              <Toggle checked={isDark} onChange={handleDarkToggle} />
-            }
+            trailing={<Toggle checked={isDark} onChange={handleDarkToggle} />}
           />
         </div>
 
@@ -236,11 +218,7 @@ export default function SettingsPage() {
             onClick={() => toast.info(t("soon"))}
           />
           <div className="mx-5 h-px bg-[var(--color-border)]" />
-          <SettingsRow
-            icon={FileText}
-            label={t("items.privacy")}
-            href={`/${locale}/privacy`}
-          />
+          <SettingsRow icon={FileText} label={t("items.privacy")} href={`/${locale}/privacy`} />
         </div>
 
         {/* ── SIGN OUT ── */}

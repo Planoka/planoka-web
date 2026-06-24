@@ -23,7 +23,7 @@ function PasswordField({
 
   return (
     <div>
-      <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
+      <label className="mb-2 block text-[11px] font-bold tracking-[0.1em] text-[var(--color-text-tertiary)] uppercase">
         {label}
       </label>
       <div className="flex items-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20">
@@ -60,9 +60,7 @@ export default function SecurityPage() {
   const [saving, setSaving] = useState(false);
 
   const canSubmit =
-    currentPassword.length >= 6 &&
-    newPassword.length >= 6 &&
-    newPassword === confirmPassword;
+    currentPassword.length >= 6 && newPassword.length >= 6 && newPassword === confirmPassword;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -130,23 +128,18 @@ export default function SecurityPage() {
 
             {/* Validation hints */}
             {newPassword.length > 0 && newPassword.length < 6 && (
-              <p className="text-xs text-[var(--color-danger)]">
-                {t("errorMinLength")}
-              </p>
+              <p className="text-xs text-[var(--color-danger)]">{t("errorMinLength")}</p>
             )}
-            {confirmPassword.length > 0 &&
-              newPassword !== confirmPassword && (
-                <p className="text-xs text-[var(--color-danger)]">
-                  {t("errorMismatch")}
-                </p>
-              )}
+            {confirmPassword.length > 0 && newPassword !== confirmPassword && (
+              <p className="text-xs text-[var(--color-danger)]">{t("errorMismatch")}</p>
+            )}
           </div>
 
           {/* Submit */}
           <button
             onClick={handleSubmit}
             disabled={!canSubmit || saving}
-            className="mt-8 w-full rounded-2xl bg-[var(--color-primary)] py-4 text-[15px] font-bold text-white shadow-md shadow-[var(--color-primary)]/25 transition-all hover:bg-[var(--color-primary-hover)] active:scale-[0.98] disabled:opacity-50 disabled:shadow-none"
+            className="mt-8 w-full rounded-2xl bg-[var(--color-primary)] py-4 text-[15px] font-bold text-white shadow-[var(--color-primary)]/25 shadow-md transition-all hover:bg-[var(--color-primary-hover)] active:scale-[0.98] disabled:opacity-50 disabled:shadow-none"
           >
             {saving ? (
               <span className="flex items-center justify-center gap-2">

@@ -56,10 +56,7 @@ function ProfileAvatar({
     .toUpperCase();
 
   return (
-    <div
-      className="relative mx-auto"
-      style={{ width: size + 8, height: size + 8 }}
-    >
+    <div className="relative mx-auto" style={{ width: size + 8, height: size + 8 }}>
       {/* Ring */}
       <div
         className="absolute inset-0 rounded-full border-[3px] border-[var(--color-border)]"
@@ -72,19 +69,19 @@ function ProfileAvatar({
           width={size}
           height={size}
           onError={() => setError(true)}
-          className="absolute left-1 top-1 rounded-full object-cover"
+          className="absolute top-1 left-1 rounded-full object-cover"
           style={{ width: size, height: size }}
         />
       ) : (
         <div
-          className="absolute left-1 top-1 flex items-center justify-center rounded-full bg-[var(--color-primary)] font-bold text-white"
+          className="absolute top-1 left-1 flex items-center justify-center rounded-full bg-[var(--color-primary)] font-bold text-white"
           style={{ width: size, height: size, fontSize: size * 0.36 }}
         >
           {initials}
         </div>
       )}
       {/* Verified badge */}
-      <div className="absolute -bottom-0.5 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-[var(--color-bg-card)] bg-blue-500">
+      <div className="absolute right-0 -bottom-0.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-[var(--color-bg-card)] bg-blue-500">
         <BadgeCheck className="h-4 w-4 text-white" />
       </div>
     </div>
@@ -92,36 +89,20 @@ function ProfileAvatar({
 }
 
 /* ─── Stat counter ─── */
-function StatItem({
-  value,
-  label,
-}: {
-  value: number;
-  label: string;
-}) {
+function StatItem({ value, label }: { value: number; label: string }) {
   const formatted =
     value >= 1000 ? `${(value / 1000).toFixed(1).replace(/\.0$/, "")}k` : String(value);
 
   return (
     <div className="flex flex-col items-center">
-      <span className="text-xl font-bold text-[var(--color-text-primary)]">
-        {formatted}
-      </span>
+      <span className="text-xl font-bold text-[var(--color-text-primary)]">{formatted}</span>
       <span className="text-xs text-[var(--color-text-tertiary)]">{label}</span>
     </div>
   );
 }
 
 /* ─── Plan Grid Card (profile-specific) ─── */
-function ProfilePlanCard({
-  plan,
-  locale,
-  index,
-}: {
-  plan: Plan;
-  locale: string;
-  index: number;
-}) {
+function ProfilePlanCard({ plan, locale, index }: { plan: Plan; locale: string; index: number }) {
   const catColor = CAT_COLORS[plan.categorie_id] ?? "#E8610A";
 
   return (
@@ -143,17 +124,14 @@ function ProfilePlanCard({
             sizes="(max-width: 640px) 50vw, 33vw"
           />
         ) : (
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: `${catColor}15` }}
-          />
+          <div className="absolute inset-0" style={{ backgroundColor: `${catColor}15` }} />
         )}
         {/* Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
         {/* Bottom info */}
-        <div className="absolute bottom-0 left-0 right-0 p-3">
-          <h3 className="line-clamp-2 text-sm font-bold leading-tight text-white drop-shadow-sm">
+        <div className="absolute right-0 bottom-0 left-0 p-3">
+          <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white drop-shadow-sm">
             {plan.titre}
           </h3>
           <div className="mt-1.5 flex items-center gap-2 text-[11px] text-white/70">
@@ -190,12 +168,8 @@ export default function ProfilePage() {
 
   /* Compute plans per tab */
   const tabPlans = useMemo(() => {
-    const userPlans = allPlans.filter(
-      (p) => p.user_id === "user-1" || p.user_id === "user-2"
-    );
-    const likedPlans = allPlans.filter(
-      (_, i) => i % 3 === 0 || i % 5 === 0
-    );
+    const userPlans = allPlans.filter((p) => p.user_id === "user-1" || p.user_id === "user-2");
+    const likedPlans = allPlans.filter((_, i) => i % 3 === 0 || i % 5 === 0);
     const savedPlans = allPlans.filter((p) => favorites.includes(p.id));
 
     return { posts: userPlans, liked: likedPlans, saved: savedPlans };
@@ -204,13 +178,10 @@ export default function ProfilePage() {
   const currentPlans = tabPlans[activeTab];
 
   /* Profile data (Clerk user or fallback) */
-  const profileName =
-    user?.fullName ?? user?.firstName ?? "Amadou Diallo";
-  const profileUsername =
-    user?.username ?? profileName.toLowerCase().replace(/\s+/g, "_");
+  const profileName = user?.fullName ?? user?.firstName ?? "Amadou Diallo";
+  const profileUsername = user?.username ?? profileName.toLowerCase().replace(/\s+/g, "_");
   const profileAvatar = user?.imageUrl ?? null;
-  const profileBio =
-    "Explorateur passionné et planificateur d'aventures au Cameroun. 🇨🇲";
+  const profileBio = "Explorateur passionné et planificateur d'aventures au Cameroun. 🇨🇲";
   const profileCity = "Douala";
 
   /* Loading skeleton */
@@ -264,9 +235,7 @@ export default function ProfilePage() {
           <h1 className="mt-4 text-xl font-bold tracking-tight text-[var(--color-text-primary)]">
             {profileName}
           </h1>
-          <p className="mt-0.5 text-sm text-[var(--color-text-tertiary)]">
-            @{profileUsername}
-          </p>
+          <p className="mt-0.5 text-sm text-[var(--color-text-tertiary)]">@{profileUsername}</p>
 
           {/* Bio */}
           <p className="mt-3 max-w-sm text-center text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -293,7 +262,7 @@ export default function ProfilePage() {
         <div className="mt-6 flex items-center gap-3">
           <Link
             href={`/${locale}/profile/edit`}
-            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-md shadow-[var(--color-primary)]/25 transition-all hover:bg-[var(--color-primary-hover)] active:scale-[0.97]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-[var(--color-primary)]/25 shadow-md transition-all hover:bg-[var(--color-primary-hover)] active:scale-[0.97]"
           >
             {t("editProfile")}
           </Link>
@@ -333,7 +302,7 @@ export default function ProfilePage() {
               {activeTab === tab && (
                 <motion.div
                   layoutId="profile-tab-indicator"
-                  className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full bg-[var(--color-primary)]"
+                  className="absolute right-0 bottom-0 left-0 h-[3px] rounded-full bg-[var(--color-primary)]"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -378,12 +347,7 @@ export default function ProfilePage() {
                 className="grid grid-cols-2 gap-3 sm:grid-cols-3"
               >
                 {currentPlans.map((plan, i) => (
-                  <ProfilePlanCard
-                    key={plan.id}
-                    plan={plan}
-                    locale={locale}
-                    index={i}
-                  />
+                  <ProfilePlanCard key={plan.id} plan={plan} locale={locale} index={i} />
                 ))}
               </motion.div>
             )}

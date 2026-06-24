@@ -18,12 +18,9 @@ export default function EditProfilePage() {
   const { user, isLoaded } = useUser();
 
   const [avatarError, setAvatarError] = useState(false);
-  const [fullName, setFullName] = useState(
-    user?.fullName ?? user?.firstName ?? "Amadou Diallo"
-  );
+  const [fullName, setFullName] = useState(user?.fullName ?? user?.firstName ?? "Amadou Diallo");
   const [username, setUsername] = useState(
-    user?.username ??
-      (user?.fullName ?? "Amadou Diallo").toLowerCase().replace(/\s+/g, "_")
+    user?.username ?? (user?.fullName ?? "Amadou Diallo").toLowerCase().replace(/\s+/g, "_")
   );
   const [bio, setBio] = useState(
     "Explorateur passionné et planificateur d'aventures au Cameroun. 🇨🇲"
@@ -67,9 +64,7 @@ export default function EditProfilePage() {
           >
             <X className="h-5 w-5 text-[var(--color-text-primary)]" />
           </button>
-          <h2 className="text-base font-bold text-[var(--color-text-primary)]">
-            {t("title")}
-          </h2>
+          <h2 className="text-base font-bold text-[var(--color-text-primary)]">{t("title")}</h2>
           <button
             onClick={handleSave}
             disabled={saving}
@@ -110,7 +105,7 @@ export default function EditProfilePage() {
             )}
             {/* Camera badge */}
             <button
-              className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-primary)] shadow-md transition-all hover:bg-[var(--color-primary-hover)] active:scale-90"
+              className="absolute -right-1 -bottom-1 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-primary)] shadow-md transition-all hover:bg-[var(--color-primary-hover)] active:scale-90"
               aria-label="Modifier la photo"
             >
               <Camera className="h-4 w-4 text-white" />
@@ -125,21 +120,21 @@ export default function EditProfilePage() {
         <div className="mt-10 space-y-6">
           {/* Full name */}
           <div>
-            <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
+            <label className="mb-2 block text-[11px] font-bold tracking-[0.1em] text-[var(--color-text-tertiary)] uppercase">
               {t("fullName")}
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] font-medium text-[var(--color-text-primary)] outline-none transition-all focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 placeholder:text-[var(--color-text-tertiary)]"
+              className="w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-all outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
               placeholder={t("fullNamePlaceholder")}
             />
           </div>
 
           {/* Username */}
           <div>
-            <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
+            <label className="mb-2 block text-[11px] font-bold tracking-[0.1em] text-[var(--color-text-tertiary)] uppercase">
               {t("username")}
             </label>
             <div className="flex items-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20">
@@ -158,7 +153,7 @@ export default function EditProfilePage() {
 
           {/* Bio */}
           <div>
-            <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--color-text-tertiary)]">
+            <label className="mb-2 block text-[11px] font-bold tracking-[0.1em] text-[var(--color-text-tertiary)] uppercase">
               {t("bio")}
             </label>
             <textarea
@@ -166,7 +161,7 @@ export default function EditProfilePage() {
               onChange={(e) => setBio(e.target.value)}
               rows={4}
               maxLength={160}
-              className="w-full resize-none rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] font-medium leading-relaxed text-[var(--color-text-primary)] outline-none transition-all focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 placeholder:text-[var(--color-text-tertiary)]"
+              className="w-full resize-none rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5 text-[15px] leading-relaxed font-medium text-[var(--color-text-primary)] transition-all outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
               placeholder={t("bioPlaceholder")}
             />
             <p className="mt-1 text-right text-xs text-[var(--color-text-tertiary)]">
