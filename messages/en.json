@@ -34,6 +34,12 @@
     "plansFound": "{count} plan(s) found",
     "nearMe": "Near me"
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "emptyTitle": "No notifications",
+    "emptyDesc": "You don't have any new notifications yet."
+  },
   "favorites": {
     "title": "My Favorites",
     "subtitle": "Find all the deals you've saved",
@@ -386,6 +392,7 @@
   "landing": {
     "badge": "Cameroon's first local deals platform",
     "heroTitle": "The best deals",
+    "heroTitleSignedIn": "Your best deals",
     "heroTitleHighlight": "near you",
     "heroSearchPlaceholder": "Search for a plan, city...",
     "explorePlans": "Explore plans",

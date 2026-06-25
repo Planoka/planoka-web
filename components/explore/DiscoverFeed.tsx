@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/store/useStore";
 import type { Plan } from "@/types";
+import { DiscoverCommentsSheet } from "./DiscoverCommentsSheet";
 
 const CAT_META: Record<string, { color: string }> = {
   "cat-1": { color: "#E8610A" },
@@ -45,6 +46,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [boostedIds, setBoostedIds] = useState<Set<string>>(new Set());
+  const [commentsPlan, setCommentsPlan] = useState<Plan | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const currentPlan = plans[currentIndex] ?? null;
@@ -150,7 +152,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
       {/* Scrollable container */}
       <div
         ref={containerRef}
-        className="no-scrollbar h-full snap-y snap-mandatory overflow-y-scroll"
+        className="no-scrollbar h-full scroll-smooth overscroll-none snap-y snap-mandatory overflow-y-scroll"
       >
         {plans.map((plan, index) => {
           const cat = CAT_META[plan.categorie_id] ?? { color: "#E8610A" };
@@ -227,17 +229,17 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                 </button>
 
                 {/* Comment */}
-                <Link
-                  href={`/${locale}/plans/${plan.id}`}
+                <button
+                  onClick={() => setCommentsPlan(plan)}
                   className="flex flex-col items-center gap-1"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm hover:bg-white/25">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-all hover:bg-white/25 active:scale-95">
                     <MessageCircle size={22} />
                   </div>
                   <span className="text-xs font-semibold text-white">
                     {plan.comments_count}
                   </span>
-                </Link>
+                </button>
 
                 {/* Share */}
                 <button
@@ -282,7 +284,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                 </h2>
 
                 {/* Location + category */}
-                <div className="mb-3 flex items-center gap-3">
+                <div className="mb-5 flex items-center gap-3">
                   <span className="flex items-center gap-1 text-xs text-white/80">
                     <MapPin size={12} />
                     {plan.ville}
@@ -337,6 +339,11 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
           );
         })}
       </div>
+      {/* ═══ Comments Bottom Sheet ═══ */}
+      <DiscoverCommentsSheet
+        plan={commentsPlan}
+        onClose={() => setCommentsPlan(null)}
+      />
     </div>
   );
 }

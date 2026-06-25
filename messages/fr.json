@@ -34,6 +34,12 @@
     "plansFound": "{count} plan(s) trouvé(s)",
     "nearMe": "À proximité"
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Tout marquer comme lu",
+    "emptyTitle": "Aucune notification",
+    "emptyDesc": "Vous n'avez pas de nouvelles notifications pour le moment."
+  },
   "favorites": {
     "title": "Mes Favoris",
     "subtitle": "Retrouvez tous les bons plans que vous avez sauvegardés",
@@ -386,6 +392,7 @@
   "landing": {
     "badge": "La première plateforme de bons plans au Cameroun",
     "heroTitle": "Les meilleurs plans",
+    "heroTitleSignedIn": "Vos meilleurs plans",
     "heroTitleHighlight": "près de chez vous",
     "heroSearchPlaceholder": "Rechercher un bon plan, une ville...",
     "explorePlans": "Explorer les plans",

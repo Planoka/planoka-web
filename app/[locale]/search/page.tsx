@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, Navigation, Flame, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ const ExploreMap = dynamic(
 
 export default function ExplorePage() {
   const t = useTranslations("explore");
+  const locale = useLocale();
   const allPlans = useMemo(() => getPlansWithDetails(), []);
 
   /* ── State ── */
@@ -188,13 +190,13 @@ export default function ExplorePage() {
       </button>
 
       {/* ═══ Discover Button ═══ */}
-      <a
-        href="discover"
+      <Link
+        href={`/${locale}/search/discover`}
         className="absolute bottom-44 left-4 z-[1000] flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-xl transition-all hover:brightness-110 active:scale-95 md:bottom-8"
       >
         <Flame size={18} className="fill-white" />
         {t("discover")}
-      </a>
+      </Link>
 
       {/* ═══ Plan Bottom Sheet ═══ */}
       <PlanBottomSheet

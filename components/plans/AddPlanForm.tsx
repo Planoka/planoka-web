@@ -3,8 +3,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import confetti from "canvas-confetti";
 import {
   Video,
   X,
@@ -66,8 +68,44 @@ const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; sl
 export function AddPlanForm() {
   const t = useTranslations("form");
   const tCat = useTranslations("categories");
-  const createPlan = useCreatePlan();
-  const createPlanMock = useCreatePlanMock();
+  const locale = useLocale();
+  const router = useRouter();
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdPlanId, setCreatedPlanId] = useState<string | null>(null);
+
+  const handleSuccess = (data: any) => {
+    setCreatedPlanId(data.id);
+    setShowSuccessModal(true);
+    // Fire confetti
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ["#E8610A", "#FFFFFF"]
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ["#E8610A", "#FFFFFF"]
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  };
+
+  const createPlan = useCreatePlan({ onSuccess: handleSuccess });
+  const createPlanMock = useCreatePlanMock({ onSuccess: handleSuccess });
 
   /* ─── Form ─── */
   const {
@@ -304,6 +342,7 @@ export function AddPlanForm() {
   const labelClass = "mb-2 block text-sm font-semibold text-[var(--color-text-primary)]";
 
   return (
+    <>
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-0">
       {/* ═══ HEADER ═══ */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-bg-card)] pt-8 pb-6 sm:pt-12 sm:pb-8">
@@ -844,5 +883,43 @@ export function AddPlanForm() {
         </div>
       </div>
     </form>
+    
+    {/* ═══ SUCCESS MODAL ═══ */}
+    <AnimatePresence>
+      {showSuccessModal && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[3000] bg-black/60 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="fixed left-1/2 top-1/2 z-[3001] w-11/12 max-w-sm -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-3xl bg-[var(--color-bg-card)] p-8 text-center shadow-2xl"
+          >
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-primary)]/10">
+              <Sparkles className="h-10 w-10 text-[var(--color-primary)]" />
+            </div>
+            <h2 className="mb-2 text-2xl font-bold text-[var(--color-text-primary)]">
+              Félicitations ! 🎉
+            </h2>
+            <p className="mb-8 text-[var(--color-text-secondary)]">
+              Votre bon plan a été publié avec succès. Il est maintenant visible par toute la communauté.
+            </p>
+            <Button
+              className="w-full rounded-full bg-[var(--color-primary)] py-6 text-base font-bold text-white hover:brightness-110"
+              onClick={() => {
+                router.push(`/${locale}/plans/${createdPlanId}`);
+                router.refresh();
+              }}
+            >
+              Voir mon bon plan
+            </Button>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }

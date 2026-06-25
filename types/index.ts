@@ -102,6 +102,23 @@ export interface UserEvent {
   duration_seconds?: number;
 }
 
+/** ---- Notifications ---- */
+export type NotificationType = "boost" | "comment" | "system";
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  plan_id?: string;
+  sender_id?: string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  
+  sender?: User;
+  plan?: Plan;
+}
+
 /** ---- API Responses ---- */
 export interface ApiResponse<T> {
   data: T;
