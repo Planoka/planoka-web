@@ -56,7 +56,11 @@ export interface Plan {
     updated_at: string;
 
 
-    /** Relatiosn */
+    /** Géolocalisation */
+    latitude?: number | null;
+    longitude?: number | null;
+
+    /** Relations */
     author?: User;
     category?: Category;
     is_boosted?: boolean; /** si l'utilisateur courant a booster */
