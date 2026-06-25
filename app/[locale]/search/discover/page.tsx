@@ -12,7 +12,7 @@ export default function DiscoverPage() {
 
   useEffect(() => {
     // Shuffle the plans for a real "discover" feel
-    const plans = getPlansWithDetails().filter(p => p.image_url); // Only plans with images look good in TikTok style
+    const plans = getPlansWithDetails().filter((p) => p.image_url); // Only plans with images look good in TikTok style
     for (let i = plans.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [plans[i], plans[j]] = [plans[j], plans[i]];
@@ -29,9 +29,9 @@ export default function DiscoverPage() {
   }, [allPlans, selectedCategory]);
 
   return (
-    <div className="relative h-[calc(100vh-64px)] md:h-screen w-full bg-black">
+    <div className="relative h-[calc(100vh-64px)] w-full bg-black md:h-screen">
       {/* Category filters overlay */}
-      <div className="absolute top-16 left-0 right-0 z-40 md:top-4">
+      <div className="absolute top-16 right-0 left-0 z-40 md:top-4">
         <CategoryFilter
           selected={selectedCategory}
           onSelect={setSelectedCategory}
@@ -39,10 +39,7 @@ export default function DiscoverPage() {
         />
       </div>
 
-      <DiscoverFeed 
-        plans={filteredPlans} 
-        onBack={() => router.back()} 
-      />
+      <DiscoverFeed plans={filteredPlans} onBack={() => router.back()} />
     </div>
   );
 }

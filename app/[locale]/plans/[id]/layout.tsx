@@ -17,9 +17,8 @@ export async function generateMetadata({
 
   const ogUrl = `https://planoka.com/${params.locale}/plans/${params.id}`;
   const ogTitle = `${plan.titre} | Planoka`;
-  const ogDescription = plan.description.length > 150 
-    ? `${plan.description.substring(0, 150)}...` 
-    : plan.description;
+  const ogDescription =
+    plan.description.length > 150 ? `${plan.description.substring(0, 150)}...` : plan.description;
   const ogImage = plan.image_url || "https://planoka.com/og-image.jpg";
 
   return {
@@ -48,10 +47,6 @@ export async function generateMetadata({
   };
 }
 
-export default function PlanDetailLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PlanDetailLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

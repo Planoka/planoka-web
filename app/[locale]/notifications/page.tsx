@@ -47,10 +47,12 @@ export default function NotificationsPage() {
         {notifications.some((n) => !n.is_read) && (
           <button
             onClick={markAllAsRead}
-            className="flex items-center gap-1.5 rounded-full bg-[var(--color-bg-surface)] px-4 py-2 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-card)] hover:text-[var(--color-primary)] shadow-sm"
+            className="flex items-center gap-1.5 rounded-full bg-[var(--color-bg-surface)] px-4 py-2 text-sm font-medium text-[var(--color-text-secondary)] shadow-sm transition-colors hover:bg-[var(--color-bg-card)] hover:text-[var(--color-primary)]"
           >
             <Check size={16} />
-            <span className="hidden sm:inline">{t("markAllAsRead", { fallback: "Tout marquer comme lu" })}</span>
+            <span className="hidden sm:inline">
+              {t("markAllAsRead", { fallback: "Tout marquer comme lu" })}
+            </span>
           </button>
         )}
       </div>
@@ -64,14 +66,19 @@ export default function NotificationsPage() {
             {t("emptyTitle", { fallback: "Aucune notification" })}
           </h2>
           <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-            {t("emptyDesc", { fallback: "Vous n'avez pas de nouvelles notifications pour le moment." })}
+            {t("emptyDesc", {
+              fallback: "Vous n'avez pas de nouvelles notifications pour le moment.",
+            })}
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
           {notifications.map((notif) => {
             const isUnread = !notif.is_read;
-            const timeAgo = formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: dateLocale });
+            const timeAgo = formatDistanceToNow(new Date(notif.created_at), {
+              addSuffix: true,
+              locale: dateLocale,
+            });
 
             const href = notif.plan_id ? `/${locale}/plans/${notif.plan_id}` : "#";
 
@@ -97,7 +104,12 @@ export default function NotificationsPage() {
                   {notif.sender ? (
                     <div className="relative h-12 w-12 overflow-hidden rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)]">
                       {notif.sender.avatar_url ? (
-                        <Image src={notif.sender.avatar_url} alt={notif.sender.nom} fill className="object-cover" />
+                        <Image
+                          src={notif.sender.avatar_url}
+                          alt={notif.sender.nom}
+                          fill
+                          className="object-cover"
+                        />
                       ) : (
                         <span className="flex h-full w-full items-center justify-center font-bold text-[var(--color-text-secondary)]">
                           {notif.sender.nom.charAt(0)}
@@ -110,17 +122,15 @@ export default function NotificationsPage() {
                     </div>
                   )}
                   {/* Small Type Icon overlay */}
-                  <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-white shadow-sm dark:border-[var(--color-bg-card)] dark:bg-[var(--color-bg-card)]">
+                  <div className="absolute -right-1 -bottom-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-white shadow-sm dark:border-[var(--color-bg-card)] dark:bg-[var(--color-bg-card)]">
                     {ICONS[notif.type]}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="text-sm text-[var(--color-text-primary)]">
-                    {notif.sender && (
-                      <span className="font-bold mr-1">{notif.sender.nom}</span>
-                    )}
+                    {notif.sender && <span className="mr-1 font-bold">{notif.sender.nom}</span>}
                     {notif.content}
                   </p>
                   {notif.plan && (

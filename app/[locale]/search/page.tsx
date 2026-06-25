@@ -14,8 +14,7 @@ import type { Plan } from "@/types";
 
 /* ── Lazy-load the map to avoid SSR issues with Leaflet ── */
 const ExploreMap = dynamic(
-  () =>
-    import("@/components/explore/ExploreMap").then((mod) => mod.ExploreMap),
+  () => import("@/components/explore/ExploreMap").then((mod) => mod.ExploreMap),
   {
     ssr: false,
     loading: () => (
@@ -36,17 +35,13 @@ export default function ExplorePage() {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [userPosition, setUserPosition] = useState<[number, number] | null>(
-    null
-  );
+  const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
   const [locating, setLocating] = useState(false);
 
   /* ── Filtered plans ── */
   const filteredPlans = useMemo(() => {
-    let plans = allPlans.filter(
-      (p) => p.latitude != null && p.longitude != null
-    );
+    let plans = allPlans.filter((p) => p.latitude != null && p.longitude != null);
 
     if (selectedCategory !== "all") {
       plans = plans.filter((p) => p.categorie_id === selectedCategory);
@@ -90,10 +85,7 @@ export default function ExplorePage() {
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const coords: [number, number] = [
-          pos.coords.latitude,
-          pos.coords.longitude,
-        ];
+        const coords: [number, number] = [pos.coords.latitude, pos.coords.longitude];
         setUserPosition(coords);
         setFlyTo(coords);
         setLocating(false);
@@ -181,11 +173,7 @@ export default function ExplorePage() {
         className="absolute right-4 bottom-44 z-[1000] flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-card)] text-[var(--color-primary)] shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 md:bottom-8"
         aria-label={t("myLocation")}
       >
-        {locating ? (
-          <Loader2 size={20} className="animate-spin" />
-        ) : (
-          <Navigation size={20} />
-        )}
+        {locating ? <Loader2 size={20} className="animate-spin" /> : <Navigation size={20} />}
       </button>
 
       {/* ═══ Discover Button ═══ */}

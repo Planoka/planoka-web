@@ -17,8 +17,13 @@ import {
   Undo2,
   Sparkles,
   Zap,
-  UtensilsCrossed, Gamepad2, Music, ShoppingBag,
-  Briefcase, BookOpen, Dumbbell,
+  UtensilsCrossed,
+  Gamepad2,
+  Music,
+  ShoppingBag,
+  Briefcase,
+  BookOpen,
+  Dumbbell,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,8 +56,14 @@ const CATEGORY_MAP: Record<string, { fr: string; en: string }> = {
 };
 
 const iconMap: Record<string, LucideIcon> = {
-  UtensilsCrossed, Gamepad2, Music, ShoppingBag,
-  Briefcase, Heart, BookOpen, Dumbbell,
+  UtensilsCrossed,
+  Gamepad2,
+  Music,
+  ShoppingBag,
+  Briefcase,
+  Heart,
+  BookOpen,
+  Dumbbell,
 };
 
 type SortKey = "recent" | "oldest" | "alpha" | "alphaDesc" | "boosted";
@@ -225,23 +236,21 @@ export default function FavoritesPage() {
                   <button
                     key={cat.slug}
                     onClick={() =>
-                      setSelectedCategory(
-                        isSelected ? null : `cat-${CATEGORIES.indexOf(cat) + 1}`
-                      )
+                      setSelectedCategory(isSelected ? null : `cat-${CATEGORIES.indexOf(cat) + 1}`)
                     }
                     className={cn(
-                      "shrink-0 flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
+                      "flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                       isSelected
                         ? "text-white shadow-sm"
                         : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                     )}
-                    style={
-                      isSelected
-                        ? { backgroundColor: cat.color }
-                        : undefined
-                    }
+                    style={isSelected ? { backgroundColor: cat.color } : undefined}
                   >
-                    <Icon size={14} className={isSelected ? "text-white" : ""} style={{ color: !isSelected ? cat.color : undefined }} />
+                    <Icon
+                      size={14}
+                      className={isSelected ? "text-white" : ""}
+                      style={{ color: !isSelected ? cat.color : undefined }}
+                    />
                     {tCat(
                       cat.slug as
                         | "restauration"
