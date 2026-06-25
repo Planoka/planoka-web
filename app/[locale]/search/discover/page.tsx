@@ -1,23 +1,24 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { DiscoverFeed } from "@/components/explore/DiscoverFeed";
 import { CategoryFilter } from "@/components/explore/CategoryFilter";
 import { getPlansWithDetails } from "@/lib/mock-data";
 
 export default function DiscoverPage() {
   const router = useRouter();
-  const t = useTranslations("explore");
-  const allPlans = useMemo(() => {
+  const [allPlans, setAllPlans] = useState<ReturnType<typeof getPlansWithDetails>>([]);
+
+  useEffect(() => {
     // Shuffle the plans for a real "discover" feel
     const plans = getPlansWithDetails().filter(p => p.image_url); // Only plans with images look good in TikTok style
     for (let i = plans.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [plans[i], plans[j]] = [plans[j], plans[i]];
     }
-    return plans;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setAllPlans(plans);
   }, []);
 
   const [selectedCategory, setSelectedCategory] = useState("all");

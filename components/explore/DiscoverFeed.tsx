@@ -39,7 +39,6 @@ interface DiscoverFeedProps {
 
 export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
   const t = useTranslations("explore");
-  const tCat = useTranslations("categories");
   const locale = useLocale();
   const toggleFavorite = useStore((s) => s.toggleFavorite);
   const favorites = useStore((s) => s.favorites);
@@ -48,8 +47,6 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
   const [boostedIds, setBoostedIds] = useState<Set<string>>(new Set());
   const [commentsPlan, setCommentsPlan] = useState<Plan | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const currentPlan = plans[currentIndex] ?? null;
 
   /* ── Scroll handler for snap ── */
   const handleScroll = useCallback(() => {

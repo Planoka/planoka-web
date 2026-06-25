@@ -169,7 +169,6 @@ export default function ExplorePage() {
       {/* ═══ Map ═══ */}
       <ExploreMap
         plans={filteredPlans}
-        selectedPlan={selectedPlan}
         onSelectPlan={handleSelectPlan}
         userPosition={userPosition}
         flyTo={flyTo}

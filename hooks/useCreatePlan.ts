@@ -11,7 +11,7 @@ interface CreatePlanVariables {
 }
 
 interface UseCreatePlanOptions {
-  onSuccess?: (data: any) => void;
+  onSuccess?: (data: { id: string }) => void;
 }
 
 export function useCreatePlan(options?: UseCreatePlanOptions) {

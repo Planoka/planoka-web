@@ -74,7 +74,7 @@ export function AddPlanForm() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [createdPlanId, setCreatedPlanId] = useState<string | null>(null);
 
-  const handleSuccess = (data: any) => {
+  const handleSuccess = (data: { id: string }) => {
     setCreatedPlanId(data.id);
     setShowSuccessModal(true);
     // Fire confetti

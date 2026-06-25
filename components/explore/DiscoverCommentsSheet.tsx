@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
@@ -21,34 +21,39 @@ export function DiscoverCommentsSheet({ plan, onClose }: DiscoverCommentsSheetPr
   const locale = useLocale();
   const dateLocale = locale === "fr" ? fr : enUS;
   
-  const [comments, setComments] = useState<any[]>([]);
-  const [newComment, setNewComment] = useState("");
+  const [newComments, setNewComments] = useState<ReturnType<typeof getCommentsByPlanId>>([]);
+  const [prevPlanId, setPrevPlanId] = useState(plan?.id);
+  const [newCommentText, setNewCommentText] = useState("");
 
-  useEffect(() => {
-    if (plan) {
-      setComments(getCommentsByPlanId(plan.id));
-    } else {
-      setComments([]);
-    }
-  }, [plan]);
+  if (plan?.id !== prevPlanId) {
+    setPrevPlanId(plan?.id);
+    setNewComments([]);
+  }
+
+  const comments = plan ? [...newComments, ...getCommentsByPlanId(plan.id)] : [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    if (!newCommentText.trim()) return;
 
     // Simulate adding comment
     const comment = {
       id: `new-${Date.now()}`,
-      content: newComment,
+      plan_id: plan?.id || "",
+      user_id: "current-user",
+      content: newCommentText,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       user: {
+        id: "current-user",
         nom: "Vous",
         prenom: "",
+        avatar_url: null
       }
     };
     
-    setComments([comment, ...comments]);
-    setNewComment("");
+    setNewComments([comment, ...newComments]);
+    setNewCommentText("");
   };
 
   return (
@@ -135,13 +140,13 @@ export function DiscoverCommentsSheet({ plan, onClose }: DiscoverCommentsSheetPr
                 <input
                   type="text"
                   placeholder="Ajouter un commentaire..."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
+                  value={newCommentText}
+                  onChange={(e) => setNewCommentText(e.target.value)}
                   className="flex-1 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
                 />
                 <button
                   type="submit"
-                  disabled={!newComment.trim()}
+                  disabled={!newCommentText.trim()}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary)] text-white disabled:opacity-50"
                 >
                   <Send size={16} className="ml-1" />

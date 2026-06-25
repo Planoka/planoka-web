@@ -96,7 +96,6 @@ function MapResizer() {
 /* ─── Main ExploreMap Component ─── */
 interface ExploreMapProps {
   plans: Plan[];
-  selectedPlan: Plan | null;
   onSelectPlan: (plan: Plan) => void;
   userPosition: [number, number] | null;
   flyTo: [number, number] | null;
@@ -104,7 +103,6 @@ interface ExploreMapProps {
 
 export function ExploreMap({
   plans,
-  selectedPlan,
   onSelectPlan,
   userPosition,
   flyTo,
