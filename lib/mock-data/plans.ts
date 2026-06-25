@@ -500,3 +500,13 @@ export function getFeaturedPlans(): Plan[] {
 export function getPlansByCategory(categoryId: string): Plan[] {
   return mockPlans.filter((p) => p.categorie_id === categoryId);
 }
+
+export function getPlanById(planId: string): Plan | undefined {
+  const plan = mockPlans.find((p) => p.id === planId);
+  if (!plan) return undefined;
+  
+  const author = mockUsers.find((u) => u.id === plan.user_id);
+  const category = mockCategories.find((c) => c.id === plan.categorie_id);
+  
+  return { ...plan, author, category };
+}
