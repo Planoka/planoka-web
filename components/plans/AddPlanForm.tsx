@@ -321,7 +321,7 @@ export function AddPlanForm() {
       case 0:
         return watchedTitre.length >= 5 && watchedDescription.length >= 20;
       case 1:
-        return !!watchedCategory;
+        return !!watchedCategory && !!watchedVille;
       case 2:
         return true;
       case 3:
@@ -343,7 +343,10 @@ export function AddPlanForm() {
 
   return (
     <>
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-0">
+    <form onSubmit={handleSubmit(onSubmit, (err) => {
+      console.log("Validation errors", err);
+      toast.error(t("formError") || "Veuillez remplir tous les champs obligatoires.");
+    })} className="space-y-0">
       {/* ═══ HEADER ═══ */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-bg-card)] pt-8 pb-6 sm:pt-12 sm:pb-8">
         <div className="pointer-events-none absolute inset-0 -z-10">

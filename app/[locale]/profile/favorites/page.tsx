@@ -17,6 +17,9 @@ import {
   Undo2,
   Sparkles,
   Zap,
+  UtensilsCrossed, Gamepad2, Music, ShoppingBag,
+  Briefcase, BookOpen, Dumbbell,
+  type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,6 +48,11 @@ const CATEGORY_MAP: Record<string, { fr: string; en: string }> = {
   "cat-6": { fr: "Santé", en: "Health" },
   "cat-7": { fr: "Éducation", en: "Education" },
   "cat-8": { fr: "Sport", en: "Sport" },
+};
+
+const iconMap: Record<string, LucideIcon> = {
+  UtensilsCrossed, Gamepad2, Music, ShoppingBag,
+  Briefcase, Heart, BookOpen, Dumbbell,
 };
 
 type SortKey = "recent" | "oldest" | "alpha" | "alphaDesc" | "boosted";
@@ -210,41 +218,44 @@ export default function FavoritesPage() {
               >
                 {t("filter.all")}
               </button>
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.slug}
-                  onClick={() =>
-                    setSelectedCategory(
-                      selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
-                        ? null
-                        : `cat-${CATEGORIES.indexOf(cat) + 1}`
-                    )
-                  }
-                  className={cn(
-                    "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
-                    selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
-                      ? "text-white shadow-sm"
-                      : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-                  )}
-                  style={
-                    selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`
-                      ? { backgroundColor: cat.color }
-                      : undefined
-                  }
-                >
-                  {tCat(
-                    cat.slug as
-                      | "restauration"
-                      | "loisirs"
-                      | "sorties"
-                      | "shopping"
-                      | "services"
-                      | "sante"
-                      | "education"
-                      | "sport"
-                  )}
-                </button>
-              ))}
+              {CATEGORIES.map((cat) => {
+                const Icon = iconMap[cat.icon];
+                const isSelected = selectedCategory === `cat-${CATEGORIES.indexOf(cat) + 1}`;
+                return (
+                  <button
+                    key={cat.slug}
+                    onClick={() =>
+                      setSelectedCategory(
+                        isSelected ? null : `cat-${CATEGORIES.indexOf(cat) + 1}`
+                      )
+                    }
+                    className={cn(
+                      "shrink-0 flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
+                      isSelected
+                        ? "text-white shadow-sm"
+                        : "bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                    )}
+                    style={
+                      isSelected
+                        ? { backgroundColor: cat.color }
+                        : undefined
+                    }
+                  >
+                    <Icon size={14} className={isSelected ? "text-white" : ""} style={{ color: !isSelected ? cat.color : undefined }} />
+                    {tCat(
+                      cat.slug as
+                        | "restauration"
+                        | "loisirs"
+                        | "sorties"
+                        | "shopping"
+                        | "services"
+                        | "sante"
+                        | "education"
+                        | "sport"
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Sort + View + Actions */}
