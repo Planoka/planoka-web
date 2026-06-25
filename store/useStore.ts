@@ -26,6 +26,12 @@ interface AppState {
   addFavorite: (planId: string) => void;
   removeFavorite: (planId: string) => void;
   isFavorite: (planId: string) => boolean;
+  /** Notifications */
+  notifications: import("@/types").Notification[];
+  unreadNotificationsCount: number;
+  markNotificationAsRead: (id: string) => void;
+  markAllNotificationsAsRead: () => void;
+  initNotifications: () => void;
 }
 
 const defaultFilters: FeedFilters = {
@@ -69,6 +75,33 @@ export const useStore = create<AppState>()(
           favorites: state.favorites.filter((id) => id !== planId),
         })),
       isFavorite: (planId) => get().favorites.includes(planId),
+
+      notifications: [],
+      unreadNotificationsCount: 0,
+      initNotifications: () => {
+        import("@/lib/mock-data").then(({ getNotificationsWithDetails }) => {
+          const notifs = getNotificationsWithDetails();
+          set({
+            notifications: notifs,
+            unreadNotificationsCount: notifs.filter((n) => !n.is_read).length,
+          });
+        });
+      },
+      markNotificationAsRead: (id) =>
+        set((state) => {
+          const notifications = state.notifications.map((n) =>
+            n.id === id ? { ...n, is_read: true } : n
+          );
+          return {
+            notifications,
+            unreadNotificationsCount: notifications.filter((n) => !n.is_read).length,
+          };
+        }),
+      markAllNotificationsAsRead: () =>
+        set((state) => ({
+          notifications: state.notifications.map((n) => ({ ...n, is_read: true })),
+          unreadNotificationsCount: 0,
+        })),
     }),
     {
       name: "planoka-store",
@@ -76,6 +109,7 @@ export const useStore = create<AppState>()(
         feedView: state.feedView,
         feedFilters: { sort: state.feedFilters.sort },
         favorites: state.favorites,
+        // we don't persist notifications since they are mock data
       }),
     }
   )

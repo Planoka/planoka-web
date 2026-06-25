@@ -100,7 +100,7 @@ export default function HomePage() {
               >
                 {isSignedIn ? (
                   <>
-                    Les meilleurs plans
+                    {lt("heroTitleSignedIn")}
                     <br />
                     <span className="text-[var(--color-primary)]"> {lt("heroTitleHighlight")}</span>
                   </>

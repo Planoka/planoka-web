@@ -11,6 +11,35 @@
     "signUp": "S'inscrire",
     "back": "Retour"
   },
+  "explore": {
+    "title": "Explorer",
+    "searchPlaceholder": "Rechercher un bon plan...",
+    "all": "Tous",
+    "myLocation": "Ma position",
+    "locationError": "Impossible d'obtenir votre position",
+    "locationNotSupported": "La géolocalisation n'est pas supportée",
+    "viewPlan": "Voir le plan",
+    "boosts": "boosts",
+    "comments": "commentaires",
+    "plans": "plan(s)",
+    "noPlanSelected": "Touchez un marqueur pour voir les détails",
+    "discover": "Découvrir",
+    "discoverTitle": "Découvrir",
+    "discoverSubtitle": "Explorez les bons plans de manière aléatoire",
+    "swipeUp": "Swipez vers le haut",
+    "noMorePlans": "Plus de plans à découvrir",
+    "noMorePlansDesc": "Changez de catégorie ou revenez plus tard",
+    "backToMap": "Retour à la carte",
+    "filterBy": "Filtrer par",
+    "plansFound": "{count} plan(s) trouvé(s)",
+    "nearMe": "À proximité"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Tout marquer comme lu",
+    "emptyTitle": "Aucune notification",
+    "emptyDesc": "Vous n'avez pas de nouvelles notifications pour le moment."
+  },
   "favorites": {
     "title": "Mes Favoris",
     "subtitle": "Retrouvez tous les bons plans que vous avez sauvegardés",
@@ -363,6 +392,7 @@
   "landing": {
     "badge": "La première plateforme de bons plans au Cameroun",
     "heroTitle": "Les meilleurs plans",
+    "heroTitleSignedIn": "Vos meilleurs plans",
     "heroTitleHighlight": "près de chez vous",
     "heroSearchPlaceholder": "Rechercher un bon plan, une ville...",
     "explorePlans": "Explorer les plans",

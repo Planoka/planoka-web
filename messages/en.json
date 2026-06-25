@@ -11,6 +11,35 @@
     "signUp": "Sign up",
     "back": "Back"
   },
+  "explore": {
+    "title": "Explore",
+    "searchPlaceholder": "Search for a deal...",
+    "all": "All",
+    "myLocation": "My location",
+    "locationError": "Unable to get your location",
+    "locationNotSupported": "Geolocation is not supported",
+    "viewPlan": "View plan",
+    "boosts": "boosts",
+    "comments": "comments",
+    "plans": "plan(s)",
+    "noPlanSelected": "Tap a marker to see details",
+    "discover": "Discover",
+    "discoverTitle": "Discover",
+    "discoverSubtitle": "Explore deals randomly",
+    "swipeUp": "Swipe up",
+    "noMorePlans": "No more plans to discover",
+    "noMorePlansDesc": "Change category or come back later",
+    "backToMap": "Back to map",
+    "filterBy": "Filter by",
+    "plansFound": "{count} plan(s) found",
+    "nearMe": "Near me"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "emptyTitle": "No notifications",
+    "emptyDesc": "You don't have any new notifications yet."
+  },
   "favorites": {
     "title": "My Favorites",
     "subtitle": "Find all the deals you've saved",
@@ -363,6 +392,7 @@
   "landing": {
     "badge": "Cameroon's first local deals platform",
     "heroTitle": "The best deals",
+    "heroTitleSignedIn": "Your best deals",
     "heroTitleHighlight": "near you",
     "heroSearchPlaceholder": "Search for a plan, city...",
     "explorePlans": "Explore plans",

@@ -7,7 +7,7 @@ import { FooterMinimal } from "./FooterMinimal";
 import { TabBarMobile } from "./TabBarMobile";
 
 const HIDE_NAV_PATHS = ["/onboarding"];
-const HIDE_ALL_PATHS = ["/sign-in", "/sign-up", "/profile/settings", "/profile/edit", "/profile/security"];
+const HIDE_ALL_PATHS = ["/sign-in", "/sign-up", "/profile/settings", "/profile/edit", "/profile/security", "/search/discover"];
 
 function isPathMatch(pathname: string, patterns: string[], locale: string): boolean {
   return patterns.some((p) => pathname === `/${locale}${p}` || pathname === `${p}`);
@@ -17,6 +17,7 @@ export function LayoutShell({ children, locale }: { children: React.ReactNode; l
   const pathname = usePathname();
 
   const hideAll = isPathMatch(pathname, [...HIDE_NAV_PATHS, ...HIDE_ALL_PATHS], locale);
+  const hideFooter = pathname.startsWith(`/${locale}/search`) && !pathname.includes("/search/discover");
   const isHome = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   if (hideAll) {
@@ -27,7 +28,7 @@ export function LayoutShell({ children, locale }: { children: React.ReactNode; l
     <>
       <Navbar />
       <main className="flex-1 pb-[90px] md:pb-0">{children}</main>
-      {isHome ? <Footer /> : <FooterMinimal />}
+      {!hideFooter && (isHome ? <Footer /> : <FooterMinimal />)}
       <TabBarMobile />
     </>
   );
