@@ -9,7 +9,7 @@ import { getCommentsByPlanId } from "@/lib/mock-data";
 import { formatDistanceToNow } from "date-fns";
 import { fr, enUS } from "date-fns/locale";
 import { useLocale } from "next-intl";
-import type { Plan } from "@/types";
+import type { Plan, Comment as PlanComment } from "@/types";
 
 interface DiscoverCommentsSheetProps {
   plan: Plan | null;
@@ -36,19 +36,25 @@ export function DiscoverCommentsSheet({ plan, onClose }: DiscoverCommentsSheetPr
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
-    // Simulate adding comment
-    const comment = {
+    const comment: PlanComment = {
       id: `new-${Date.now()}`,
       plan_id: plan?.id || "",
       user_id: "current-user",
-      content: newCommentText,
+      parent_id: null,
+      contenu: newCommentText,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      user: {
+      author: {
         id: "current-user",
+        clerk_id: "current-user-clerk",
         nom: "Vous",
-        prenom: "",
-        avatar_url: null
+        email: "",
+        role: "user",
+        langue: "fr",
+        theme: "system",
+        ville: "",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        avatar_url: ""
       }
     };
     
@@ -107,11 +113,11 @@ export function DiscoverCommentsSheet({ plan, onClose }: DiscoverCommentsSheetPr
                   <div key={comment.id} className="flex gap-3">
                     {/* Avatar */}
                     <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[var(--color-bg-surface)]">
-                      {comment.user?.avatar_url ? (
-                        <Image src={comment.user.avatar_url} alt="" fill className="object-cover" />
+                      {comment.author?.avatar_url ? (
+                        <Image src={comment.author.avatar_url} alt="" fill className="object-cover" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center font-bold text-[var(--color-text-secondary)]">
-                          {comment.user?.nom?.charAt(0) || "U"}
+                          {comment.author?.nom?.charAt(0) || "U"}
                         </div>
                       )}
                     </div>
@@ -119,14 +125,14 @@ export function DiscoverCommentsSheet({ plan, onClose }: DiscoverCommentsSheetPr
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-[var(--color-text-primary)]">
-                          {comment.user?.nom}
+                          {comment.author?.nom}
                         </span>
                         <span className="text-xs text-[var(--color-text-tertiary)]">
                           {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: dateLocale })}
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-                        {comment.content}
+                        {comment.contenu}
                       </p>
                     </div>
                   </div>
