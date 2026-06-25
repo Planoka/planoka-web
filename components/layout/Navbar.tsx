@@ -4,13 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus, Search, ArrowLeft } from "lucide-react";
+import { Plus, Search, ArrowLeft, Bell } from "lucide-react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { LanguageToggle } from "@/components/common/LanguageToggle";
 import { Button } from "@/components/ui/button";
 import { getClerkPaths } from "@/lib/clerk-paths";
 import { cn } from "@/lib/utils";
+import { useStore } from "@/store/useStore";
+import { useEffect } from "react";
 
 const navLinks = [
   { key: "home", href: "/" },
@@ -24,6 +26,12 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const paths = getClerkPaths(locale);
+  const unreadCount = useStore((s) => s.unreadNotificationsCount);
+  const initNotifications = useStore((s) => s.initNotifications);
+
+  useEffect(() => {
+    initNotifications();
+  }, [initNotifications]);
 
   const isTopLevel = 
     pathname === `/${locale}` || 
@@ -88,6 +96,16 @@ export function Navbar() {
           <ThemeToggle />
 
           <Show when="signed-in">
+            <Link
+              href={`/${locale}/notifications`}
+              className="relative flex h-10 w-10 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-surface)] hover:text-[var(--color-text-primary)]"
+              aria-label="Notifications"
+            >
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute right-2 top-2 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-red-500 ring-2 ring-[var(--color-bg-card)]" />
+              )}
+            </Link>
             <Link
               href={`/${locale}/plans/new`}
               className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-white transition-all hover:brightness-90 active:scale-95"

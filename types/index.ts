@@ -56,7 +56,11 @@ export interface Plan {
     updated_at: string;
 
 
-    /** Relatiosn */
+    /** Géolocalisation */
+    latitude?: number | null;
+    longitude?: number | null;
+
+    /** Relations */
     author?: User;
     category?: Category;
     is_boosted?: boolean; /** si l'utilisateur courant a booster */
@@ -96,6 +100,23 @@ export interface UserEvent {
   plan_id: string;
   event_type: EventType;
   duration_seconds?: number;
+}
+
+/** ---- Notifications ---- */
+export type NotificationType = "boost" | "comment" | "system";
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  plan_id?: string;
+  sender_id?: string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  
+  sender?: User;
+  plan?: Plan;
 }
 
 /** ---- API Responses ---- */

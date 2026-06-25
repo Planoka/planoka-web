@@ -10,7 +10,11 @@ interface CreatePlanVariables {
   formData: FormData;
 }
 
-export function useCreatePlan() {
+interface UseCreatePlanOptions {
+  onSuccess?: (data: { id: string }) => void;
+}
+
+export function useCreatePlan(options?: UseCreatePlanOptions) {
   const router = useRouter();
   const locale = useLocale();
 
@@ -21,9 +25,12 @@ export function useCreatePlan() {
     },
     onSuccess: (data) => {
       toast.success("Plan publié avec succès !");
-      // Invalidate plans cache will be handled by the page
-      router.push(`/${locale}/plans/${data.id}`);
-      router.refresh();
+      if (options?.onSuccess) {
+        options.onSuccess(data);
+      } else {
+        router.push(`/${locale}/plans/${data.id}`);
+        router.refresh();
+      }
     },
     onError: (error: unknown) => {
       const err = error as { response?: { data?: { message?: string } } };
@@ -33,7 +40,7 @@ export function useCreatePlan() {
   });
 }
 
-export function useCreatePlanMock() {
+export function useCreatePlanMock(options?: UseCreatePlanOptions) {
   const router = useRouter();
   const locale = useLocale();
 
@@ -59,8 +66,12 @@ export function useCreatePlanMock() {
     },
     onSuccess: (data) => {
       toast.success("Plan publié avec succès ! (Mode démo)");
-      router.push(`/${locale}/plans/${data.id}`);
-      router.refresh();
+      if (options?.onSuccess) {
+        options.onSuccess(data);
+      } else {
+        router.push(`/${locale}/plans/${data.id}`);
+        router.refresh();
+      }
     },
     onError: () => {
       toast.error("Erreur lors de la publication");
