@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
+import { useTheme } from "next-themes";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -109,6 +110,7 @@ export function ExploreMap({
   flyTo,
 }: ExploreMapProps) {
   const mapRef = useRef<L.Map | null>(null);
+  const { resolvedTheme } = useTheme();
 
   /* Memoize plan markers */
   const markers = useMemo(
@@ -133,10 +135,14 @@ export function ExploreMap({
       zoomControl={false}
       attributionControl={false}
       ref={mapRef}
-      style={{ background: "#1a1a2e" }}
+      style={{ background: resolvedTheme === "dark" ? "#1a1a2e" : "#f1f5f9" }}
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        url={
+          resolvedTheme === "dark"
+            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        }
         attribution='&copy; <a href="https://carto.com/">CARTO</a>'
       />
 
