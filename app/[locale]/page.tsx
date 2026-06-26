@@ -1,5 +1,19 @@
 "use client";
 
+/**
+ * Page d'Accueil Principale (Landing Page)
+ * Fichier: app/[locale]/page.tsx
+ * 
+ * Cette page sert de point d'entrée pour les visiteurs (connectés ou non).
+ * Elle présente:
+ * - Un Hero banner avec des statistiques.
+ * - Les "Bons plans à la une" (Featured).
+ * - Une section expliquant pourquoi utiliser Planoka (Features).
+ * - Une grille filtrable de bons plans (Pinterest-style Masonry layout).
+ * - Des liens pour télécharger les applications mobiles.
+ * - Un carrousel d'avis utilisateurs.
+ */
+
 import { useState, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
@@ -27,6 +41,7 @@ import { useUser } from "@clerk/nextjs";
 import { ReviewsCarousel } from "@/components/common/ReviewsCarousel";
 import { CookieConsent } from "@/components/common/CookieConsent";
 
+// Statistiques affichées dans la section Hero
 const stats = [
   { value: "500+", key: "plans" },
   { value: "10K+", key: "users" },
@@ -35,17 +50,26 @@ const stats = [
 ];
 
 export default function HomePage() {
+  // Hooks de traduction (next-intl)
   const t = useTranslations("feed");
   const lt = useTranslations("landing");
   const locale = useLocale();
+
+  // État local pour le filtre de catégorie
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  
+  // Hook d'authentification Clerk pour adapter le contenu (ex: titres, CTA)
   const { isSignedIn } = useUser();
 
+  // Récupération des données fictives (à remplacer par des appels API réels)
   const allPlans = useMemo(() => getPlansWithDetails(), []);
   const featuredPlans = useMemo(() => getFeaturedPlans(), []);
 
+  // Filtrage local des plans selon la catégorie sélectionnée
   const filteredPlans = useMemo(() => {
     if (!selectedCategory) return allPlans;
+    
+    // Mapping manuel des slugs de catégorie vers leurs IDs internes (cat-1, cat-2, etc.)
     const catMap: Record<string, string> = {
       restauration: "cat-1",
       loisirs: "cat-2",
@@ -59,6 +83,7 @@ export default function HomePage() {
     return allPlans.filter((p) => p.categorie_id === catMap[selectedCategory]);
   }, [selectedCategory, allPlans]);
 
+  // Définition des fonctionnalités principales pour la section "Pourquoi Planoka"
   const features = [
     { icon: Compass, titleKey: "explore.title", descKey: "explore.desc" },
     { icon: Zap, titleKey: "boosts.title", descKey: "boosts.desc" },
@@ -71,8 +96,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       <CookieConsent />
+      
       {/* ═══ HERO SECTION ═══ */}
+      {/* Section d'en-tête principale avec un fond stylisé, une barre de recherche et l'image de la mascotte */}
       <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20">
+        {/* Arrière-plan décoratif */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
           <div className="absolute -top-20 -right-40 h-80 w-80 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
@@ -81,6 +109,7 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col-reverse items-center gap-12 lg:flex-row lg:justify-between">
+            {/* Contenu Texte du Hero */}
             <div className="flex-1 text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -98,6 +127,7 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl"
               >
+                {/* Le titre change selon si l'utilisateur est connecté ou non */}
                 {isSignedIn ? (
                   <>
                     {lt("heroTitleSignedIn")}
@@ -121,6 +151,7 @@ export default function HomePage() {
                 {t("subtitle")}
               </motion.p>
 
+              {/* Barre de recherche factice (UI seulement) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -138,6 +169,7 @@ export default function HomePage() {
                 </kbd>
               </motion.div>
 
+              {/* Boutons d'action (Calls to Action) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -161,7 +193,7 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            {/* Mascot Image */}
+            {/* Mascot Image (Image de la mascotte animée) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -181,6 +213,7 @@ export default function HomePage() {
                   priority
                 />
               </motion.div>
+              {/* Petites icônes flottantes autour de la mascotte */}
               <motion.div
                 animate={{ y: [0, -10, 0], rotate: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -198,7 +231,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* Stats */}
+          {/* Stats rapides sous le Hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -221,12 +254,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ FEATURED PLANS ═══ */}
+      {/* Affichage d'une grille mise en avant si des plans sont 'featured' */}
       {featuredPlans.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-bold text-[var(--color-text-primary)]">
               <Sparkles className="mr-2 inline h-5 w-5 text-[var(--color-primary)]" />
               <span className="relative">
+                {/* SVG Soulignement décoratif */}
                 <svg
                   width="219"
                   height="24"
@@ -245,6 +280,7 @@ export default function HomePage() {
               </span>
             </h2>
           </div>
+          {/* Grille responsive : le premier élément est mis en évidence */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {featuredPlans.map((plan, i) => (
               <div key={plan.id} className={i === 0 ? "sm:col-span-2 sm:row-span-2" : ""}>
@@ -256,6 +292,7 @@ export default function HomePage() {
       )}
 
       {/* ═══ FEATURES SECTION ═══ */}
+      {/* Section expliquant les avantages de la plateforme */}
       <section
         id="features"
         className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16"
@@ -276,7 +313,7 @@ export default function HomePage() {
                   key={feature.titleKey}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true }} // L'animation se joue une seule fois lors du scroll
                   transition={{ delay: i * 0.05, duration: 0.3 }}
                   className="group rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
                 >
@@ -297,6 +334,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ PLANS GRID (Pinterest Masonry) ═══ */}
+      {/* Grille principale des plans avec un affichage en colonnes (Masonry) */}
       <section id="plans-grid" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -309,14 +347,17 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Pilules de filtrage par catégorie */}
         <CategoryPills selected={selectedCategory} onSelect={setSelectedCategory} />
 
+        {/* Disposition CSS Columns pour l'effet Masonry/Pinterest */}
         <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
           {filteredPlans.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
         </div>
 
+        {/* État vide si aucune donnée ne correspond aux filtres */}
         {filteredPlans.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-bg-surface)]">
@@ -326,6 +367,7 @@ export default function HomePage() {
           </div>
         )}
 
+        {/* Bouton pour afficher plus de résultats (redirection vers la page /plans) */}
         {filteredPlans.length > 0 && (
           <div className="mt-10 flex justify-center">
             <Link href={`/${locale}/plans`}>
@@ -339,12 +381,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ DOWNLOAD SECTION ═══ */}
+      {/* Section promotionnelle pour le téléchargement des apps mobiles */}
       <section className="border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-between">
             <div className="max-w-lg text-center lg:text-left">
               <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
                 <span className="relative">
+                  {/* SVG Soulignement décoratif */}
                   <svg
                     width="219"
                     height="24"
@@ -364,6 +408,8 @@ export default function HomePage() {
                 {lt("downloadTitleEnd")}
               </h2>
               <p className="mt-7 text-[var(--color-text-secondary)]">{lt("downloadDesc")}</p>
+              
+              {/* Boutons de téléchargement (App Store / Google Play) */}
               <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href="https://apps.apple.com"
@@ -395,6 +441,8 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
+            
+            {/* Mockups d'application mobile */}
             <div className="relative">
               <div className="flex gap-4">
                 <div className="h-80 w-44 rounded-3xl border-4 border-[var(--color-border)] bg-[var(--color-bg-card)] p-2 shadow-xl">
@@ -425,7 +473,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CTA SECTION ═══ */}
+      {/* ═══ CTA SECTION (Bannière d'Appel à l'action) ═══ */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-3xl bg-[var(--color-primary)] px-8 py-12 text-center sm:px-16">
@@ -437,6 +485,7 @@ export default function HomePage() {
               {isSignedIn ? lt("ctaDescSignedIn") : lt("ctaDesc")}
             </p>
             <div className="relative mt-6 flex flex-wrap justify-center gap-3">
+              {/* Le contenu du CTA dépend de l'état de connexion de l'utilisateur */}
               {isSignedIn ? (
                 <>
                   <Link href={`/${locale}/plans`}>
@@ -485,6 +534,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ REVIEWS CAROUSEL ═══ */}
+      {/* Composant de témoignages utilisateurs */}
       <ReviewsCarousel />
     </div>
   );

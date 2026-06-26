@@ -1,32 +1,41 @@
+/**
+ * Store Global de l'Application (Zustand)
+ * 
+ * Ce fichier gère l'état global côté client de l'application.
+ * Il utilise Zustand pour la gestion d'état et le middleware 'persist'
+ * pour sauvegarder certaines préférences dans le localStorage du navigateur.
+ */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User, FeedFilters } from "@/types";
 
+// Définition de la structure (interface) de notre store
 interface AppState {
-  /** Utilisateur courant */
+  /** 1. Gestion de l'Utilisateur courant (synchronisé avec Clerk) */
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
 
-  /** Filtres du feed */
+  /** 2. Gestion des Filtres du Feed (Page d'accueil) */
   feedFilters: FeedFilters;
   setFeedFilters: (filters: Partial<FeedFilters>) => void;
   resetFeedFilters: () => void;
 
-  /** Vue (grille ou liste) */
+  /** 3. Préférences d'affichage (Vue grille ou liste) */
   feedView: "grid" | "list";
   setFeedView: (view: "grid" | "list") => void;
 
-  /** Catégorie sélectionnée */
+  /** 4. Filtre par Catégorie */
   selectedCategory: string | null;
   setSelectedCategory: (category: string | null) => void;
 
-  /** Favoris — IDs des plans sauvegardés */
+  /** 5. Gestion des Favoris (Liste d'IDs des bons plans) */
   favorites: string[];
   toggleFavorite: (planId: string) => void;
   addFavorite: (planId: string) => void;
   removeFavorite: (planId: string) => void;
   isFavorite: (planId: string) => boolean;
-  /** Notifications */
+  
+  /** 6. Centre de Notifications */
   notifications: import("@/types").Notification[];
   unreadNotificationsCount: number;
   markNotificationAsRead: (id: string) => void;
@@ -34,6 +43,7 @@ interface AppState {
   initNotifications: () => void;
 }
 
+// Paramètres de filtrage par défaut au lancement
 const defaultFilters: FeedFilters = {
   page: 1,
   limit: 12,
@@ -43,23 +53,29 @@ const defaultFilters: FeedFilters = {
 export const useStore = create<AppState>()(
   persist(
     (set, get) => ({
+      // --- Section: Utilisateur ---
       currentUser: null,
       setCurrentUser: (user) => set({ currentUser: user }),
 
+      // --- Section: Feed et Filtres ---
       feedFilters: defaultFilters,
+      // Fusionne les nouveaux filtres avec les anciens
       setFeedFilters: (filters) =>
         set((state) => ({ feedFilters: { ...state.feedFilters, ...filters } })),
       resetFeedFilters: () => set({ feedFilters: defaultFilters }),
 
+      // --- Section: Préférences UI ---
       feedView: "grid",
       setFeedView: (view) => set({ feedView: view }),
 
       selectedCategory: null,
       setSelectedCategory: (category) => set({ selectedCategory: category }),
 
+      // --- Section: Favoris ---
       favorites: [],
       toggleFavorite: (planId) =>
         set((state) => ({
+          // Si le plan est déjà en favori, on le retire, sinon on l'ajoute
           favorites: state.favorites.includes(planId)
             ? state.favorites.filter((id) => id !== planId)
             : [...state.favorites, planId],
@@ -76,9 +92,11 @@ export const useStore = create<AppState>()(
         })),
       isFavorite: (planId) => get().favorites.includes(planId),
 
+      // --- Section: Notifications ---
       notifications: [],
       unreadNotificationsCount: 0,
       initNotifications: () => {
+        // Chargement différé (lazy load) des notifications mockées
         import("@/lib/mock-data").then(({ getNotificationsWithDetails }) => {
           const notifs = getNotificationsWithDetails();
           set({
@@ -104,12 +122,14 @@ export const useStore = create<AppState>()(
         })),
     }),
     {
-      name: "planoka-store",
+      name: "planoka-store", // Nom de la clé dans le localStorage
+      // Sélection des données à persister (conserver après rafraîchissement)
       partialize: (state) => ({
         feedView: state.feedView,
         feedFilters: { sort: state.feedFilters.sort },
         favorites: state.favorites,
-        // we don't persist notifications since they are mock data
+        // On ne persiste ni l'utilisateur (Clerk s'en charge) 
+        // ni les notifications (elles sont regénérées depuis le mock)
       }),
     }
   )

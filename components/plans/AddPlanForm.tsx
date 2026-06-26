@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * Formulaire d'Ajout d'un Bon Plan (AddPlanForm.tsx)
+ * 
+ * Ce composant gère le processus multi-étapes de création d'un nouveau plan :
+ * Étape 1 : Informations de base (Titre, Description)
+ * Étape 2 : Catégorie et Localisation (Ville)
+ * Étape 3 : Médias (Image ou Vidéo)
+ * Étape 4 : Géolocalisation précise (Optionnelle)
+ * 
+ * Il utilise react-hook-form pour la gestion d'état du formulaire,
+ * Zod pour la validation, et framer-motion pour les animations de transition.
+ */
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,17 +56,19 @@ import { CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useCreatePlan, useCreatePlanMock } from "@/hooks/useCreatePlan";
 
-/* ─── Media Type ─── */
+/* ─── Type pour l'aperçu des médias ─── */
 type MediaPreview = {
   file: File;
-  url: string;
+  url: string; // URL blob locale pour la prévisualisation
   type: "image" | "video";
 };
 
-/* ─── Constants ─── */
+/* ─── Constantes ─── */
+// Indique si l'on utilise des données fictives (mock) ou l'API réelle
 const USE_MOCK = true;
 
-/* ─── Category Config ─── */
+/* ─── Configuration des Catégories ─── */
+// Associe chaque ID de catégorie à une couleur, une icône et un slug pour la traduction
 const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; slug: string }> = {
   "cat-1": { color: "#E8610A", icon: UtensilsCrossed, slug: "restauration" },
   "cat-2": { color: "#7C3AED", icon: Gamepad2, slug: "loisirs" },
@@ -71,13 +86,19 @@ export function AddPlanForm() {
   const locale = useLocale();
   const router = useRouter();
 
+  // États pour la modale de succès et l'animation de confettis
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [createdPlanId, setCreatedPlanId] = useState<string | null>(null);
 
+  /**
+   * Fonction appelée lors du succès de la soumission du formulaire.
+   * Déclenche l'animation de confettis.
+   */
   const handleSuccess = (data: { id: string }) => {
     setCreatedPlanId(data.id);
     setShowSuccessModal(true);
-    // Fire confetti
+    
+    // Configuration de l'animation de confettis
     const duration = 3000;
     const end = Date.now() + duration;
 
@@ -104,10 +125,11 @@ export function AddPlanForm() {
     frame();
   };
 
+  // Hooks de mutation React Query (Mock ou Réel)
   const createPlan = useCreatePlan({ onSuccess: handleSuccess });
   const createPlanMock = useCreatePlanMock({ onSuccess: handleSuccess });
 
-  /* ─── Form ─── */
+  /* ─── Initialisation du Formulaire (react-hook-form) ─── */
   const {
     register,
     handleSubmit,
@@ -115,7 +137,7 @@ export function AddPlanForm() {
     control,
     formState: { errors, isSubmitting },
   } = useForm<AddPlanFormData>({
-    resolver: zodResolver(addPlanSchema),
+    resolver: zodResolver(addPlanSchema), // Validation Zod
     defaultValues: {
       titre: "",
       description: "",
@@ -129,23 +151,24 @@ export function AddPlanForm() {
     },
   });
 
+  // Observations en temps réel des champs pour la validation des étapes
   const watchedTitre = useWatch({ control, name: "titre" });
   const watchedDescription = useWatch({ control, name: "description" });
   const watchedCategory = useWatch({ control, name: "categorie_id" });
   const watchedVille = useWatch({ control, name: "ville" });
 
-  /* ─── Media State ─── */
+  /* ─── États pour la gestion des Médias ─── */
   const [media, setMedia] = useState<MediaPreview | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
 
-  /* ─── City Search ─── */
+  /* ─── États pour la recherche de Ville ─── */
   const [citySearch, setCitySearch] = useState("");
   const [cityOpen, setCityOpen] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
 
-  /* ─── Location State ─── */
+  /* ─── États pour la Géolocalisation ─── */
   const [locationLoading, setLocationLoading] = useState(false);
   const [location, setLocation] = useState<{
     latitude: number;
@@ -154,10 +177,12 @@ export function AddPlanForm() {
     label: string;
   } | null>(null);
 
-  /* ─── Form Step ─── */
+  /* ─── État pour l'étape courante du formulaire (0 à 3) ─── */
   const [step, setStep] = useState(0);
 
-  /* ─── Close city dropdown on outside click ─── */
+  /**
+   * Ferme le menu déroulant des villes si on clique en dehors
+   */
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
@@ -168,17 +193,20 @@ export function AddPlanForm() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  /* ─── Filtered cities ─── */
+  // Filtrage des villes en fonction de la recherche
   const filteredCities = VALID_CAMEROON_CITIES_LIST.filter((c) =>
     c.toLowerCase().includes(citySearch.toLowerCase())
   );
 
-  /* ─── Handle Media Upload ─── */
+  /**
+   * Gestion de la sélection d'un fichier multimédia (Image/Vidéo)
+   */
   const handleFileSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, type: "image" | "video") => {
       const file = e.target.files?.[0];
       if (!file) return;
 
+      // Validation de la taille du fichier
       if (type === "image" && file.size > MAX_IMAGE_SIZE) {
         toast.error("L'image ne doit pas dépasser 10 MB");
         return;
@@ -188,19 +216,23 @@ export function AddPlanForm() {
         return;
       }
 
-      // Revoke previous URL
+      // Nettoie l'URL précédente pour éviter les fuites de mémoire
       if (media) URL.revokeObjectURL(media.url);
 
       const url = URL.createObjectURL(file);
       setMedia({ file, url, type });
       setMediaType(type);
+      
+      // Met à jour les valeurs dans react-hook-form
       setValue(type === "image" ? "image_file" : "video_file", file);
       setValue(type === "image" ? "video_file" : "image_file", null);
     },
     [media, setValue]
   );
 
-  /* ─── Remove Media ─── */
+  /**
+   * Suppression du média sélectionné
+   */
   const removeMedia = useCallback(() => {
     if (media) URL.revokeObjectURL(media.url);
     setMedia(null);
@@ -211,7 +243,9 @@ export function AddPlanForm() {
     if (videoInputRef.current) videoInputRef.current.value = "";
   }, [media, setValue]);
 
-  /* ─── Get Location ─── */
+  /**
+   * Demande la position GPS de l'utilisateur via l'API du navigateur
+   */
   const getLocation = useCallback(() => {
     if (!navigator.geolocation) {
       toast.error("La géolocalisation n'est pas supportée par votre navigateur");
@@ -254,7 +288,9 @@ export function AddPlanForm() {
     );
   }, [setValue]);
 
-  /* ─── Remove Location ─── */
+  /**
+   * Suppression de la localisation GPS
+   */
   const removeLocation = useCallback(() => {
     setLocation(null);
     setValue("latitude", null);
@@ -262,7 +298,9 @@ export function AddPlanForm() {
     setValue("accuracy", null);
   }, [setValue]);
 
-  /* ─── Handle City Select ─── */
+  /**
+   * Sélection d'une ville dans la liste déroulante
+   */
   const selectCity = useCallback(
     (city: string) => {
       setValue("ville", city);
@@ -272,7 +310,9 @@ export function AddPlanForm() {
     [setValue]
   );
 
-  /* ─── Handle Category Select ─── */
+  /**
+   * Sélection d'une catégorie
+   */
   const selectCategory = useCallback(
     (catId: string) => {
       setValue("categorie_id", catId);
@@ -280,8 +320,11 @@ export function AddPlanForm() {
     [setValue]
   );
 
-  /* ─── Submit ─── */
+  /**
+   * Soumission du formulaire complet
+   */
   const onSubmit = async (data: AddPlanFormData) => {
+    // Utilisation de FormData car on envoie potentiellement un fichier binaire
     const formData = new FormData();
     formData.append("titre", data.titre.trim());
     formData.append("description", data.description.trim());
@@ -304,11 +347,12 @@ export function AddPlanForm() {
       if (data.accuracy) formData.append("accuracy", data.accuracy.toString());
     }
 
+    // Déclenche l'appel API (ou le mock)
     const mutation = USE_MOCK ? createPlanMock : createPlan;
     mutation.mutate({ formData });
   };
 
-  /* ─── Steps ─── */
+  /* ─── Définition des Étapes ─── */
   const steps = [
     { key: "basics", label: t("stepBasics") },
     { key: "category", label: t("stepCategory") },
@@ -316,6 +360,9 @@ export function AddPlanForm() {
     { key: "location", label: t("stepLocation") },
   ];
 
+  /**
+   * Vérifie si l'utilisateur a rempli les conditions pour passer à l'étape suivante
+   */
   const canProceed = () => {
     switch (step) {
       case 0:
@@ -323,14 +370,15 @@ export function AddPlanForm() {
       case 1:
         return !!watchedCategory && !!watchedVille;
       case 2:
-        return true;
+        return true; // Le média est optionnel
       case 3:
-        return true;
+        return true; // La localisation est optionnelle
       default:
         return false;
     }
   };
 
+  // Utilitaires de classes CSS
   const inputClass = (hasError?: boolean) =>
     cn(
       "h-12 w-full rounded-xl border bg-[var(--color-bg-surface)] px-4 text-sm text-[var(--color-text-primary)] outline-none transition-all placeholder:text-[var(--color-text-tertiary)]",
@@ -343,11 +391,13 @@ export function AddPlanForm() {
 
   return (
     <>
+    {/* Interception des erreurs de validation (fallback au cas où le bouton de l'étape est cliquable par erreur) */}
     <form onSubmit={handleSubmit(onSubmit, (err) => {
       console.log("Validation errors", err);
       toast.error(t("formError") || "Veuillez remplir tous les champs obligatoires.");
     })} className="space-y-0">
-      {/* ═══ HEADER ═══ */}
+      
+      {/* ═══ HEADER / EN-TÊTE ═══ */}
       <section className="relative overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-bg-card)] pt-8 pb-6 sm:pt-12 sm:pb-8">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-32 -left-32 h-64 w-64 rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
@@ -374,7 +424,7 @@ export function AddPlanForm() {
         </div>
       </section>
 
-      {/* ═══ PROGRESS BAR ═══ */}
+      {/* ═══ BARRE DE PROGRESSION ═══ */}
       <div className="border-b border-[var(--color-border)] bg-[var(--color-bg-card)]">
         <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between gap-2">
@@ -382,6 +432,7 @@ export function AddPlanForm() {
               <div key={s.key} className="flex flex-1 items-center gap-2">
                 <button
                   type="button"
+                  // On permet le clic pour revenir en arrière, mais pas pour sauter des étapes
                   onClick={() => i <= step && setStep(i)}
                   className={cn(
                     "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold transition-all",
@@ -420,10 +471,12 @@ export function AddPlanForm() {
         </div>
       </div>
 
-      {/* ═══ FORM BODY ═══ */}
+      {/* ═══ CORPS DU FORMULAIRE ═══ */}
       <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+        {/* AnimatePresence permet d'animer le démontage des composants enfants */}
         <AnimatePresence mode="wait">
-          {/* ─── STEP 0: BASIC INFO ─── */}
+          
+          {/* ─── ÉTAPE 0: INFOS DE BASE ─── */}
           {step === 0 && (
             <motion.div
               key="step-0"
@@ -492,7 +545,7 @@ export function AddPlanForm() {
             </motion.div>
           )}
 
-          {/* ─── STEP 1: CATEGORY ─── */}
+          {/* ─── ÉTAPE 1: CATÉGORIE ET VILLE ─── */}
           {step === 1 && (
             <motion.div
               key="step-1"
@@ -502,6 +555,7 @@ export function AddPlanForm() {
               transition={{ duration: 0.25 }}
               className="space-y-6"
             >
+              {/* Sélecteur de Catégorie */}
               <div>
                 <label className={labelClass}>
                   {t("category")}
@@ -576,6 +630,7 @@ export function AddPlanForm() {
                 )}
               </div>
 
+              {/* Sélecteur de Ville (Liste déroulante custom) */}
               <div>
                 <label className={labelClass}>
                   {t("city")}
@@ -660,7 +715,7 @@ export function AddPlanForm() {
             </motion.div>
           )}
 
-          {/* ─── STEP 2: MEDIA ─── */}
+          {/* ─── ÉTAPE 2: MÉDIAS (IMAGE/VIDÉO) ─── */}
           {step === 2 && (
             <motion.div
               key="step-2"
@@ -678,7 +733,7 @@ export function AddPlanForm() {
 
                 {media && mediaType === "image" ? (
                   <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* Aperçu de l'image */}
                     <img src={media.url} alt="Aperçu" className="h-64 w-full object-cover" />
                     <button
                       type="button"
@@ -720,6 +775,7 @@ export function AddPlanForm() {
 
                 {media && mediaType === "video" ? (
                   <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)]">
+                    {/* Aperçu de la vidéo */}
                     <video src={media.url} controls className="h-64 w-full object-cover" />
                     <button
                       type="button"
@@ -755,7 +811,7 @@ export function AddPlanForm() {
             </motion.div>
           )}
 
-          {/* ─── STEP 3: LOCATION ─── */}
+          {/* ─── ÉTAPE 3: GÉOLOCALISATION ─── */}
           {step === 3 && (
             <motion.div
               key="step-3"
@@ -777,6 +833,7 @@ export function AddPlanForm() {
                 </p>
 
                 {location ? (
+                  // Affichage de la position si elle a été capturée avec succès
                   <div className="space-y-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-4">
                     <div className="flex items-start gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-success)]/10">
@@ -798,6 +855,7 @@ export function AddPlanForm() {
                       <button
                         type="button"
                         onClick={removeLocation}
+
                         className="shrink-0 rounded-full p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-bg-card)] hover:text-[var(--color-danger)]"
                       >
                         <X className="h-4 w-4" />

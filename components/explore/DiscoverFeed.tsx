@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Flux de Découverte (DiscoverFeed.tsx)
+ * 
+ * Ce composant implémente l'expérience de navigation verticale immersive 
+ * (façon TikTok / Reels). Il gère le scroll fluide, l'affichage en plein 
+ * écran des médias, et les interactions sociales (boost, favori, partage, commentaire).
+ */
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +29,7 @@ import { useStore } from "@/store/useStore";
 import type { Plan } from "@/types";
 import { DiscoverCommentsSheet } from "./DiscoverCommentsSheet";
 
+// Configuration des couleurs par catégorie
 const CAT_META: Record<string, { color: string }> = {
   "cat-1": { color: "#E8610A" },
   "cat-2": { color: "#7C3AED" },
@@ -40,26 +49,36 @@ interface DiscoverFeedProps {
 export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
   const t = useTranslations("explore");
   const locale = useLocale();
+  
+  // Connexion au store global pour la gestion des favoris
   const toggleFavorite = useStore((s) => s.toggleFavorite);
   const favorites = useStore((s) => s.favorites);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [boostedIds, setBoostedIds] = useState<Set<string>>(new Set());
-  const [commentsPlan, setCommentsPlan] = useState<Plan | null>(null);
+  // État local du flux
+  const [currentIndex, setCurrentIndex] = useState(0); // Index du plan actuellement visible
+  const [boostedIds, setBoostedIds] = useState<Set<string>>(new Set()); // Plans boostés (simulation locale)
+  const [commentsPlan, setCommentsPlan] = useState<Plan | null>(null); // Plan dont on affiche les commentaires
+  
   const containerRef = useRef<HTMLDivElement>(null);
 
-  /* ── Scroll handler for snap ── */
+  /**
+   * Gestionnaire de défilement (Scroll)
+   * Calcule quel plan est actuellement au centre de l'écran 
+   * pour mettre à jour currentIndex.
+   */
   const handleScroll = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
     const scrollTop = container.scrollTop;
     const height = container.clientHeight;
+    // On divise la position de scroll par la hauteur de l'écran pour trouver l'index
     const newIndex = Math.round(scrollTop / height);
     if (newIndex !== currentIndex && newIndex >= 0 && newIndex < plans.length) {
       setCurrentIndex(newIndex);
     }
   }, [currentIndex, plans.length]);
 
+  // Ajout de l'écouteur de scroll au montage du composant
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -67,7 +86,9 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
     return () => container.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  /* ── Actions ── */
+  /** ─── Actions Utilisateur ─── */
+  
+  // Action de Boost
   const handleBoost = useCallback(
     (planId: string) => {
       setBoostedIds((prev) => {
@@ -84,6 +105,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
     []
   );
 
+  // Action d'ajout/retrait aux Favoris
   const handleFavorite = useCallback(
     (planId: string) => {
       toggleFavorite(planId);
@@ -93,6 +115,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
     [toggleFavorite, favorites]
   );
 
+  // Action de Partage (utilise l'API Web Share si disponible)
   const handleShare = useCallback((plan: Plan) => {
     if (navigator.share) {
       navigator.share({
@@ -108,6 +131,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
     }
   }, []);
 
+  // Affichage si aucun plan n'est disponible
   if (plans.length === 0) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 bg-[var(--color-bg-primary)] px-6">
@@ -132,7 +156,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
 
   return (
     <div className="relative h-screen bg-black">
-      {/* Back button */}
+      {/* Bouton retour */}
       <button
         onClick={onBack}
         className="absolute top-4 left-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/60 active:scale-90"
@@ -141,12 +165,15 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
         <ArrowLeft size={20} />
       </button>
 
-      {/* Plan counter */}
+      {/* Compteur de progression (ex: 2 / 10) */}
       <div className="absolute top-4 right-4 z-50 rounded-full bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
         {currentIndex + 1} / {plans.length}
       </div>
 
-      {/* Scrollable container */}
+      {/* 
+        Conteneur scrollable.
+        snap-y snap-mandatory force l'arrêt du scroll sur chaque élément. 
+      */}
       <div
         ref={containerRef}
         className="no-scrollbar h-full scroll-smooth overscroll-none snap-y snap-mandatory overflow-y-scroll"
@@ -155,6 +182,9 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
           const cat = CAT_META[plan.categorie_id] ?? { color: "#E8610A" };
           const isBoosted = boostedIds.has(plan.id);
           const isFavorited = favorites.includes(plan.id);
+          
+          // Optimisation : On ne rend le background complet que pour 
+          // la vue actuelle, la précédente et la suivante.
           const isVisible = Math.abs(index - currentIndex) <= 1;
 
           return (
@@ -162,7 +192,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
               key={plan.id}
               className="relative h-screen w-full snap-start snap-always"
             >
-              {/* Background image */}
+              {/* Image de fond plein écran */}
               {isVisible && plan.image_url && (
                 <Image
                   src={plan.image_url}
@@ -170,16 +200,18 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   fill
                   className="object-cover"
                   sizes="100vw"
+                  // On charge en priorité les deux premières images
                   priority={index <= 1}
                 />
               )}
 
-              {/* Gradient overlay */}
+              {/* Filtre dégradé sombre pour assurer la lisibilité du texte */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
 
-              {/* ─── Right side actions (TikTok-style) ─── */}
+              {/* ─── Boutons d'actions à droite (Boost, Favori, Comm., Partage) ─── */}
               <div className="absolute right-3 bottom-40 z-30 flex flex-col items-center gap-5 md:right-6">
-                {/* Boost */}
+                
+                {/* Bouton Boost */}
                 <button
                   onClick={() => handleBoost(plan.id)}
                   className="flex flex-col items-center gap-1"
@@ -202,7 +234,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   </span>
                 </button>
 
-                {/* Favorite */}
+                {/* Bouton Favori */}
                 <button
                   onClick={() => handleFavorite(plan.id)}
                   className="flex flex-col items-center gap-1"
@@ -225,7 +257,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   </span>
                 </button>
 
-                {/* Comment */}
+                {/* Bouton Commentaires (ouvre la Bottom Sheet) */}
                 <button
                   onClick={() => setCommentsPlan(plan)}
                   className="flex flex-col items-center gap-1"
@@ -238,7 +270,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   </span>
                 </button>
 
-                {/* Share */}
+                {/* Bouton Partager */}
                 <button
                   onClick={() => handleShare(plan)}
                   className="flex flex-col items-center gap-1"
@@ -249,9 +281,10 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                 </button>
               </div>
 
-              {/* ─── Bottom info overlay ─── */}
+              {/* ─── Informations du plan en bas à gauche ─── */}
               <div className="absolute right-0 bottom-24 left-0 z-20 px-4 md:bottom-8 md:px-8">
-                {/* Author */}
+                
+                {/* Auteur du plan */}
                 {plan.author && (
                   <div className="mb-3 flex items-center gap-2">
                     <div className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-white/50">
@@ -275,12 +308,12 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   </div>
                 )}
 
-                {/* Title */}
+                {/* Titre */}
                 <h2 className="mb-2 text-xl font-bold leading-tight text-white drop-shadow-lg md:text-2xl">
                   {plan.titre}
                 </h2>
 
-                {/* Location + category */}
+                {/* Localisation + Catégorie */}
                 <div className="mb-5 flex items-center gap-3">
                   <span className="flex items-center gap-1 text-xs text-white/80">
                     <MapPin size={12} />
@@ -297,12 +330,12 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                   </span>
                 </div>
 
-                {/* Description */}
+                {/* Description (tronquée à 2 lignes) */}
                 <p className="line-clamp-2 text-sm leading-relaxed text-white/70">
                   {plan.description}
                 </p>
 
-                {/* View details link */}
+                {/* Lien vers la page détaillée */}
                 <Link
                   href={`/${locale}/plans/${plan.id}`}
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-primary)] transition-all hover:gap-2.5"
@@ -311,7 +344,7 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
                 </Link>
               </div>
 
-              {/* Swipe hint — only on first card */}
+              {/* Animation pour inviter à swiper vers le haut (visible uniquement sur la première carte) */}
               <AnimatePresence>
                 {index === 0 && currentIndex === 0 && (
                   <motion.div
@@ -336,7 +369,9 @@ export function DiscoverFeed({ plans, onBack }: DiscoverFeedProps) {
           );
         })}
       </div>
-      {/* ═══ Comments Bottom Sheet ═══ */}
+      
+      {/* ═══ Volet des commentaires (Bottom Sheet) ═══ */}
+      {/* S'ouvre si commentsPlan n'est pas null */}
       <DiscoverCommentsSheet
         plan={commentsPlan}
         onClose={() => setCommentsPlan(null)}

@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Composant de Carte d'Exploration (ExploreMap.tsx)
+ * 
+ * Ce composant affiche une carte interactive en utilisant Leaflet (via react-leaflet).
+ * Il positionne des marqueurs personnalisés pour chaque bon plan géolocalisé
+ * et adapte le fond de carte selon le thème (clair ou sombre) de l'utilisateur.
+ */
+
 import { useEffect, useMemo, useRef } from "react";
 import { useTheme } from "next-themes";
 import L from "leaflet";
@@ -7,19 +15,23 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Plan } from "@/types";
 
-/* ─── Category colors for markers ─── */
+/* ─── Couleurs des catégories pour les marqueurs ─── */
+// Assigne une couleur unique à chaque ID de catégorie pour différencier visuellement les points sur la carte
 const CAT_COLORS: Record<string, string> = {
-  "cat-1": "#E8610A",
-  "cat-2": "#7C3AED",
-  "cat-3": "#059669",
-  "cat-4": "#DC2626",
-  "cat-5": "#2563EB",
-  "cat-6": "#DB2777",
-  "cat-7": "#D97706",
-  "cat-8": "#0891B2",
+  "cat-1": "#E8610A", // Restauration
+  "cat-2": "#7C3AED", // Loisirs
+  "cat-3": "#059669", // Sorties
+  "cat-4": "#DC2626", // Shopping
+  "cat-5": "#2563EB", // Services
+  "cat-6": "#DB2777", // Santé
+  "cat-7": "#D97706", // Education
+  "cat-8": "#0891B2", // Sport
 };
 
-/* ─── Custom marker icon builder ─── */
+/**
+ * Création d'une icône de marqueur personnalisée.
+ * Si le plan a une image, on l'affiche dans un cercle, sinon on affiche la première lettre de son titre.
+ */
 function createMarkerIcon(plan: Plan): L.DivIcon {
   const color = CAT_COLORS[plan.categorie_id] ?? "#E8610A";
   const hasImage = !!plan.image_url;
@@ -55,12 +67,14 @@ function createMarkerIcon(plan: Plan): L.DivIcon {
     html,
     className: "planoka-marker",
     iconSize: [44, 52],
-    iconAnchor: [22, 52],
-    popupAnchor: [0, -52],
+    iconAnchor: [22, 52],   // Point d'ancrage (pointe du marqueur)
+    popupAnchor: [0, -52],  // Position du popup par rapport à l'icône
   });
 }
 
-/* ─── User location marker ─── */
+/**
+ * Création du marqueur représentant la position de l'utilisateur (un simple point bleu).
+ */
 function createUserIcon(): L.DivIcon {
   return L.divIcon({
     html: `<div style="
@@ -73,7 +87,10 @@ function createUserIcon(): L.DivIcon {
   });
 }
 
-/* ─── FlyTo helper component ─── */
+/**
+ * Composant invisible (Helper) pour animer le déplacement de la carte.
+ * Dès que la prop `position` change, la carte "vole" vers ces nouvelles coordonnées.
+ */
 function FlyToLocation({ position }: { position: [number, number] | null }) {
   const map = useMap();
   useEffect(() => {
@@ -84,7 +101,10 @@ function FlyToLocation({ position }: { position: [number, number] | null }) {
   return null;
 }
 
-/* ─── Invalidate size on mount ─── */
+/**
+ * Composant invisible (Helper) pour forcer le redimensionnement de la carte.
+ * Utile pour corriger un bug Leaflet où la carte s'affiche mal si le conteneur change de taille.
+ */
 function MapResizer() {
   const map = useMap();
   useEffect(() => {
@@ -93,7 +113,6 @@ function MapResizer() {
   return null;
 }
 
-/* ─── Main ExploreMap Component ─── */
 interface ExploreMapProps {
   plans: Plan[];
   onSelectPlan: (plan: Plan) => void;
@@ -108,12 +127,19 @@ export function ExploreMap({
   flyTo,
 }: ExploreMapProps) {
   const mapRef = useRef<L.Map | null>(null);
+  
+  // Récupération du thème actif pour choisir le fond de carte (tiles)
   const { resolvedTheme } = useTheme();
 
-  /* Memoize plan markers */
+  /**
+   * Mémorisation (useMemo) des marqueurs.
+   * On évite de recréer les icônes HTML complexes à chaque rendu du composant.
+   * Ne recalcule que si le tableau `plans` change.
+   */
   const markers = useMemo(
     () =>
       plans
+        // Ne garde que les plans ayant des coordonnées GPS valides
         .filter((p) => p.latitude && p.longitude)
         .map((plan) => ({
           plan,
@@ -127,14 +153,18 @@ export function ExploreMap({
 
   return (
     <MapContainer
-      center={[5.95, 10.15]}
-      zoom={7}
+      center={[5.95, 10.15]} // Centre par défaut (Cameroun)
+      zoom={7}               // Zoom par défaut
       className="h-full w-full"
-      zoomControl={false}
+      zoomControl={false}    // On désactive les contrôles par défaut
       attributionControl={false}
       ref={mapRef}
       style={{ background: resolvedTheme === "dark" ? "#1a1a2e" : "#f1f5f9" }}
     >
+      {/* 
+        Couche des tuiles (fond de carte).
+        On bascule dynamiquement entre une carte sombre et claire.
+      */}
       <TileLayer
         url={
           resolvedTheme === "dark"
@@ -147,19 +177,19 @@ export function ExploreMap({
       <MapResizer />
       <FlyToLocation position={flyTo} />
 
-      {/* Plan markers */}
+      {/* Rendu des marqueurs pour les bons plans */}
       {markers.map(({ plan, position, icon }) => (
         <Marker
           key={plan.id}
           position={position}
           icon={icon}
           eventHandlers={{
-            click: () => onSelectPlan(plan),
+            click: () => onSelectPlan(plan), // Ouvre la popup/bottom sheet au clic
           }}
         />
       ))}
 
-      {/* User position */}
+      {/* Rendu de la position de l'utilisateur s'il a accepté la géolocalisation */}
       {userPosition && (
         <Marker position={userPosition} icon={userIcon} />
       )}
