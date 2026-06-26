@@ -1,74 +1,97 @@
-# Planoka 🚀
+# Planoka
 
-Planoka est une application web moderne et interactive permettant d'explorer, de découvrir et de partager les meilleurs "bons plans" (activités, restaurants, services, événements, etc.) autour de vous.
+Planoka est une application web communautaire qui permet aux utilisateurs d'explorer, de partager et de decouvrir les meilleurs bons plans (restaurants, loisirs, sorties, services, etc.) au Cameroun. L'application combine une carte interactive, un flux de decouverte immersif et un systeme de recommendations sociales.
 
-## 🌟 Fonctionnalités Principales
+## Fonctionnalites
 
-- **🗺️ Exploration sur Carte (Map) :** Découvrez des lieux interactifs grâce à une intégration personnalisée de la carte (via Leaflet).
-- **📱 Flux Découverte (Style TikTok) :** Scrollez verticalement pour découvrir de nouveaux lieux et bons plans de manière immersive.
-- **🌍 Internationalisation (i18n) :** Support multilingue complet (Français / Anglais).
-- **✍️ Création et Gestion :** Formulaire multi-étapes pour publier vos propres bons plans avec validation stricte (Zod).
-- **❤️ Favoris et Interactions :** Sauvegardez vos endroits favoris, commentez, partagez et "boostez" les meilleurs plans.
-- **🌓 Mode Sombre / Clair :** Thème dynamique avec support système.
-- **🔔 Système de Notifications :** Restez informé des activités sur vos bons plans.
+- **Carte interactive** : Exploration geographique des bons plans via Leaflet avec marqueurs personnalises, clusters et filtres par categorie.
+- **Flux Decouverte** : Navigation verticale plein ecran (style TikTok) pour decouvrir les bons plans de maniere immersive.
+- **Creation de bons plans** : Formulaire multi-etapes avec validation Zod, geolocalisation, upload media (image/video).
+- **Systeme social** : Boosts, commentaires avec reponses imbriquees, partage et favoris.
+- **Notifications** : Centre de notifications temps reel (boost, commentaire, systeme).
+- **Internationalisation** : Support complet francais/anglais via next-intl.
+- **Theme adaptatif** : Mode clair, sombre et suivi systeme.
+- **Authentification** : Inscription/connexion via Clerk avec routes protegees et onboarding.
+- **SEO dynamique** : Metadonnees OpenGraph generees par page (titre du bon plan, image, description).
 
-## 🛠️ Stack Technique
+## Stack technique
 
-Le projet repose sur des technologies modernes pour garantir performance et maintenabilité :
+| Couche            | Technologie                                    |
+| ----------------- | ---------------------------------------------- |
+| Framework         | Next.js 16 (App Router)                        |
+| UI                | React 19, Tailwind CSS v4, Radix UI            |
+| Animations        | Motion (Framer Motion)                         |
+| Etat global       | Zustand (persiste via localStorage)            |
+| Requetes          | React Query (TanStack Query v5)                |
+| Formulaires       | React Hook Form + Zod v4                       |
+| Authentification  | Clerk (@clerk/nextjs v7)                       |
+| Cartographie      | Leaflet + React-Leaflet                        |
+| i18n              | next-intl v4                                   |
+| Scroll            | Lenis (smooth scroll)                          |
+| Notifications UI  | Sonner (toasts)                                |
+| Langage           | TypeScript 5                                   |
+| Linter / Format   | ESLint 9, Prettier, Husky + lint-staged        |
+| Deploiement       | Vercel + GitHub Actions                        |
 
-- **Framework Core :** [Next.js 16](https://nextjs.org/) (App Router) & [React 19](https://react.dev/)
-- **Langage :** [TypeScript](https://www.typescriptlang.org/)
-- **Style & UI :** [Tailwind CSS v4](https://tailwindcss.com/), Radix UI, [Motion (Framer)](https://motion.dev/) pour les animations.
-- **Gestion d'État & Données :** [Zustand](https://zustand-demo.pmnd.rs/) (état global), [React Query](https://tanstack.com/query/latest) (gestion des requêtes)
-- **Authentification :** [Clerk](https://clerk.com/)
-- **Formulaires :** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
-- **Cartographie :** [Leaflet](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/)
+## Demarrage rapide
 
-## 🚀 Lancement Rapide (Développement)
+### Prerequis
 
-### Prérequis
-Assurez-vous d'avoir installé **[Node.js](https://nodejs.org/)** (v24 recommandé) et **[pnpm](https://pnpm.io/)** (v11).
+- Node.js >= 24
+- pnpm >= 11
 
-### 1. Installation
-
-Clonez le dépôt puis installez les dépendances :
+### Installation
 
 ```bash
+git clone <repo-url>
+cd planoka-web
 pnpm install
 ```
 
-### 2. Variables d'environnement
+### Variables d'environnement
 
-Copiez le fichier `.env.example` (s'il existe) vers un nouveau fichier `.env.local` et remplissez les clés nécessaires (notamment les clés d'API pour Clerk, Cloudinary, etc.).
+Creer un fichier `.env.local` a la racine :
 
-### 3. Lancer le serveur
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
 
-Démarrez le serveur de développement local :
+Voir [docs/environment.md](docs/environment.md) pour la liste complete.
+
+### Lancer le serveur
 
 ```bash
 pnpm dev
 ```
 
-Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour visualiser l'application.
+Ouvrir [http://localhost:3000](http://localhost:3000).
 
-## ⚙️ Commandes Utiles
+## Scripts disponibles
 
-- `pnpm dev` : Lance le serveur de développement.
-- `pnpm build` : Compile l'application pour la production.
-- `pnpm lint` : Exécute le linter (ESLint) pour vérifier la qualité du code.
-- `pnpm type-check` : Vérifie les types TypeScript.
+| Commande           | Description                          |
+| ------------------ | ------------------------------------ |
+| `pnpm dev`         | Serveur de developpement             |
+| `pnpm build`       | Build de production                  |
+| `pnpm start`       | Serveur de production                |
+| `pnpm lint`        | Verification ESLint                  |
+| `pnpm type-check`  | Verification TypeScript (`tsc`)      |
 
-## 🚀 Déploiement (CI/CD)
+## Documentation
 
-Le projet est configuré pour être déployé automatiquement sur **Vercel** via **GitHub Actions**.
+La documentation detaillee se trouve dans le dossier [`docs/`](docs/) :
 
-Pour que l'action de déploiement (`deploy.yml`) fonctionne correctement, vous devez configurer les secrets suivants dans les paramètres de votre dépôt GitHub (`Settings > Secrets and variables > Actions`) :
-- `VERCEL_TOKEN` (Généré depuis votre compte Vercel)
-- `VERCEL_ORG_ID` (ID de votre organisation Vercel)
-- `VERCEL_PROJECT_ID` (ID du projet sur Vercel)
+- [Architecture](docs/architecture.md) : Structure du projet, couches et flux de donnees.
+- [Routing](docs/routing.md) : Toutes les routes, protections et middleware.
+- [Composants](docs/components.md) : Arborescence et responsabilite de chaque composant.
+- [Etat et donnees](docs/state.md) : Store Zustand, React Query, API client.
+- [Internationalisation](docs/i18n.md) : Configuration next-intl, ajout de traductions.
+- [Authentification](docs/auth.md) : Integration Clerk, middleware, routes protegees.
+- [Deploiement](docs/deployment.md) : CI/CD GitHub Actions, configuration Vercel.
+- [Variables d'environnement](docs/environment.md) : Toutes les variables requises.
+- [Contribuer](docs/contributing.md) : Conventions, workflow Git, standards de code.
 
-Vous pouvez obtenir l'organisation et l'ID de projet en exécutant `npx vercel link` localement.
+## Licence
 
----
-
-*Développé avec passion pour la communauté Planoka.*
+Projet prive - Planoka.
