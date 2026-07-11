@@ -12,7 +12,6 @@ import {
   List,
   ArrowUpDown,
   Trash2,
-  Compass,
   X,
   Undo2,
   Sparkles,
@@ -29,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { EmptyStateCard } from "@/components/common/EmptyStateCard";
 import {
   Dialog,
   DialogContent,
@@ -326,39 +326,15 @@ export default function FavoritesPage() {
         <AnimatePresence mode="wait">
           {favorites.length === 0 ? (
             /* ═══ EMPTY STATE ═══ */
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.35 }}
-              className="mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6 rounded-[2rem] bg-[var(--color-bg-card)] px-6 py-10 text-center shadow-sm sm:px-8 sm:py-12"
-            >
-              <div className="relative h-[260px] w-full max-w-[280px] sm:h-[300px] sm:max-w-[320px]">
-                <Image
-                  src="/images/mascot-favorites.png"
-                  alt="Mascotte Planoka"
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 640px) 100vw, 320px"
-                />
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
-                  {t("collectionTitle")}
-                </h2>
-                <p className="text-base font-semibold text-[var(--color-text-secondary)]">
-                  {t("emptySaved")}
-                </p>
-                <p className="mx-auto max-w-md text-sm leading-6 text-[var(--color-text-tertiary)]">
-                  {t("emptySavedDesc")}
-                </p>
-              </div>
-              <Link href={`/${locale}`}>
-                <Button className="rounded-full bg-[#F36F0F] px-8 py-3 text-sm font-semibold text-white shadow-[0_20px_60px_rgba(243,111,15,0.25)] transition duration-200 hover:brightness-95">
-                  {t("exploreButton")}
-                </Button>
-              </Link>
+            <motion.div key="empty" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.35 }}>
+              <EmptyStateCard
+                title={t("collectionTitle")}
+                description={t("emptySavedDesc")}
+                imageSrc="/images/mascot-favorites.png"
+                imageAlt="Mascotte Planoka"
+                actionLabel={t("exploreButton")}
+                onAction={() => window.location.assign(`/${locale}`)}
+              />
             </motion.div>
           ) : favoritePlans.length === 0 ? (
             /* ═══ NO RESULTS ═══ */

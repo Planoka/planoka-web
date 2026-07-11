@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
@@ -9,6 +9,7 @@ import { Search, Navigation, Flame, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryFilter } from "@/components/explore/CategoryFilter";
 import { PlanBottomSheet } from "@/components/explore/PlanBottomSheet";
+import { EmptyStateCard } from "@/components/common/EmptyStateCard";
 import { getPlansWithDetails } from "@/lib/mock-data";
 import type { Plan } from "@/types";
 
@@ -38,6 +39,7 @@ export default function ExplorePage() {
   const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
   const [locating, setLocating] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
 
   /* ── Filtered plans ── */
   const filteredPlans = useMemo(() => {
@@ -59,6 +61,22 @@ export default function ExplorePage() {
 
     return plans;
   }, [allPlans, selectedCategory, searchQuery]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setIsOnline(window.navigator.onLine);
+
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   /* ── Handlers ── */
   const handleSelectPlan = useCallback((plan: Plan) => {
@@ -165,6 +183,37 @@ export default function ExplorePage() {
         userPosition={userPosition}
         flyTo={flyTo}
       />
+
+      {!isOnline && filteredPlans.length === 0 ? (
+        <div className="absolute inset-x-0 top-32 z-[1001] px-4">
+          <EmptyStateCard
+            title={t("offlineTitle")}
+            description={t("offlineDesc")}
+            imageSrc="/images/mascot-offline.png"
+            imageAlt="Mascotte Planoka"
+            actionLabel={t("retry")}
+            onAction={() => window.location.reload()}
+            className="max-w-2xl"
+          />
+        </div>
+      ) : null}
+
+      {isOnline && filteredPlans.length === 0 && (
+        <div className="absolute inset-x-0 top-32 z-[1001] px-4">
+          <EmptyStateCard
+            title={t("noResultsTitle")}
+            description={t("noResultsDesc")}
+            imageSrc="/images/mascot-introuvable.png"
+            imageAlt="Mascotte Planoka"
+            actionLabel={searchQuery ? t("clearSearch") : t("clearFilters")}
+            onAction={() => {
+              setSearchQuery("");
+              setSelectedCategory("all");
+            }}
+            className="max-w-2xl"
+          />
+        </div>
+      )}
 
       {/* ═══ Locate Me Button ═══ */}
       <button

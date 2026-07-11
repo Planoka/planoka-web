@@ -32,7 +32,14 @@
     "backToMap": "Back to map",
     "filterBy": "Filter by",
     "plansFound": "{count} plan(s) found",
-    "nearMe": "Near me"
+    "nearMe": "Near me",
+    "noResultsTitle": "No results found",
+    "noResultsDesc": "No plans match your search at the moment.",
+    "clearSearch": "Clear search",
+    "clearFilters": "Reset filters",
+    "offlineTitle": "You’re offline",
+    "offlineDesc": "Check your internet connection and try again.",
+    "retry": "Retry"
   },
   "notifications": {
     "title": "Notifications",

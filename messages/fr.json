@@ -32,7 +32,14 @@
     "backToMap": "Retour à la carte",
     "filterBy": "Filtrer par",
     "plansFound": "{count} plan(s) trouvé(s)",
-    "nearMe": "À proximité"
+    "nearMe": "À proximité",
+    "noResultsTitle": "Aucun résultat trouvé",
+    "noResultsDesc": "Aucun bon plan ne correspond à votre recherche pour le moment.",
+    "clearSearch": "Effacer la recherche",
+    "clearFilters": "Réinitialiser les filtres",
+    "offlineTitle": "Vous êtes hors ligne",
+    "offlineDesc": "Vérifiez votre connexion Internet puis réessayez.",
+    "retry": "Réessayer"
   },
   "notifications": {
     "title": "Notifications",

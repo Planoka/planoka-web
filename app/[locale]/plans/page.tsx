@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
-import { Search, MapPin, Flame, Clock, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { Search, Flame, Clock, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { CategoryPills } from "@/components/feed/CategoryPills";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { usePlans } from "@/hooks/usePlans";
 import { Button } from "@/components/ui/button";
+import { EmptyStateCard } from "@/components/common/EmptyStateCard";
 import { cn } from "@/lib/utils";
 import { FEED_PAGE_SIZE } from "@/lib/constants";
 
@@ -186,42 +186,18 @@ export default function PlansPage() {
             ))}
           </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6 rounded-[2rem] bg-[var(--color-bg-card)] px-6 py-10 text-center shadow-sm sm:px-8 sm:py-12"
-          >
-            <div className="relative h-[260px] w-full max-w-[280px] sm:h-[300px] sm:max-w-[320px]">
-              <Image
-                src="/images/mascot-favorites.png"
-                alt="Mascotte Planoka"
-                fill
-                className="object-contain"
-                sizes="(max-width: 640px) 100vw, 320px"
-              />
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
-                {t("empty")}
-              </h3>
-              <p className="text-base font-semibold text-[var(--color-text-secondary)]">
-                {t("emptyDesc")}
-              </p>
-              <p className="mx-auto max-w-md text-sm leading-6 text-[var(--color-text-tertiary)]">
-                {searchQuery ? t("emptyHelpSearch") : t("emptyHelpExplore")}
-              </p>
-            </div>
-            <Button
-              className="rounded-full bg-[var(--color-primary)] px-8 py-3 text-sm font-semibold text-white transition duration-200 hover:brightness-95"
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory(null);
-                setCurrentPage(1);
-              }}
-            >
-              {searchQuery ? t("reset") : t("emptyAction")}
-            </Button>
-          </motion.div>
+          <EmptyStateCard
+            title={t("empty")}
+            description={searchQuery ? t("emptyHelpSearch") : t("emptyHelpExplore")}
+            imageSrc="/images/mascot-introuvable.png"
+            imageAlt="Mascotte introuvable"
+            actionLabel={searchQuery ? t("reset") : t("emptyAction")}
+            onAction={() => {
+              setSearchQuery("");
+              setSelectedCategory(null);
+              setCurrentPage(1);
+            }}
+          />
         )}
 
         {/* Pagination */}
