@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { Search, MapPin, Flame, Clock, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
@@ -185,27 +186,42 @@ export default function PlansPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-[var(--color-primary-light)]">
-              <MapPin className="h-10 w-10 text-[var(--color-primary)]" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6 rounded-[2rem] bg-[var(--color-bg-card)] px-6 py-10 text-center shadow-sm sm:px-8 sm:py-12"
+          >
+            <div className="relative h-[260px] w-full max-w-[280px] sm:h-[300px] sm:max-w-[320px]">
+              <Image
+                src="/images/mascot-favorites.png"
+                alt="Mascotte Planoka"
+                fill
+                className="object-contain"
+                sizes="(max-width: 640px) 100vw, 320px"
+              />
             </div>
-            <h3 className="text-lg font-bold text-[var(--color-text-primary)]">{t("empty")}</h3>
-            <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
-              Essayez de modifier vos filtres ou votre recherche
-            </p>
-            {searchQuery && (
-              <Button
-                variant="link"
-                onClick={() => {
-                  setSearchQuery("");
-                  setCurrentPage(1);
-                }}
-                className="mt-2 text-[var(--color-primary)]"
-              >
-                Effacer la recherche
-              </Button>
-            )}
-          </div>
+            <div className="space-y-3">
+              <h3 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
+                {t("empty")}
+              </h3>
+              <p className="text-base font-semibold text-[var(--color-text-secondary)]">
+                {t("emptyDesc")}
+              </p>
+              <p className="mx-auto max-w-md text-sm leading-6 text-[var(--color-text-tertiary)]">
+                {searchQuery ? t("emptyHelpSearch") : t("emptyHelpExplore")}
+              </p>
+            </div>
+            <Button
+              className="rounded-full bg-[var(--color-primary)] px-8 py-3 text-sm font-semibold text-white transition duration-200 hover:brightness-95"
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory(null);
+                setCurrentPage(1);
+              }}
+            >
+              {searchQuery ? t("reset") : t("emptyAction")}
+            </Button>
+          </motion.div>
         )}
 
         {/* Pagination */}

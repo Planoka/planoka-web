@@ -79,8 +79,10 @@
     "featured": "En vedette",
     "recommended": "Recommandés pour vous",
     "latest": "Les plus récents",
-    "empty": "Aucun plan pour le moment",
-    "loadMore": "Charger plus"
+    "empty": "Aucun plan pour le moment",    "emptyHelpSearch": "Essayez de modifier vos filtres ou votre recherche",
+    "emptyHelpExplore": "Explorez le feed pour trouver tous les bons plans.",
+    "emptyAction": "Explorer",
+    "reset": "Réinitialiser",    "loadMore": "Charger plus"
   },
   "plan": {
     "boost": "Booster",

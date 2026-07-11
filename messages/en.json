@@ -80,6 +80,10 @@
     "recommended": "Recommended for you",
     "latest": "Latest",
     "empty": "No plans yet",
+    "emptyHelpSearch": "Try changing your filters or search",
+    "emptyHelpExplore": "Explore the feed to find great plans.",
+    "emptyAction": "Explore",
+    "reset": "Reset",
     "loadMore": "Load more"
   },
   "plan": {
