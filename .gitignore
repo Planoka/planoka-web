@@ -45,3 +45,6 @@ pdf_output.txt
 
 .vercel
 .env*
+
+# clerk configuration (can include secrets)
+/.clerk/

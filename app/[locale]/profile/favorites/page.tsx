@@ -173,7 +173,7 @@ export default function FavoritesPage() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
-                  {t("title")}
+                  {t("collectionTitle")}
                 </h1>
                 <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">{t("subtitle")}</p>
               </div>
@@ -328,34 +328,35 @@ export default function FavoritesPage() {
             /* ═══ EMPTY STATE ═══ */
             <motion.div
               key="empty"
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-col items-center justify-center py-20 text-center"
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.35 }}
+              className="mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6 rounded-[2rem] bg-[var(--color-bg-card)] px-6 py-10 text-center shadow-sm sm:px-8 sm:py-12"
             >
-              <div className="relative mb-6">
-                <div className="flex h-28 w-28 items-center justify-center rounded-full bg-[var(--color-primary-light)]">
-                  <Heart className="h-14 w-14 text-[var(--color-primary)]/40" />
-                </div>
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-2 -right-2 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary)] shadow-lg"
-                >
-                  <Sparkles className="h-5 w-5 text-white" />
-                </motion.div>
+              <div className="relative h-[260px] w-full max-w-[280px] sm:h-[300px] sm:max-w-[320px]">
+                <Image
+                  src="/images/mascot-favorites.png"
+                  alt="Mascotte Planoka"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 100vw, 320px"
+                />
               </div>
-              <h2 className="mb-2 text-xl font-bold text-[var(--color-text-primary)]">
-                {t("empty")}
-              </h2>
-              <p className="mb-8 max-w-sm text-sm text-[var(--color-text-tertiary)]">
-                {t("emptyDesc")}
-              </p>
+              <div className="space-y-3">
+                <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
+                  {t("collectionTitle")}
+                </h2>
+                <p className="text-base font-semibold text-[var(--color-text-secondary)]">
+                  {t("emptySaved")}
+                </p>
+                <p className="mx-auto max-w-md text-sm leading-6 text-[var(--color-text-tertiary)]">
+                  {t("emptySavedDesc")}
+                </p>
+              </div>
               <Link href={`/${locale}`}>
-                <Button className="gap-2 rounded-full bg-[var(--color-primary)] px-6 text-white hover:brightness-90">
-                  <Compass className="h-4 w-4" />
-                  {t("emptyAction")}
+                <Button className="rounded-full bg-[#F36F0F] px-8 py-3 text-sm font-semibold text-white shadow-[0_20px_60px_rgba(243,111,15,0.25)] transition duration-200 hover:brightness-95">
+                  {t("exploreButton")}
                 </Button>
               </Link>
             </motion.div>
