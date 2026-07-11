@@ -27,11 +27,9 @@ export function EmptyStateCard({
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6 rounded-[2rem] bg-[var(--color-bg-card)] px-6 py-10 text-center shadow-sm sm:px-8 sm:py-12 ${className ?? ""}`.trim()}
+      className={`mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-8 px-6 py-16 text-center sm:px-8 sm:py-20 ${className ?? ""}`.trim()}
     >
-      <div className="relative h-[260px] w-full max-w-[280px] sm:h-[300px] sm:max-w-[320px]">
-        <Image src={imageSrc} alt={imageAlt} fill className="object-contain" sizes="(max-width: 640px) 100vw, 320px" />
-      </div>
+      <Image src={imageSrc} alt={imageAlt} width={280} height={260} className="object-contain sm:h-[300px] sm:w-[320px]" />
 
       <div className="space-y-3">
         <h3 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">{title}</h3>
