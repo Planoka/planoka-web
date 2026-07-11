@@ -49,7 +49,7 @@ const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; la
   "cat-8": { color: "#0891B2", icon: Dumbbell, label: "Sport" },
 };
 
-/* ─── Time ago helper ─── */
+/* ── Time ago helper ─── */
 function timeAgo(dateStr: string, t: (key: string) => string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
@@ -532,7 +532,7 @@ export default function PlanDetailPage() {
   const CategoryIcon = cat!.icon;
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-page)] pb-32 sm:pb-8">
+    <div className="min-h-screen bg-[var(--color-bg-page)] pb-12">
       {/* ═══════════════════════════════
           HERO — Full-bleed image
       ═══════════════════════════════ */}
@@ -556,83 +556,74 @@ export default function PlanDetailPage() {
         {/* Back button */}
         <button
           onClick={() => router.back()}
-          className="absolute top-14 left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
+          className="absolute top-14 left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-md transition-all hover:bg-white active:scale-90 sm:top-5"
           aria-label="Retour"
         >
-          <ArrowLeft className="h-5 w-5 text-white" />
+          <ArrowLeft className="h-5 w-5 text-gray-900" />
         </button>
 
         {/* More options */}
         <button
-          className="absolute top-14 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-all hover:bg-white/30 active:scale-90 sm:top-5"
+          className="absolute top-14 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-md transition-all hover:bg-white active:scale-90 sm:top-5"
           aria-label="Plus d'options"
         >
-          <MoreHorizontal className="h-5 w-5 text-white" />
+          <MoreHorizontal className="h-5 w-5 text-gray-900" />
         </button>
-
-        {/* Category pill — bottom left of hero */}
-        <div className="absolute bottom-5 left-4 z-10">
-          <div
-            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-widest uppercase backdrop-blur-md"
-            style={{
-              backgroundColor: `${cat!.color}25`,
-              color: cat!.color,
-              border: `1px solid ${cat!.color}50`,
-            }}
-          >
-            <CategoryIcon size={12} strokeWidth={2.5} />
-            {cat!.label}
-          </div>
-        </div>
       </div>
 
       {/* ═══════════════════════════════
           CONTENT CARD
       ═══════════════════════════════ */}
       <div className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-6 shadow-xl">
-        <div className="mx-auto max-w-2xl px-5">
-          {/* ── Title + location ── */}
-          <div className="mb-5">
+        <div className="mx-auto max-w-2xl px-5 pb-8">
+          {/* Category badge — BELOW image */}
+          <div className="mb-4">
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm backdrop-blur-md"
+              style={{ backgroundColor: cat!.color }}
+            >
+              <CategoryIcon size={12} strokeWidth={2.5} />
+              {cat!.label}
+            </span>
+          </div>
+
+          {/* ── Title + location ─ */}
+          <div className="mb-6">
             <h1 className="text-2xl leading-tight font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
               {plan.titre}
             </h1>
             <div className="mt-2 flex items-center gap-1.5 text-sm text-[var(--color-text-tertiary)]">
               <MapPin size={14} className="text-[var(--color-primary)]" />
               <span className="font-medium">{plan.ville}</span>
-              <span className="text-[var(--color-border-strong)]">·</span>
-              <Clock size={13} />
-              <span>{timeAgo(plan.created_at, timeT)}</span>
             </div>
           </div>
 
-          {/* ── Action pills ── */}
-          <div className="mb-6 flex flex-wrap items-center gap-2.5">
+          {/* ─ Action pills row (3 buttons on same line) ── */}
+          <div className="mb-6 flex items-center gap-3">
             {/* Boost */}
             <motion.button
               onClick={handleBoost}
-              whileTap={{ scale: 0.93 }}
+              whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all",
+                "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all border",
                 boosted
-                  ? "bg-[var(--color-primary)] text-white shadow-[var(--color-primary)]/30 shadow-md"
-                  : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/40 hover:text-[var(--color-primary)]"
+                  ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white"
+                  : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]"
               )}
             >
               <Zap size={16} className={cn("transition-all", boosted && "fill-white")} />
-              <span>
-                {boostCount} Boost{boostCount !== 1 ? "s" : ""}
-              </span>
+              <span>{boostCount} Boost{boostCount !== 1 ? "s" : ""}</span>
             </motion.button>
 
             {/* Favorite */}
             <motion.button
               onClick={handleFavorite}
-              whileTap={{ scale: 0.93 }}
+              whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all",
+                "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all border",
                 favorited
-                  ? "border border-red-200 bg-red-50 text-red-500"
-                  : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-red-200 hover:text-red-500"
+                  ? "border-red-200 bg-red-50 text-red-500"
+                  : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-red-200"
               )}
             >
               <Heart size={16} className={cn("transition-all", favorited && "fill-red-500")} />
@@ -642,30 +633,17 @@ export default function PlanDetailPage() {
             {/* Share */}
             <motion.button
               onClick={() => setShowShare(true)}
-              whileTap={{ scale: 0.93 }}
-              className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-text-primary)]"
+              whileTap={{ scale: 0.95 }}
+              className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-tertiary)] transition-all hover:border-[var(--color-border-strong)]"
             >
               <Share2 size={16} />
               <span>{t("sharePlan").split(" ")[0]}</span>
             </motion.button>
-
-            {/* Comment shortcut */}
-            <motion.button
-              onClick={focusCommentInput}
-              whileTap={{ scale: 0.93 }}
-              className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-text-primary)]"
-            >
-              <MessageCircle size={16} />
-              <span>{totalCommentCount}</span>
-            </motion.button>
           </div>
-
-          {/* ── Divider ── */}
-          <div className="mb-5 h-px bg-[var(--color-border)]" />
 
           {/* ── Author section ── */}
           {plan.author && (
-            <div className="mb-5 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-4">
               <div className="flex items-center gap-3">
                 <Avatar src={plan.author.avatar_url} name={plan.author.nom} size={46} />
                 <div>
@@ -680,35 +658,22 @@ export default function PlanDetailPage() {
                   setFollowing((f) => !f);
                   toast.success(following ? t("unfollowed") : t("followed"));
                 }}
-                whileTap={{ scale: 0.93 }}
+                whileTap={{ scale: 0.95 }}
                 className={cn(
-                  "flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold transition-all",
+                  "rounded-full px-5 py-2 text-sm font-semibold transition-all",
                   following
-                    ? "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)]"
-                    : "bg-[var(--color-primary)] text-white shadow-[var(--color-primary)]/25 shadow-md hover:bg-[var(--color-primary-hover)]"
+                    ? "border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)]"
+                    : "bg-[var(--color-primary)] text-white shadow-md hover:bg-[var(--color-primary-hover)]"
                 )}
               >
-                {following ? (
-                  <>
-                    <UserCheck size={15} />
-                    {t("following")}
-                  </>
-                ) : (
-                  <>
-                    <UserPlus size={15} />
-                    {t("follow")}
-                  </>
-                )}
+                {following ? t("following") : t("follow")}
               </motion.button>
             </div>
           )}
 
-          {/* ── Divider ── */}
-          <div className="mb-5 h-px bg-[var(--color-border)]" />
-
           {/* ── Description ── */}
-          <section className="mb-6">
-            <h2 className="mb-3 text-base font-bold text-[var(--color-text-primary)]">
+          <section className="mb-8">
+            <h2 className="mb-3 text-lg font-bold text-[var(--color-text-primary)]">
               {t("description")}
             </h2>
             <p className="text-sm leading-7 text-[var(--color-text-secondary)]">
@@ -716,39 +681,18 @@ export default function PlanDetailPage() {
             </p>
           </section>
 
-          {/* ── Featured badge ── */}
-          {plan.is_featured && (
-            <div className="mb-5 flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-600">
-                <Zap size={18} className="fill-amber-500 text-amber-500" />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-amber-700">{t("featured")}</p>
-                <p className="text-xs text-amber-600/80">{t("featuredDesc")}</p>
-              </div>
-            </div>
-          )}
-
-          {/* ── Divider ── */}
-          <div className="mb-5 h-px bg-[var(--color-border)]" />
-
           {/* ═══════════════════════════════
               COMMENTS SECTION
           ═══════════════════════════════ */}
           <section id="comments" className="mb-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-bold text-[var(--color-text-primary)]">
-                {t("comments")}
-                <span className="ml-2 text-sm font-normal text-[var(--color-text-tertiary)]">
-                  ({totalCommentCount})
-                </span>
-              </h2>
-            </div>
+            <h2 className="mb-4 text-lg font-bold text-[var(--color-text-primary)]">
+              {t("comments")} <span className="text-[var(--color-text-tertiary)]">({totalCommentCount})</span>
+            </h2>
 
             {/* Comment input */}
             <div className="mb-6 flex items-center gap-3">
               <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={38} />
-              <div className="flex flex-1 items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20">
+              <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)]">
                 <input
                   ref={commentInputRef}
                   value={commentText}
@@ -764,11 +708,11 @@ export default function PlanDetailPage() {
                   className={cn(
                     "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all",
                     commentText.trim()
-                      ? "bg-[var(--color-primary)] text-white shadow-sm"
+                      ? "text-[var(--color-primary)]"
                       : "text-[var(--color-text-tertiary)]"
                   )}
                 >
-                  <Send size={14} className={commentText.trim() ? "" : "opacity-50"} />
+                  <Send size={18} className={commentText.trim() ? "" : "opacity-50"} />
                 </motion.button>
               </div>
             </div>
@@ -833,51 +777,6 @@ export default function PlanDetailPage() {
               </div>
             )}
           </section>
-
-          {/* ── More plans from same category ── */}
-          <div className="mb-6 h-px bg-[var(--color-border)]" />
-          <div className="pb-6">
-            <p className="text-center text-xs text-[var(--color-text-tertiary)]">
-              {t("sharedOn")} <span className="font-bold text-[var(--color-primary)]">Planoka</span>{" "}
-              · {t("platformDesc")}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════
-          FIXED BOTTOM BAR (mobile)
-      ═══════════════════════════════ */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/95 px-4 py-3 backdrop-blur-md sm:hidden">
-        <div className="flex items-center gap-3">
-          <motion.button
-            onClick={handleBoost}
-            whileTap={{ scale: 0.9 }}
-            className={cn(
-              "flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold transition-all",
-              boosted
-                ? "bg-[var(--color-primary)] text-white"
-                : "border border-[var(--color-border)] text-[var(--color-text-secondary)]"
-            )}
-          >
-            <Zap size={16} className={cn(boosted && "fill-white")} />
-            {boosted ? (t("boostedToast").split(" ")[1] ?? "Boosté") : "Booster"}
-          </motion.button>
-          <motion.button
-            onClick={focusCommentInput}
-            whileTap={{ scale: 0.9 }}
-            className="flex flex-1 items-center justify-center gap-2 rounded-2xl border border-[var(--color-border)] py-3 text-sm font-bold text-[var(--color-text-secondary)]"
-          >
-            <MessageCircle size={16} />
-            {t("sharePlan").split(" ")[0] === "Partager" ? "Commenter" : "Comment"}
-          </motion.button>
-          <motion.button
-            onClick={() => setShowShare(true)}
-            whileTap={{ scale: 0.9 }}
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-border)]"
-          >
-            <Share2 size={18} className="text-[var(--color-text-secondary)]" />
-          </motion.button>
         </div>
       </div>
 
