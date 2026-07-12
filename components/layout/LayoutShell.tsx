@@ -18,6 +18,7 @@ export function LayoutShell({ children, locale }: { children: React.ReactNode; l
 
   const hideAll = isPathMatch(pathname, [...HIDE_NAV_PATHS, ...HIDE_ALL_PATHS], locale);
   const hideFooter = pathname.startsWith(`/${locale}/search`) && !pathname.includes("/search/discover");
+  const hideTabBar = pathname.startsWith(`/${locale}/plans/`);
   const isHome = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   if (hideAll) {
@@ -29,7 +30,7 @@ export function LayoutShell({ children, locale }: { children: React.ReactNode; l
       <Navbar />
       <main className="flex-1 pb-[90px] md:pb-0">{children}</main>
       {!hideFooter && (isHome ? <Footer /> : <FooterMinimal />)}
-      <TabBarMobile />
+      {!hideTabBar && <TabBarMobile />}
     </>
   );
 }

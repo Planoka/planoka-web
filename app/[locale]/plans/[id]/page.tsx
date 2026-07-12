@@ -49,7 +49,7 @@ const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; la
   "cat-8": { color: "#0891B2", icon: Dumbbell, label: "Sport" },
 };
 
-/* ── Time ago helper ─── */
+/* ─── Time ago helper ─── */
 function timeAgo(dateStr: string, t: (key: string) => string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
@@ -112,7 +112,7 @@ function Avatar({
   );
 }
 
-/* ─── Share Sheet ─── */
+/* ─── Share Sheet ── */
 function ShareSheet({
   plan,
   onClose,
@@ -305,46 +305,47 @@ function CommentItem({
         size={depth > 0 ? 32 : 38}
       />
       <div className="min-w-0 flex-1">
-        {/* Bubble */}
-        <div className="rounded-2xl rounded-tl-sm bg-[var(--color-bg-surface)] px-4 py-3">
-          <div className="mb-1 flex items-center gap-2">
-            <span className="text-sm font-semibold text-[var(--color-text-primary)]">
-              {comment.author?.nom ?? "Anonyme"}
-            </span>
-            <span className="text-xs text-[var(--color-text-tertiary)]">
-              {timeAgo(comment.created_at, timeT)}
-            </span>
+        {/* Main Layout Row: Bubble content + Like Button side by side */}
+        <div className="flex items-start gap-2">
+          {/* Bubble */}
+          <div className="min-w-0 flex-1 rounded-2xl rounded-tl-sm bg-[var(--color-bg-surface)] px-4 py-3">
+            <div className="mb-1 flex items-baseline gap-2">
+              <span className="text-sm font-semibold text-[var(--color-text-primary)]">
+                {comment.author?.nom ?? "Anonyme"}
+              </span>
+            </div>
+            <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+              {comment.contenu}
+            </p>
           </div>
-          <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
-            {comment.contenu}
-          </p>
-        </div>
 
-        {/* Actions */}
-        <div className="mt-1.5 flex items-center gap-4 px-1">
+          {/* Social Media Style Side Like Button */}
           <button
             onClick={handleLike}
             className={cn(
-              "flex items-center gap-1 text-xs font-medium transition-colors",
-              liked
-                ? "text-[var(--color-danger)]"
-                : "text-[var(--color-text-tertiary)] hover:text-[var(--color-danger)]"
+              "flex flex-col items-center gap-0.5 pt-3 text-[10px] font-medium transition-colors shrink-0 min-w-[24px]",
+              liked ? "text-[var(--color-danger)]" : "text-[var(--color-text-tertiary)]"
             )}
           >
-            <Heart size={13} className={cn("transition-all", liked && "scale-125 fill-current")} />
-            {likeDisplayCount}
+            <Heart size={14} className={cn("transition-all", liked && "scale-110 fill-current")} />
+            <span>{likeDisplayCount}</span>
           </button>
+        </div>
+
+        {/* Actions metadata bar below bubble */}
+        <div className="mt-1 flex items-center gap-4 px-1 text-xs text-[var(--color-text-tertiary)]">
+          <span>{timeAgo(comment.created_at, timeT)}</span>
 
           {depth === 0 && (
             <button
               onClick={() => setShowReplyInput((s) => !s)}
-              className="text-xs font-semibold text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-primary)]"
+              className="font-semibold transition-colors hover:text-[var(--color-primary)]"
             >
               {t("reply")}
             </button>
           )}
 
-          <button className="ml-auto text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-danger)]">
+          <button className="ml-auto transition-colors hover:text-[var(--color-danger)]">
             <Flag size={12} />
           </button>
         </div>
@@ -532,10 +533,8 @@ export default function PlanDetailPage() {
   const CategoryIcon = cat!.icon;
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-page)] pb-12">
-      {/* ═══════════════════════════════
-          HERO — Full-bleed image
-      ═══════════════════════════════ */}
+    <div className="min-h-screen bg-[var(--color-bg-page)] pb-20">
+      {/* HERO — Full-bleed image */}
       <div className="relative w-full overflow-hidden" style={{ height: "min(56vw, 520px)" }}>
         {plan.image_url ? (
           <Image
@@ -571,23 +570,24 @@ export default function PlanDetailPage() {
         </button>
       </div>
 
-      {/* ═══════════════════════════════
-          CONTENT CARD
-      ═══════════════════════════════ */}
-      <div className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-6 shadow-xl">
-        <div className="mx-auto max-w-2xl px-5 pb-8">
-          {/* Category badge — BELOW image */}
-          <div className="mb-4">
+      {/* CONTENT CARD */}
+      <div
+        className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-6 shadow-xl"
+        style={{ minHeight: "calc(100vh - min(56vw, 520px) - 90px)" }}
+      >
+        <div className="mx-auto max-w-2xl px-5 pb-16">
+          {/* Category badge */}
+          <div className="mb-4 relative -top-3">
             <span
-              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm backdrop-blur-md"
-              style={{ backgroundColor: cat!.color }}
+              className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-text-primary)] shadow-sm bg-white"
+              style={{ borderColor: cat!.color, color: cat!.color }}
             >
               <CategoryIcon size={12} strokeWidth={2.5} />
               {cat!.label}
             </span>
           </div>
 
-          {/* ── Title + location ─ */}
+          {/* Title + location */}
           <div className="mb-6">
             <h1 className="text-2xl leading-tight font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl">
               {plan.titre}
@@ -598,21 +598,21 @@ export default function PlanDetailPage() {
             </div>
           </div>
 
-          {/* ─ Action pills row (3 buttons on same line) ── */}
-          <div className="mb-6 flex items-center gap-3">
+          {/* Action pills row */}
+          <div className="mb-6 flex items-center gap-2">
             {/* Boost */}
             <motion.button
               onClick={handleBoost}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all border",
+                "flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-all border",
                 boosted
                   ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white"
                   : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]"
               )}
             >
-              <Zap size={16} className={cn("transition-all", boosted && "fill-white")} />
-              <span>{boostCount} Boost{boostCount !== 1 ? "s" : ""}</span>
+              <Zap size={14} className={cn("transition-all", boosted && "fill-white")} />
+              <span>{boostCount}</span>
             </motion.button>
 
             {/* Favorite */}
@@ -620,28 +620,28 @@ export default function PlanDetailPage() {
               onClick={handleFavorite}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all border",
+                "flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-all border",
                 favorited
                   ? "border-red-200 bg-red-50 text-red-500"
                   : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-red-200"
               )}
             >
-              <Heart size={16} className={cn("transition-all", favorited && "fill-red-500")} />
-              <span>{favorited ? t("addedFav").split(" ")[0] : t("save")}</span>
+              <Heart size={14} className={cn("transition-all", favorited && "fill-red-500")} />
+              <span>{favorited ? t("addedFav").split(" ")[0] : t("favorite")}</span>
             </motion.button>
 
             {/* Share */}
             <motion.button
               onClick={() => setShowShare(true)}
               whileTap={{ scale: 0.95 }}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-tertiary)] transition-all hover:border-[var(--color-border-strong)]"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 py-2 text-sm font-semibold text-[var(--color-text-tertiary)] transition-all hover:border-[var(--color-border-strong)]"
             >
-              <Share2 size={16} />
-              <span>{t("sharePlan").split(" ")[0]}</span>
+              <Share2 size={14} />
+              <span>{t("share")}</span>
             </motion.button>
           </div>
 
-          {/* ── Author section ── */}
+          {/* Author section */}
           {plan.author && (
             <div className="mb-6 flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-4">
               <div className="flex items-center gap-3">
@@ -671,7 +671,7 @@ export default function PlanDetailPage() {
             </div>
           )}
 
-          {/* ── Description ── */}
+          {/* Description */}
           <section className="mb-8">
             <h2 className="mb-3 text-lg font-bold text-[var(--color-text-primary)]">
               {t("description")}
@@ -681,41 +681,11 @@ export default function PlanDetailPage() {
             </p>
           </section>
 
-          {/* ═══════════════════════════════
-              COMMENTS SECTION
-          ═══════════════════════════════ */}
+          {/* COMMENTS SECTION */}
           <section id="comments" className="mb-6">
             <h2 className="mb-4 text-lg font-bold text-[var(--color-text-primary)]">
               {t("comments")} <span className="text-[var(--color-text-tertiary)]">({totalCommentCount})</span>
             </h2>
-
-            {/* Comment input */}
-            <div className="mb-6 flex items-center gap-3">
-              <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={38} />
-              <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)]">
-                <input
-                  ref={commentInputRef}
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
-                  placeholder={t("writeComment")}
-                  className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
-                />
-                <motion.button
-                  onClick={handleSubmitComment}
-                  disabled={!commentText.trim() || addComment.isPending}
-                  whileTap={{ scale: 0.9 }}
-                  className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all",
-                    commentText.trim()
-                      ? "text-[var(--color-primary)]"
-                      : "text-[var(--color-text-tertiary)]"
-                  )}
-                >
-                  <Send size={18} className={commentText.trim() ? "" : "opacity-50"} />
-                </motion.button>
-              </div>
-            </div>
 
             {/* Comments list */}
             {commentsLoading ? (
@@ -780,9 +750,39 @@ export default function PlanDetailPage() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════
-          SHARE SHEET MODAL
-      ═══════════════════════════════ */}
+      {/* FIXED BOTTOM BAR */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-border)] bg-[var(--color-bg-card)]/95 px-4 py-3 backdrop-blur-md">
+        <div className="mx-auto max-w-2xl">
+          <div className="flex items-center gap-3">
+            <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={36} />
+            <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)]">
+              <input
+                ref={commentInputRef}
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
+                placeholder={t("writeComment")}
+                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+              />
+              <motion.button
+                onClick={handleSubmitComment}
+                disabled={!commentText.trim() || addComment.isPending}
+                whileTap={{ scale: 0.9 }}
+                className={cn(
+                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all",
+                  commentText.trim()
+                    ? "text-[var(--color-primary)]"
+                    : "text-[var(--color-text-tertiary)]"
+                )}
+              >
+                <Send size={16} className={commentText.trim() ? "" : "opacity-50"} />
+              </motion.button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SHARE SHEET MODAL */}
       <AnimatePresence>
         {showShare && plan && <ShareSheet plan={plan} onClose={() => setShowShare(false)} t={t} />}
       </AnimatePresence>
