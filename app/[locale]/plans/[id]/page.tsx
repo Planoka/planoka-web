@@ -17,9 +17,6 @@ import {
   ChevronDown,
   ChevronUp,
   Flag,
-  UserPlus,
-  UserCheck,
-  Clock,
   Link as LinkIcon,
   Check,
   UtensilsCrossed,
@@ -265,7 +262,6 @@ function CommentItem({
   depth?: number;
 }) {
   const t = useTranslations("plan.detail");
-  const timeT = useTranslations("plan.detail.time");
   const [liked, setLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(
     () => (stringToHash(comment.id) % 15) + 1
@@ -427,7 +423,6 @@ export default function PlanDetailPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("plan.detail");
-  const timeT = useTranslations("plan.detail.time");
   const planId = params.id as string;
 
   const { data: plan, isLoading, isError } = usePlan(planId);
@@ -481,10 +476,7 @@ export default function PlanDetailPage() {
     );
   }, [commentText, addComment, t]);
 
-  const focusCommentInput = () => {
-    commentInputRef.current?.focus();
-    commentInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
+  // focusCommentInput removed (unused) to satisfy linter rules
 
   const visibleComments = showAllComments ? comments : comments.slice(0, 3);
   const totalCommentCount = comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0);

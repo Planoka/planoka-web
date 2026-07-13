@@ -39,7 +39,9 @@ export default function ExplorePage() {
   const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
   const [locating, setLocating] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
+  const [isOnline, setIsOnline] = useState(() =>
+    typeof window === "undefined" ? true : window.navigator.onLine
+  );
 
   /* ── Filtered plans ── */
   const filteredPlans = useMemo(() => {
@@ -64,7 +66,6 @@ export default function ExplorePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setIsOnline(window.navigator.onLine);
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);

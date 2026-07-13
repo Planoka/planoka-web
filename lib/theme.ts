@@ -114,11 +114,7 @@ export const Radius = {
 // ─── Typographie (Mobile utilise les polices système) ───────────────────────
 
 export const Typography = {
-    fontFamily: Platform.select({
-        ios: 'System',
-        android: 'sans-serif', // Roboto par défaut
-        default: 'sans-serif',
-    }),
+    fontFamily: 'sans-serif',
     fontSize: {
         caption: 11,
         bodyS: 13,
