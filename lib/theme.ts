@@ -1,6 +1,6 @@
 
 
-// ─── Couleurs principales ───────────────────────────────────────────────────
+// ─── Couleurs principale ───────────────────────────────────────────────────
 
 export const PLANOKA_ORANGE = '#E8610A';
 
