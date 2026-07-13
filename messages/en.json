@@ -112,6 +112,7 @@
     },
     "detail": {
       "postedBy": "Posted by",
+      "boosts": "Boosts",
       "verified": "Verified",
       "follow": "Follow",
       "following": "Following",

@@ -568,24 +568,24 @@ export default function PlanDetailPage() {
         >
           <MoreHorizontal className="h-5 w-5 text-gray-900" />
         </button>
+
       </div>
 
       {/* CONTENT CARD */}
       <div
-        className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-6 shadow-xl"
+        className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-10 shadow-xl"
         style={{ minHeight: "calc(100vh - min(56vw, 520px) - 90px)" }}
       >
+        <div className="absolute left-5 top-0 z-20 -translate-y-1/2 sm:left-6 lg:left-14 xl:left-20">
+          <span
+            className="inline-flex items-center gap-1 rounded-full border bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-text-primary)] shadow-sm"
+            style={{ borderColor: cat!.color, color: cat!.color }}
+          >
+            <CategoryIcon size={12} strokeWidth={2.5} />
+            {cat!.label}
+          </span>
+        </div>
         <div className="mx-auto max-w-2xl px-5 pb-16">
-          {/* Category badge */}
-          <div className="mb-4 relative -top-3">
-            <span
-              className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-text-primary)] shadow-sm bg-white"
-              style={{ borderColor: cat!.color, color: cat!.color }}
-            >
-              <CategoryIcon size={12} strokeWidth={2.5} />
-              {cat!.label}
-            </span>
-          </div>
 
           {/* Title + location */}
           <div className="mb-6">
@@ -605,14 +605,14 @@ export default function PlanDetailPage() {
               onClick={handleBoost}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-all border",
+                "flex flex-1 min-w-0 items-center justify-center gap-1 rounded-full px-3 py-2 text-xs font-semibold whitespace-nowrap transition-all border",
                 boosted
                   ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white"
                   : "border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]"
               )}
             >
-              <Zap size={14} className={cn("transition-all", boosted && "fill-white")} />
-              <span>{boostCount}</span>
+              <Zap size={12} className={cn("transition-all", boosted && "fill-white")} />
+              <span className="leading-none">{boostCount} {t("boosts")}</span>
             </motion.button>
 
             {/* Favorite */}
