@@ -330,7 +330,7 @@ function CommentItem({
 
         {/* Actions metadata bar below bubble */}
         <div className="mt-1 flex items-center gap-4 px-1 text-xs text-[var(--color-text-tertiary)]">
-          <span>{timeAgo(comment.created_at, timeT)}</span>
+          <span>{timeAgo(comment.created_at, t)}</span>
 
           {depth === 0 && (
             <button
