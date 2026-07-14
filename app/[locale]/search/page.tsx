@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, Navigation, Flame, X, Loader2 } from "lucide-react";
@@ -119,7 +118,7 @@ export default function ExplorePage() {
   }, [t]);
 
   return (
-    <div className="relative h-[calc(100vh-64px)] w-full overflow-hidden md:h-[calc(100vh-64px)]">
+    <div className="relative h-screen w-full overflow-hidden md:h-[calc(100vh-64px)]">
       {/* ═══ Category Filters ═══ */}
       <div className="absolute top-0 right-0 left-0 z-[1000]">
         <div className="flex items-center gap-2 pr-14">
@@ -167,7 +166,6 @@ export default function ExplorePage() {
                 </button>
               )}
             </div>
-            {/* Results count */}
             <div className="mt-2 px-1">
               <span className="rounded-full bg-[var(--color-bg-card)] px-3 py-1 text-xs font-medium text-[var(--color-text-secondary)] shadow-sm">
                 {t("plansFound", { count: filteredPlans.length })}
@@ -177,14 +175,17 @@ export default function ExplorePage() {
         )}
       </AnimatePresence>
 
-      {/* ═══ Map ═══ */}
-      <ExploreMap
-        plans={filteredPlans}
-        onSelectPlan={handleSelectPlan}
-        userPosition={userPosition}
-        flyTo={flyTo}
-      />
+      {/* ═══ MAP CONTAINER (z-0) ═══ */}
+      <div className="absolute inset-0 z-0">
+        <ExploreMap
+          plans={filteredPlans}
+          onSelectPlan={handleSelectPlan}
+          userPosition={userPosition}
+          flyTo={flyTo}
+        />
+      </div>
 
+      {/* Empty States */}
       {!isOnline && filteredPlans.length === 0 ? (
         <div className="absolute inset-x-0 top-32 z-[1001] px-4">
           <EmptyStateCard
@@ -220,20 +221,22 @@ export default function ExplorePage() {
       <button
         onClick={handleLocateMe}
         disabled={locating}
-        className="absolute right-4 bottom-44 z-[1000] flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-card)] text-[var(--color-primary)] shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 md:bottom-8"
+        className="absolute right-4 bottom-28 z-[1100] flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-card)] text-[var(--color-primary)] shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 md:bottom-8"
         aria-label={t("myLocation")}
       >
         {locating ? <Loader2 size={20} className="animate-spin" /> : <Navigation size={20} />}
       </button>
 
-      {/* ═══ Discover Button ═══ */}
+      {/* ═══ Discover Button (commenté temporairement) ═══ */}
+      {/* 
       <Link
         href={`/${locale}/search/discover`}
-        className="absolute bottom-44 left-4 z-[1000] flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-xl transition-all hover:brightness-110 active:scale-95 md:bottom-8"
+        className="absolute bottom-28 left-4 z-[1100] flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white shadow-xl transition-all hover:brightness-110 active:scale-95 md:bottom-8"
       >
         <Flame size={18} className="fill-white" />
         {t("discover")}
       </Link>
+      */}
 
       {/* ═══ Plan Bottom Sheet ═══ */}
       <PlanBottomSheet
