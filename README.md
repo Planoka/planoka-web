@@ -1,4 +1,4 @@
-# Planoka 🚀
+# Planoka 
 
 Planoka est une application web moderne et interactive permettant d'explorer, de découvrir et de partager les meilleurs "bons plans" (activités, restaurants, services, événements, etc.) autour de vous.
 
