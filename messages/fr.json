@@ -86,10 +86,12 @@
     "featured": "En vedette",
     "recommended": "Recommandés pour vous",
     "latest": "Les plus récents",
-    "empty": "Aucun plan pour le moment",    "emptyHelpSearch": "Essayez de modifier vos filtres ou votre recherche",
+    "empty": "Aucun plan pour le moment",
+    "emptyHelpSearch": "Essayez de modifier vos filtres ou votre recherche",
     "emptyHelpExplore": "Explorez le feed pour trouver tous les bons plans.",
     "emptyAction": "Explorer",
-    "reset": "Réinitialiser",    "loadMore": "Charger plus"
+    "reset": "Réinitialiser",
+    "loadMore": "Charger plus"
   },
   "plan": {
     "boost": "Booster",
@@ -191,6 +193,9 @@
     "locationError": "Erreur de localisation",
     "locationNotSupported": "La géolocalisation n'est pas supportée par votre navigateur",
     "locationPrecision": "Précision : {meters} mètres",
+    "newPlan": "Nouveau plan",
+    "photos": "Photos",
+    "videos": "Vidéos",
     "submit": "Publier",
     "submitting": "Publication...",
     "preview": "Aperçu",
@@ -479,7 +484,7 @@
         },
         "share": {
           "title": "3. Partage des données",
-          "content": "Nous ne vendons jamais vos données personnelles à des tiers. Vos informations peuvent être partagées avec des prestataires de services de confiance qui nous aident à opérer la plateforme (hébergement, analyses, notifications), sous réserve de严格的 garanties de confidentialité."
+          "content": "Nous ne vendons jamais vos données personnelles à des tiers. Vos informations peuvent être partagées avec des prestataires de services de confiance qui nous aident à opérer la plateforme (hébergement, analyses, notifications), sous réserve de strictes garanties de confidentialité."
         },
         "cookies": {
           "title": "4. Cookies",

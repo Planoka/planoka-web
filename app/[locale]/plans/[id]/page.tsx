@@ -262,6 +262,7 @@ function CommentItem({
   depth?: number;
 }) {
   const t = useTranslations("plan.detail");
+  const timeT = useTranslations("plan.detail.time");
   const [liked, setLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(
     () => (stringToHash(comment.id) % 15) + 1
