@@ -2,9 +2,9 @@
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Navigation, Flame, X, Loader2 } from "lucide-react";
+import { Search, Navigation, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryFilter } from "@/components/explore/CategoryFilter";
 import { PlanBottomSheet } from "@/components/explore/PlanBottomSheet";
@@ -27,7 +27,6 @@ const ExploreMap = dynamic(
 
 export default function ExplorePage() {
   const t = useTranslations("explore");
-  const locale = useLocale();
   const allPlans = useMemo(() => getPlansWithDetails(), []);
 
   /* ── State ── */
