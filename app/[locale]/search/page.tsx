@@ -4,8 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Navigation, X, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { Search, X, Loader2 } from "lucide-react";
 import { CategoryFilter } from "@/components/explore/CategoryFilter";
 import { PlanBottomSheet } from "@/components/explore/PlanBottomSheet";
 import { EmptyStateCard } from "@/components/common/EmptyStateCard";
@@ -34,9 +33,8 @@ export default function ExplorePage() {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
+  const userPosition: [number, number] | null = null;
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
-  const [locating, setLocating] = useState(false);
   const [isOnline, setIsOnline] = useState(() =>
     typeof window === "undefined" ? true : window.navigator.onLine
   );
@@ -94,28 +92,6 @@ export default function ExplorePage() {
     setSelectedPlan(null);
   }, []);
 
-  const handleLocateMe = useCallback(() => {
-    if (!navigator.geolocation) {
-      toast.error(t("locationNotSupported"));
-      return;
-    }
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords: [number, number] = [pos.coords.latitude, pos.coords.longitude];
-        setUserPosition(coords);
-        setFlyTo(coords);
-        setLocating(false);
-        toast.success(t("myLocation"));
-      },
-      () => {
-        setLocating(false);
-        toast.error(t("locationError"));
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
-  }, [t]);
-
   return (
     <div className="relative h-screen w-full overflow-hidden md:h-[calc(100vh-64px)]">
       {/* ═══ Category Filters ═══ */}
@@ -147,14 +123,14 @@ export default function ExplorePage() {
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-16 right-3 left-3 z-[1001]"
           >
-            <div className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2.5 shadow-xl">
+            <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-bg-card)] px-4 py-2.5 shadow-xl border-none outline-none ring-0 focus-within:border-none focus-within:outline-none focus-within:ring-0">
               <Search size={16} className="text-[var(--color-text-tertiary)]" />
               <input
                 autoFocus
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("searchPlaceholder")}
-                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] !outline-none !ring-0 !border-none focus:!outline-none focus:!ring-0 focus:!border-none placeholder:text-[var(--color-text-tertiary)]"
               />
               {searchQuery && (
                 <button
@@ -215,16 +191,6 @@ export default function ExplorePage() {
           />
         </div>
       )}
-
-      {/* ═══ Locate Me Button ═══ */}
-      <button
-        onClick={handleLocateMe}
-        disabled={locating}
-        className="absolute right-4 bottom-28 z-[1100] flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-bg-card)] text-[var(--color-primary)] shadow-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 md:bottom-8"
-        aria-label={t("myLocation")}
-      >
-        {locating ? <Loader2 size={20} className="animate-spin" /> : <Navigation size={20} />}
-      </button>
 
       {/* ═══ Discover Button (commenté temporairement) ═══ */}
       {/* 

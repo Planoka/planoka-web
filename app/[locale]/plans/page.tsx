@@ -66,41 +66,16 @@ export default function PlansPage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg-page)] pt-20 pb-24 sm:pt-24 sm:pb-0">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
+        {/* Search & Sort - Sticky avec fond transparent */}
+        <div className="sticky top-16 z-50 -mx-4 px-4 py-4 sm:top-20 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
           >
-            <div>
-              <h1 className="mb-10 text-3xl font-bold text-[var(--color-text-primary)]">
-                <span className="relative inline-block">
-                  <svg
-                    width="219"
-                    height="24"
-                    viewBox="0 0 219 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute inset-x-0 inset-y-10 -bottom-1 w-full text-[var(--color-primary)]"
-                  >
-                    <path
-                      d="M0.5 2H218L21 12.5H182.5L48.5 21.5H151"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                  </svg>
-                  <span className="relative">{t("latest")}</span>
-                </span>
-              </h1>
-              <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-                Découvrez des pépites autour de vous
-              </p>
-            </div>
-
             {/* Search & Sort */}
-            <div className="flex w-full items-center gap-2 sm:w-auto">
-              <div className="flex flex-1 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2.5 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)] sm:w-64">
+            <div className="flex w-full items-center gap-2 sm:w-auto sm:gap-3">
+              <div className="flex flex-1 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/90 backdrop-blur-md px-3 py-2.5 transition-all focus-within:border-[var(--color-border)] focus-within:ring-1 focus-within:ring-transparent sm:w-64">
                 <Search className="h-4 w-4 text-[var(--color-text-tertiary)]" />
                 <input
                   type="text"
@@ -113,7 +88,8 @@ export default function PlansPage() {
                   className="w-full bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
                 />
               </div>
-              <div className="flex overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]">
+
+              <div className="flex overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/90 backdrop-blur-md">
                 <button
                   onClick={() => {
                     setSortBy("recent");
@@ -147,26 +123,6 @@ export default function PlansPage() {
               </div>
             </div>
           </motion.div>
-        </div>
-
-        {/* Categories */}
-        <div className="mb-8 overflow-hidden">
-          <CategoryPills
-            selected={selectedCategory}
-            onSelect={(cat) => {
-              setSelectedCategory(cat);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-
-        {/* Results count */}
-        <div className="mb-4 flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
-          <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-            {filteredAndSortedPlans.length} plan{filteredAndSortedPlans.length !== 1 ? "s" : ""}{" "}
-            disponible{filteredAndSortedPlans.length !== 1 ? "s" : ""}
-          </p>
         </div>
 
         {/* Masonry Grid */}

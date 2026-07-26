@@ -24,14 +24,14 @@ const CATEGORY_META: Record<string, { color: string; name: string }> = {
   "cat-8": { color: "#0891B2", name: "Sport" },
 };
 
-// Hauteurs fixes pour desktop (masonry)
+// Hauteurs desktop (gardées augmentées)
 const HEIGHT_CLASSES = [
-  "md:h-[320px]",
-  "md:h-[280px]",
-  "md:h-[360px]",
-  "md:h-[300px]",
   "md:h-[340px]",
-  "md:h-[260px]",
+  "md:h-[300px]",
+  "md:h-[380px]",
+  "md:h-[320px]",
+  "md:h-[360px]",
+  "md:h-[280px]",
 ];
 
 function getCategoryMeta(categorieId: string) {
@@ -77,10 +77,9 @@ export function PlanCard({ plan }: PlanCardProps) {
     >
       <Link
         href={`/${locale}/plans/${plan.id}`}
-        // MOBILE: Hauteur ajustée | DESKTOP: Hauteur fixe pour masonry
         className={`group relative flex w-full overflow-hidden rounded-[2rem] bg-[var(--color-bg-card)] shadow-2xl
-          h-[calc(100vh-182px)] min-h-[480px]
-          md:h-[320px] md:min-h-0 md:rounded-2xl md:shadow-sm ${heightClass}`}
+          h-[calc(100vh-240px)] min-h-[380px]
+          md:h-[340px] md:min-h-0 md:rounded-2xl md:shadow-sm ${heightClass}`}
       >
         {plan.image_url ? (
           <Image
@@ -101,7 +100,6 @@ export function PlanCard({ plan }: PlanCardProps) {
         {/* ═══ TOP SECTION ═══ */}
         <div className="absolute top-0 left-0 right-0 z-10 p-4 sm:p-5">
           <div className="flex items-start justify-between">
-            {/* Badge Catégorie - Top Left */}
             <div>
               <span
                 className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg backdrop-blur-md"
@@ -111,9 +109,7 @@ export function PlanCard({ plan }: PlanCardProps) {
               </span>
             </div>
 
-            {/* Boutons d'action - Top Right */}
             <div className="flex items-center gap-2">
-              {/* Bouton Favori (Cercle blanc) */}
               <button
                 onClick={handleFavorite}
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm transition-all hover:scale-110 active:scale-90 shadow-lg"
@@ -126,7 +122,6 @@ export function PlanCard({ plan }: PlanCardProps) {
                 />
               </button>
 
-              {/* Bouton Menu - 3 points verticaux (Cercle sombre) */}
               <button
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-all hover:bg-black/70 hover:scale-110 active:scale-90"
                 aria-label="Plus d'options"
@@ -143,7 +138,6 @@ export function PlanCard({ plan }: PlanCardProps) {
 
         {/* ═══ BOTTOM INFO SECTION ═══ */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-4 pb-5 sm:p-5 sm:pb-6">
-          {/* Auteur */}
           <div className="mb-2 flex items-center gap-2">
             <div className="h-7 w-7 overflow-hidden rounded-full bg-[var(--color-bg-surface)]">
               {plan.author?.avatar_url ? (
@@ -165,20 +159,16 @@ export function PlanCard({ plan }: PlanCardProps) {
             </span>
           </div>
 
-          {/* Titre */}
           <h3 className="mb-1 text-xl font-bold leading-tight text-white drop-shadow-lg sm:text-2xl">
             {plan.titre}
           </h3>
 
-          {/* Ville */}
           <div className="mb-4 flex items-center gap-1.5 text-sm text-white/90">
             <MapPin className="h-4 w-4" />
             <span>{plan.ville}</span>
           </div>
 
-          {/* ═══ STATS ROW : Boost (gauche) · Commentaires (milieu) · Partage (droite) ═══ */}
           <div className="flex items-center justify-between border-t border-white/20 pt-3">
-            {/* Boost - à gauche */}
             <button
               onClick={handleBoost}
               className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold transition-all ${
@@ -192,13 +182,11 @@ export function PlanCard({ plan }: PlanCardProps) {
               <span>{boostCount}</span>
             </button>
 
-            {/* Commentaires - au milieu */}
             <span className="flex items-center gap-1.5 text-sm font-medium text-white/90">
               <MessageCircle className="h-4 w-4" />
               {plan.comments_count}
             </span>
 
-            {/* Partage - à droite */}
             <span className="flex items-center gap-1.5 text-sm font-medium text-white/90">
               <Share2 className="h-4 w-4" />
               {plan.shares_count}

@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus, Search, ArrowLeft, Bell } from "lucide-react";
+import { Plus, ArrowLeft, Bell } from "lucide-react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
-import { LanguageToggle } from "@/components/common/LanguageToggle";
 import { Button } from "@/components/ui/button";
 import { getClerkPaths } from "@/lib/clerk-paths";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,7 @@ import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
 
 const navLinks = [
-  { key: "home", href: "/" },
+  { key: "home", href: "/plans" },        // ← Changé ici
   { key: "explore", href: "/search" },
   { key: "favorites", href: "/profile/favorites" },
 ] as const;
@@ -33,12 +32,15 @@ export function Navbar() {
     initNotifications();
   }, [initNotifications]);
 
-  const isTopLevel = 
-    pathname === `/${locale}` || 
-    pathname === `/${locale}/` || 
-    pathname.startsWith(`/${locale}/search`) || 
-    pathname === `/${locale}/profile` || 
-    pathname === `/${locale}/profile/`;
+  const isTopLevel =
+    pathname === `/${locale}/plans` ||
+    pathname === `/${locale}` ||
+    pathname === `/${locale}/` ||
+    pathname.startsWith(`/${locale}/search`) ||
+    pathname === `/${locale}/profile` ||
+    pathname === `/${locale}/profile/` ||
+    pathname === `/${locale}/profile/favorites` ||
+    pathname === `/${locale}/profile/favorites/`;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-bg-card)]/80 backdrop-blur-xl">
@@ -54,7 +56,7 @@ export function Navbar() {
               <ArrowLeft className="h-5 w-5" />
             </button>
           )}
-          <Link href={`/${locale}`} className="flex items-center gap-2.5">
+          <Link href={`/${locale}/plans`} className="flex items-center gap-2.5">   {/* ← Mis à jour */}
             <Image src="/icons/logo.png" alt="Planoka" width={90} height={90} priority />
           </Link>
         </div>
@@ -62,9 +64,16 @@ export function Navbar() {
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
-            const isActive = link.href === "/"
-              ? pathname === `/${locale}` || pathname === `/${locale}/`
-              : pathname.startsWith(`/${locale}${link.href}`);
+            let isActive = false;
+
+            if (link.key === "home") {
+              isActive = pathname === `/${locale}/plans` || pathname === `/${locale}/plans/`;
+            } else if (link.key === "explore") {
+              isActive = pathname.startsWith(`/${locale}/search`);
+            } else {
+              isActive = pathname.startsWith(`/${locale}${link.href}`);
+            }
+
             return (
               <Link
                 key={link.key}
@@ -87,12 +96,6 @@ export function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Search toggle */}
-          <Button variant="ghost" size="icon" className="hidden sm:flex" aria-label="Rechercher">
-            <Search className="h-4 w-4" />
-          </Button>
-
-          <LanguageToggle />
           <ThemeToggle />
 
           <Show when="signed-in">

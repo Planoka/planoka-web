@@ -323,270 +323,270 @@ export function AddPlanForm() {
   return (
     <>
       <div className="min-h-screen bg-[var(--color-bg-card)] lg:bg-[var(--color-bg-surface)]">
-      <form
-        onSubmit={handleSubmit(onSubmit, onError)}
-        className="mx-auto flex min-h-screen w-full max-w-2xl flex-col bg-[var(--color-bg-card)] lg:my-6 lg:min-h-0 lg:overflow-hidden lg:rounded-3xl lg:border lg:border-[var(--color-border)] lg:shadow-sm"
-      >
-        {/* ═══ HEADER (fixe, pas d'étapes) ═══ */}
-        <div className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-bg-card)]/95 px-3 py-3 backdrop-blur-sm lg:top-6">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-surface)]"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <h1 className="text-base font-bold text-[var(--color-text-primary)]">
-            {t("newPlan") || "Nouveau plan"}
-          </h1>
-          <Button
-            type="submit"
-            size="sm"
-            disabled={isSubmitting}
-            className="rounded-full bg-[var(--color-primary)] px-5 font-bold text-white hover:brightness-90 disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              t("submit") || "Publier"
-            )}
-          </Button>
-        </div>
-
-        {/* ═══ CONTENU (scroll unique, sans étapes) ═══ */}
-        <div className="flex-1 pb-10 mt-5">
-          {/* ── Onglets Photos / Vidéos ── */}
-          <div className="flex gap-2 px-4 pt-4">
+        <form
+          onSubmit={handleSubmit(onSubmit, onError)}
+          className="mx-auto flex min-h-screen w-full max-w-2xl flex-col bg-[var(--color-bg-card)] lg:my-6 lg:min-h-0 lg:overflow-hidden lg:rounded-3xl lg:border lg:border-[var(--color-border)] lg:shadow-sm"
+        >
+          {/* ═══ HEADER (fixe, pas d'étapes) ═══ */}
+          <div className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-bg-card)]/95 px-3 py-3 backdrop-blur-sm lg:top-6">
             <button
               type="button"
-              onClick={() => setMediaTab("image")}
-              className={pillTabClass(mediaTab === "image")}
+              onClick={() => router.back()}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-surface)]"
             >
-              <ImageIcon className="h-4 w-4" />
-              {t("photos") || "Photos"}
+              <X className="h-5 w-5" />
             </button>
-            <button
-              type="button"
-              onClick={() => setMediaTab("video")}
-              className={pillTabClass(mediaTab === "video")}
+            <h1 className="text-base font-bold text-[var(--color-text-primary)]">
+              {t("newPlan") || "Nouveau plan"}
+            </h1>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={isSubmitting}
+              className="rounded-full bg-[var(--color-primary)] px-5 font-bold text-white hover:brightness-90 disabled:opacity-50"
             >
-              <Video className="h-4 w-4" />
-              {t("videos") || "Vidéos"}
-            </button>
-          </div>
-
-          {/* ── Zone média ── */}
-          <div className="px-4 pt-3">
-            {media ? (
-              <div className="relative flex max-h-[480px] min-h-[220px] w-full items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-bg-surface)]">
-                {mediaType === "image" ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={media.url}
-                    alt="Aperçu"
-                    className="max-h-[480px] w-full object-contain"
-                  />
-                ) : (
-                  <video
-                    src={media.url}
-                    className="max-h-[480px] w-full object-contain"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                    controls
-                  />
-                )}
-                <span className="absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                  {mediaType === "video" ? (
-                    <Video className="h-3 w-3" />
-                  ) : (
-                    <Camera className="h-3 w-3" />
-                  )}
-                  {mediaType === "video" ? "Aperçu vidéo" : "Aperçu photo"}
-                </span>
-                <button
-                  type="button"
-                  onClick={removeMedia}
-                  className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all hover:bg-black/80"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            ) : (
-              <label className="flex h-72 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-bg-surface)] transition-all hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-light)]/50">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-bg-card)]">
-                  {mediaTab === "video" ? (
-                    <Video className="h-6 w-6 text-[var(--color-primary)]" />
-                  ) : (
-                    <Camera className="h-6 w-6 text-[var(--color-primary)]" />
-                  )}
-                </div>
-                <span className="text-sm font-medium text-[var(--color-text-primary)]">
-                  {mediaTab === "video" ? t("videoLabel") || "Vidéo" : t("imageLabel") || "Photo"}
-                </span>
-                <input
-                  ref={mediaTab === "video" ? videoInputRef : fileInputRef}
-                  type="file"
-                  accept={mediaTab === "video" ? "video/*" : "image/*"}
-                  className="hidden"
-                  onChange={(e) => handleFileSelect(e, mediaTab)}
-                />
-              </label>
-            )}
-          </div>
-
-          {/* ── Titre & description (champs sans bordure) ── */}
-          <div className="px-4 pt-5">
-            <input
-              {...register("titre")}
-              placeholder={t("titlePlaceholder") || "Un titre accrocheur..."}
-              maxLength={TITLE_MAX}
-              className="w-full border-none bg-transparent text-xl font-bold text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]/70"
-            />
-            <div className="mt-0.5 flex items-center justify-between">
-              {errors.titre ? (
-                <p className="flex items-center gap-1 text-xs text-[var(--color-danger)]">
-                  <AlertCircle className="h-3 w-3" />
-                  {t(errors.titre.message as string) || errors.titre.message}
-                </p>
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <span />
+                t("submit") || "Publier"
               )}
-              <span className="text-[11px] text-[var(--color-text-tertiary)]">
-                {watchedTitre.length}/{TITLE_MAX}
-              </span>
-            </div>
-
-            <textarea
-              {...register("description")}
-              placeholder={
-                t("descriptionPlaceholder") || "Racontez-nous en plus sur ce plan... (optionnel)"
-              }
-              maxLength={DESCRIPTION_MAX}
-              className="mt-2 min-h-[60px] w-full resize-none border-none bg-transparent text-sm leading-relaxed text-[var(--color-text-secondary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
-            />
-            <div className="flex items-center justify-between">
-              {errors.description ? (
-                <p className="flex items-center gap-1 text-xs text-[var(--color-danger)]">
-                  <AlertCircle className="h-3 w-3" />
-                  {t(errors.description.message as string) || errors.description.message}
-                </p>
-              ) : (
-                <p className="text-xs text-[var(--color-text-tertiary)]">
-                  {watchedDescription.length < DESCRIPTION_MIN
-                    ? t("charsRemaining", { count: DESCRIPTION_MIN - watchedDescription.length })
-                    : " "}
-                </p>
-              )}
-              <span className="text-[11px] text-[var(--color-text-tertiary)]">
-                {watchedDescription.length}/{DESCRIPTION_MAX}
-              </span>
-            </div>
+            </Button>
           </div>
 
-          {/* ── Panneau bas : ville, catégorie, position ── */}
-          <div className="mt-5 space-y-6 rounded-t-3xl bg-[var(--color-bg-surface)] px-4 pt-5 pb-8">
-            {/* Ville (pill) */}
-            <div className="relative" ref={cityRef}>
+          {/* ═══ CONTENU (scroll unique, sans étapes) ═══ */}
+          <div className="flex-1 pb-10">
+            {/* ── Onglets Photos / Vidéos ── */}
+            <div className="flex gap-2 px-4 pt-4 mt-10">
               <button
                 type="button"
-                onClick={() => setCityOpen(!cityOpen)}
-                className={cn(
-                  "flex items-center gap-2 rounded-full border bg-[var(--color-bg-card)] px-4 py-2.5 text-sm font-medium transition-all",
-                  errors.ville
-                    ? "border-[var(--color-danger)] text-[var(--color-danger)]"
-                    : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]"
-                )}
+                onClick={() => setMediaTab("image")}
+                className={pillTabClass(mediaTab === "image")}
               >
-                <MapPin className="h-4 w-4 text-[var(--color-primary)]" />
-                {watchedVille || t("cityPlaceholder") || "Lieu / Ville"}
-                <ChevronDown
-                  className={cn("h-3.5 w-3.5 transition-transform", cityOpen && "rotate-180")}
-                />
+                <ImageIcon className="h-4 w-4" />
+                {t("photos") || "Photos"}
               </button>
+              <button
+                type="button"
+                onClick={() => setMediaTab("video")}
+                className={pillTabClass(mediaTab === "video")}
+              >
+                <Video className="h-4 w-4" />
+                {t("videos") || "Vidéos"}
+              </button>
+            </div>
 
-              <AnimatePresence>
-                {cityOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute top-full left-0 z-50 mt-1 w-64 max-w-[90vw] overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-lg"
+            {/* ── Zone média ── */}
+            <div className="px-4 pt-3">
+              {media ? (
+                <div className="relative flex max-h-[480px] min-h-[220px] w-full items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-bg-surface)]">
+                  {mediaType === "image" ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={media.url}
+                      alt="Aperçu"
+                      className="max-h-[480px] w-full object-contain"
+                    />
+                  ) : (
+                    <video
+                      src={media.url}
+                      className="max-h-[480px] w-full object-contain"
+                      muted
+                      loop
+                      autoPlay
+                      playsInline
+                      controls
+                    />
+                  )}
+                  <span className="absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                    {mediaType === "video" ? (
+                      <Video className="h-3 w-3" />
+                    ) : (
+                      <Camera className="h-3 w-3" />
+                    )}
+                    {mediaType === "video" ? "Aperçu vidéo" : "Aperçu photo"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={removeMedia}
+                    className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all hover:bg-black/80"
                   >
-                    <div className="p-2">
-                      <input
-                        value={citySearch}
-                        onChange={(e) => setCitySearch(e.target.value)}
-                        placeholder={t("citySearch") || "Rechercher une ville"}
-                        className="mb-1 h-9 w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 text-sm outline-none focus:border-[var(--color-primary)]"
-                        autoFocus
-                      />
-                    </div>
-                    <div className="max-h-48 overflow-y-auto">
-                      {filteredCities.map((city) => (
-                        <button
-                          key={city}
-                          type="button"
-                          onClick={() => selectCity(city)}
-                          className={cn(
-                            "flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--color-primary-light)]",
-                            watchedVille === city
-                              ? "font-medium text-[var(--color-primary)]"
-                              : "text-[var(--color-text-secondary)]"
-                          )}
-                        >
-                          <MapPin className="h-3.5 w-3.5 shrink-0" />
-                          <span>{city}</span>
-                          {watchedVille === city && (
-                            <Check className="ml-auto h-4 w-4 text-[var(--color-primary)]" />
-                          )}
-                        </button>
-                      ))}
-                      {filteredCities.length === 0 && (
-                        <p className="px-4 py-3 text-xs text-[var(--color-text-tertiary)]">
-                          {t("noCityFound") || "Aucune ville trouvée"}
-                        </p>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              {errors.ville && (
-                <p className="mt-1.5 flex items-center gap-1 text-xs text-[var(--color-danger)]">
-                  <AlertCircle className="h-3 w-3" />
-                  {t(errors.ville.message as string) || errors.ville.message}
-                </p>
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex h-72 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-bg-surface)] transition-all hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-light)]/50">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-bg-card)]">
+                    {mediaTab === "video" ? (
+                      <Video className="h-6 w-6 text-[var(--color-primary)]" />
+                    ) : (
+                      <Camera className="h-6 w-6 text-[var(--color-primary)]" />
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                    {mediaTab === "video" ? t("videoLabel") || "Vidéo" : t("imageLabel") || "Photo"}
+                  </span>
+                  <input
+                    ref={mediaTab === "video" ? videoInputRef : fileInputRef}
+                    type="file"
+                    accept={mediaTab === "video" ? "video/*" : "image/*"}
+                    className="hidden"
+                    onChange={(e) => handleFileSelect(e, mediaTab)}
+                  />
+                </label>
               )}
             </div>
 
-            {/* Catégorie (pills) */}
-            <div>
-              <p className="mb-2 text-xs font-bold tracking-wide text-[var(--color-text-tertiary)]">
-                {(t("category") || "Catégorie").toUpperCase()}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {CATEGORIES.map((cat, idx) => {
-                  const catId = `cat-${idx + 1}`;
-                  const meta = CATEGORY_META[catId];
-                  const isActive = watchedCategory === catId;
-                  const Icon = meta.icon;
-                  return (
-                    <button
-                      key={catId}
-                      type="button"
-                      onClick={() => selectCategory(catId)}
-                      className="flex items-center gap-1.5 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all"
-                      style={{
-                        borderColor: isActive ? meta.color : "var(--color-border)",
-                        backgroundColor: isActive ? `${meta.color}12` : "var(--color-bg-card)",
-                        color: isActive ? meta.color : "var(--color-text-secondary)",
-                      }}
+            {/* ── Titre & description (champs sans bordure) ── */}
+            <div className="px-4 pt-5">
+              <input
+                {...register("titre")}
+                placeholder={t("titlePlaceholder") || "Un titre accrocheur..."}
+                maxLength={TITLE_MAX}
+                className="w-full border-none bg-transparent text-xl font-bold text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]/70"
+              />
+              <div className="mt-0.5 flex items-center justify-between">
+                {errors.titre ? (
+                  <p className="flex items-center gap-1 text-xs text-[var(--color-danger)]">
+                    <AlertCircle className="h-3 w-3" />
+                    {t(errors.titre.message as string) || errors.titre.message}
+                  </p>
+                ) : (
+                  <span />
+                )}
+                <span className="text-[11px] text-[var(--color-text-tertiary)]">
+                  {watchedTitre.length}/{TITLE_MAX}
+                </span>
+              </div>
+
+              <textarea
+                {...register("description")}
+                placeholder={
+                  t("descriptionPlaceholder") || "Racontez-nous en plus sur ce plan... (optionnel)"
+                }
+                maxLength={DESCRIPTION_MAX}
+                className="mt-2 min-h-[60px] w-full resize-none border-none bg-transparent text-sm leading-relaxed text-[var(--color-text-secondary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+              />
+              <div className="flex items-center justify-between">
+                {errors.description ? (
+                  <p className="flex items-center gap-1 text-xs text-[var(--color-danger)]">
+                    <AlertCircle className="h-3 w-3" />
+                    {t(errors.description.message as string) || errors.description.message}
+                  </p>
+                ) : (
+                  <p className="text-xs text-[var(--color-text-tertiary)]">
+                    {watchedDescription.length < DESCRIPTION_MIN
+                      ? t("charsRemaining", { count: DESCRIPTION_MIN - watchedDescription.length })
+                      : " "}
+                  </p>
+                )}
+                <span className="text-[11px] text-[var(--color-text-tertiary)]">
+                  {watchedDescription.length}/{DESCRIPTION_MAX}
+                </span>
+              </div>
+            </div>
+
+            {/* ── Panneau bas : ville, catégorie, position ── */}
+            <div className="mt-5 space-y-6 rounded-t-3xl bg-[var(--color-bg-surface)] px-4 pt-5 pb-8">
+              {/* Ville (pill) */}
+              <div className="relative" ref={cityRef}>
+                <button
+                  type="button"
+                  onClick={() => setCityOpen(!cityOpen)}
+                  className={cn(
+                    "flex items-center gap-2 rounded-full border bg-[var(--color-bg-card)] px-4 py-2.5 text-sm font-medium transition-all",
+                    errors.ville
+                      ? "border-[var(--color-danger)] text-[var(--color-danger)]"
+                      : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]"
+                  )}
+                >
+                  <MapPin className="h-4 w-4 text-[var(--color-primary)]" />
+                  {watchedVille || t("cityPlaceholder") || "Lieu / Ville"}
+                  <ChevronDown
+                    className={cn("h-3.5 w-3.5 transition-transform", cityOpen && "rotate-180")}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {cityOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-0 z-50 mt-1 w-64 max-w-[90vw] overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-lg"
                     >
-                      <Icon className="h-4 w-4" />
-                      {tCat(
-                        meta.slug as
+                      <div className="p-2">
+                        <input
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          placeholder={t("citySearch") || "Rechercher une ville"}
+                          className="mb-1 h-9 w-full rounded-lg border !border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 text-sm !outline-none !ring-0 focus:!outline-none focus:!ring-0 focus:!border-[var(--color-border)]"
+                          autoFocus
+                        />
+                      </div>
+                      <div className="max-h-48 overflow-y-auto">
+                        {filteredCities.map((city) => (
+                          <button
+                            key={city}
+                            type="button"
+                            onClick={() => selectCity(city)}
+                            className={cn(
+                              "flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--color-primary-light)]",
+                              watchedVille === city
+                                ? "font-medium text-[var(--color-primary)]"
+                                : "text-[var(--color-text-secondary)]"
+                            )}
+                          >
+                            <MapPin className="h-3.5 w-3.5 shrink-0" />
+                            <span>{city}</span>
+                            {watchedVille === city && (
+                              <Check className="ml-auto h-4 w-4 text-[var(--color-primary)]" />
+                            )}
+                          </button>
+                        ))}
+                        {filteredCities.length === 0 && (
+                          <p className="px-4 py-3 text-xs text-[var(--color-text-tertiary)]">
+                            {t("noCityFound") || "Aucune ville trouvée"}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                {errors.ville && (
+                  <p className="mt-1.5 flex items-center gap-1 text-xs text-[var(--color-danger)]">
+                    <AlertCircle className="h-3 w-3" />
+                    {t(errors.ville.message as string) || errors.ville.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Catégorie (pills) */}
+              <div>
+                <p className="mb-2 text-xs font-bold tracking-wide text-[var(--color-text-tertiary)]">
+                  {(t("category") || "Catégorie").toUpperCase()}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {CATEGORIES.map((cat, idx) => {
+                    const catId = `cat-${idx + 1}`;
+                    const meta = CATEGORY_META[catId];
+                    const isActive = watchedCategory === catId;
+                    const Icon = meta.icon;
+                    return (
+                      <button
+                        key={catId}
+                        type="button"
+                        onClick={() => selectCategory(catId)}
+                        className="flex items-center gap-1.5 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all"
+                        style={{
+                          borderColor: isActive ? meta.color : "var(--color-border)",
+                          backgroundColor: isActive ? `${meta.color}12` : "var(--color-bg-card)",
+                          color: isActive ? meta.color : "var(--color-text-secondary)",
+                        }}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {tCat(
+                          meta.slug as
                           | "restauration"
                           | "loisirs"
                           | "sorties"
@@ -595,71 +595,71 @@ export function AddPlanForm() {
                           | "sante"
                           | "education"
                           | "sport"
-                      )}
-                    </button>
-                  );
-                })}
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+                {errors.categorie_id && (
+                  <p className="mt-2 flex items-center gap-1 text-xs text-[var(--color-danger)]">
+                    <AlertCircle className="h-3 w-3" />
+                    {t(errors.categorie_id.message as string) || errors.categorie_id.message}
+                  </p>
+                )}
               </div>
-              {errors.categorie_id && (
-                <p className="mt-2 flex items-center gap-1 text-xs text-[var(--color-danger)]">
-                  <AlertCircle className="h-3 w-3" />
-                  {t(errors.categorie_id.message as string) || errors.categorie_id.message}
+
+              {/* Position GPS (optionnelle) */}
+              <div>
+                <p className="mb-2 flex items-center gap-2 text-xs font-bold tracking-wide text-[var(--color-text-tertiary)]">
+                  {(t("location") || "Position").toUpperCase()}
+                  <span className="font-normal normal-case text-[var(--color-text-tertiary)]">
+                    ({t("optional") || "optionnel"})
+                  </span>
                 </p>
-              )}
-            </div>
 
-            {/* Position GPS (optionnelle) */}
-            <div>
-              <p className="mb-2 flex items-center gap-2 text-xs font-bold tracking-wide text-[var(--color-text-tertiary)]">
-                {(t("location") || "Position").toUpperCase()}
-                <span className="font-normal normal-case text-[var(--color-text-tertiary)]">
-                  ({t("optional") || "optionnel"})
-                </span>
-              </p>
-
-              {location ? (
-                <div className="flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-success)]/10">
-                    <MapPin className="h-4 w-4 text-[var(--color-success)]" />
+                {location ? (
+                  <div className="flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-success)]/10">
+                      <MapPin className="h-4 w-4 text-[var(--color-success)]" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-medium text-[var(--color-text-primary)]">
+                        {t("locationSuccess") || "Position capturée"}
+                      </p>
+                      <p className="truncate text-[11px] text-[var(--color-text-tertiary)]">
+                        {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={removeLocation}
+                      className="shrink-0 rounded-full p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-bg-surface)] hover:text-[var(--color-danger)]"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-medium text-[var(--color-text-primary)]">
-                      {t("locationSuccess") || "Position capturée"}
-                    </p>
-                    <p className="truncate text-[11px] text-[var(--color-text-tertiary)]">
-                      {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
-                    </p>
-                  </div>
+                ) : (
                   <button
                     type="button"
-                    onClick={removeLocation}
-                    className="shrink-0 rounded-full p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-bg-surface)] hover:text-[var(--color-danger)]"
+                    onClick={getLocation}
+                    disabled={locationLoading}
+                    className={cn(
+                      "flex items-center gap-2 rounded-full border border-dashed border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2.5 text-sm font-medium text-[var(--color-text-secondary)] transition-all",
+                      locationLoading ? "opacity-60" : "hover:border-[var(--color-primary)]"
+                    )}
                   >
-                    <X className="h-4 w-4" />
+                    {locationLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-[var(--color-primary)]" />
+                    ) : (
+                      <Crosshair className="h-4 w-4 text-[var(--color-primary)]" />
+                    )}
+                    {t("locationCapture") || "Capturer ma position"}
                   </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={getLocation}
-                  disabled={locationLoading}
-                  className={cn(
-                    "flex items-center gap-2 rounded-full border border-dashed border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2.5 text-sm font-medium text-[var(--color-text-secondary)] transition-all",
-                    locationLoading ? "opacity-60" : "hover:border-[var(--color-primary)]"
-                  )}
-                >
-                  {locationLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin text-[var(--color-primary)]" />
-                  ) : (
-                    <Crosshair className="h-4 w-4 text-[var(--color-primary)]" />
-                  )}
-                  {t("locationCapture") || "Capturer ma position"}
-                </button>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
       </div>
 
       {/* ═══ SUCCESS MODAL ═══ */}
@@ -701,3 +701,5 @@ export function AddPlanForm() {
     </>
   );
 }
+
+export default AddPlanForm;

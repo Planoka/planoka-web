@@ -50,16 +50,16 @@ const CATEGORY_META: Record<string, { color: string; icon: React.ElementType; la
 function timeAgo(dateStr: string, t: (key: string) => string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return t("justNow");
-  if (mins < 60) return `${mins}${t("min")}`;
+  if (mins < 1) return t("time.justNow");
+  if (mins < 60) return `${mins}${t("time.min")}`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}${t("h")}`;
+  if (hours < 24) return `${hours}${t("time.h")}`;
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}${t("d")}`;
+  if (days < 7) return `${days}${t("time.d")}`;
   const weeks = Math.floor(days / 7);
-  if (weeks < 5) return `${weeks}${t("w")}`;
+  if (weeks < 5) return `${weeks}${t("time.w")}`;
   const months = Math.floor(days / 30);
-  return `${months}${t("mo")}`;
+  return `${months}${t("time.mo")}`;
 }
 
 /* ─── Avatar Fallback ─── */
@@ -262,7 +262,6 @@ function CommentItem({
   depth?: number;
 }) {
   const t = useTranslations("plan.detail");
-  const timeT = useTranslations("plan.detail.time");
   const [liked, setLiked] = useState(false);
   const [likeDisplayCount, setLikeDisplayCount] = useState(
     () => (stringToHash(comment.id) % 15) + 1
@@ -357,14 +356,14 @@ function CommentItem({
               className="mt-3 flex items-center gap-2 overflow-hidden"
             >
               <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={28} />
-              <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 transition-all focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/30">
+              <div className="flex flex-1 items-center gap-2 rounded-full border !border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 transition-all !outline-none focus-within:!border-[var(--color-border)] focus-within:!outline-none focus-within:!ring-0 focus-within:!ring-offset-0">
                 <input
                   autoFocus
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleReply()}
                   placeholder={`Répondre à ${comment.author?.nom?.split(" ")[0]}...`}
-                  className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+                  className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] !outline-none !ring-0 !border-none focus:!outline-none focus:!ring-0 placeholder:text-[var(--color-text-tertiary)]"
                 />
                 <button
                   onClick={handleReply}
@@ -526,7 +525,7 @@ export default function PlanDetailPage() {
   const CategoryIcon = cat!.icon;
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-page)] pb-20">
+    <div className="min-h-screen bg-[var(--color-bg-card)] pb-20">
       {/* HERO — Full-bleed image */}
       <div className="relative w-full overflow-hidden" style={{ height: "min(56vw, 520px)" }}>
         {plan.image_url ? (
@@ -565,10 +564,7 @@ export default function PlanDetailPage() {
       </div>
 
       {/* CONTENT CARD */}
-      <div
-        className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-10 shadow-xl"
-        style={{ minHeight: "calc(100vh - min(56vw, 520px) - 90px)" }}
-      >
+      <div className="relative z-10 -mt-6 rounded-t-3xl bg-[var(--color-bg-card)] pt-10 shadow-xl">
         <div className="absolute left-5 top-0 z-20 -translate-y-1/2 sm:left-6 lg:left-14 xl:left-20">
           <span
             className="inline-flex items-center gap-1 rounded-full border bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-text-primary)] shadow-sm"
@@ -578,7 +574,7 @@ export default function PlanDetailPage() {
             {cat!.label}
           </span>
         </div>
-        <div className="mx-auto max-w-2xl px-5 pb-16">
+        <div className="mx-auto max-w-2xl px-5 pb-28">
 
           {/* Title + location */}
           <div className="mb-6">
@@ -748,14 +744,14 @@ export default function PlanDetailPage() {
         <div className="mx-auto max-w-2xl">
           <div className="flex items-center gap-3">
             <Avatar src="https://i.pravatar.cc/150?img=68" name="Vous" size={36} />
-            <div className="flex flex-1 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 transition-all focus-within:border-[var(--color-primary)] focus-within:bg-[var(--color-bg-card)]">
+            <div className="flex flex-1 items-center gap-2 rounded-full border !border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2.5 transition-all !outline-none focus-within:!border-[var(--color-border)] focus-within:bg-[var(--color-bg-card)] focus-within:!outline-none focus-within:!ring-0 focus-within:!ring-offset-0">
               <input
                 ref={commentInputRef}
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmitComment()}
                 placeholder={t("writeComment")}
-                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-tertiary)]"
+                className="flex-1 bg-transparent text-sm text-[var(--color-text-primary)] !outline-none !ring-0 !border-none focus:!outline-none focus:!ring-0 placeholder:text-[var(--color-text-tertiary)]"
               />
               <motion.button
                 onClick={handleSubmitComment}

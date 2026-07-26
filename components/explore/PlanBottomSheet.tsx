@@ -45,7 +45,7 @@ export function PlanBottomSheet({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ type: "spring", damping: 28, stiffness: 300 }}
-          className="absolute bottom-20 right-4 left-4 z-[1000] overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-2xl md:bottom-6 md:right-6 md:left-auto md:w-[400px]"
+          className="absolute right-4 bottom-40 left-4 z-[1000] overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-2xl md:right-6 md:bottom-6 md:left-auto md:w-[400px]"
         >
           {/* Handle bar */}
           <div className="flex justify-center pt-2">
